@@ -10,19 +10,20 @@ import Insignia from "../camps/Insignia";
 
 
 export default function Leaderboard() {
-    const [selectedTab, setSelectedTab] = React.useState("insignia");
+    const [selectedTab, setSelectedTab] = React.useState("stories");
   return (
-    <div className="relative overflow-hidden w-full max-w-md bg-zinc-950/50 backdrop-blur-xl rounded-3xl border border-white/5 shadow-2xl">
+    <div className="relative overflow-hidden w-full max-w-md bg-zinc-950/50 backdrop-blur-xl rounded-3xl border-white/5 shadow-2xl">
       {/* Decorative background flare */}
-
-      <div className="ml-auto flex bg-zinc-100 dark:bg-zinc-900 p-1 rounded-full border border-transparent dark:border-zinc-800">
-        <ToggleButton active={selectedTab === "operationBlueFreedom"} onClick={() => setSelectedTab("operationBlueFreedom")} label="Operation Blue Freedom" />
+      <div className="flex flex-row justify-around">
+      <div className="flex bg-zinc-100 dark:bg-zinc-900 p-1 rounded-full border border-transparent dark:border-zinc-800 flex flex-row w-fit">
+        {/* <ToggleButton active={selectedTab === "operationBlueFreedom"} onClick={() => setSelectedTab("operationBlueFreedom")} label="Operation Blue Freedom" /> */}
         <ToggleButton active={selectedTab === "stories"} onClick={() => setSelectedTab("stories")} label="Stories" />
-        <ToggleButton active={selectedTab === "insignia"} onClick={() => setSelectedTab("insignia")} label="Insignia" />
+        <ToggleButton active={selectedTab === "insignia"} onClick={() => setSelectedTab("insignia")} label="Insignia" className="w-full" />
       </div>
-      {
+      </div>
+      {/* {
         selectedTab === "operationBlueFreedom" && <OperationBlueFreedom />
-      }
+      } */}
       {
         selectedTab === "stories" && <Stories />
       }

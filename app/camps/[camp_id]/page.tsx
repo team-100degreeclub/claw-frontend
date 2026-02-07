@@ -12,30 +12,30 @@ export default function CampViewPage() {
     return (
         <div className="min-h-screen bg-black text-white">
             {/* 1. Full Viewport Video Hero */}
-            <section className="relative h-screen w-full overflow-hidden">
+            <section className="relative w-full overflow-hidden pb-[56.25%]">
                 <div className="absolute inset-0 h-full w-full pointer-events-none">
                     <iframe
                         src={`https://www.youtube.com/embed/${VIDEO_ID}?autoplay=1&mute=1&loop=1&controls=0&modestbranding=0&rel=0&start=109&showinfo=0&playlist=${VIDEO_ID}&enablejsapi=1`}
                         allow="autoplay; encrypted-media"
-                        className="absolute top-1/2 left-1/2 w-[100vw] h-[56.25vw] min-h-[100vh] min-w-[177.77vh] -translate-x-1/2 -translate-y-1/2 border-none"
+                        className="absolute top-0 left-0 w-full h-full border-none"
                         title="Camp Hero Video"
                     />
                 </div>
                 <div className="absolute inset-0 bg-gradient-to-t from-black via-transparent to-transparent" />
 
                 {/* Camp Identity Overlay */}
-                <div className="absolute bottom-32 left-10 md:left-20">
-                    <span className="bg-white/20 text-green-500 p-3 py-2 rounded-sm text-lg font-black tracking-[0.1em]">
+                <div className="absolute bottom-24 left-10 md:left-5">
+                    {/* <span className="bg-white/20 text-green-500 p-3 py-2 rounded-sm text-lg font-black tracking-[0.1em]">
                         Active
-                    </span>
-                    <h1 className="text-6xl md:text-8xl font-black leading-none mt-4">
+                    </span> */}
+                    <h1 className="text-6xl md:text-5xl font-black leading-none mt-4">
                         Himalayan Endurance
                     </h1>
                 </div>
             </section>
 
             {/* 2. Tactical Info Bar (Data Points) */}
-            <div className="relative z-10 -mt-20 mx-4 lg:mx-20 bg-zinc-950 border border-zinc-800 p-8 rounded-xl shadow-2xl">
+            <div className="relative z-10 -mt-20 mx-4 bg-zinc-950 border border-zinc-800 p-8 rounded-xl shadow-2xl">
                 <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-8">
                     <InfoItem icon={<MapPin className="text-red-600" />} label="Location" value="Leh, Ladakh" subValue="Google Maps Pin" href="https://maps.google.com" />
                     <InfoItem icon={<Calendar className="text-red-600" />} label="Camp Dates" value="Mar 12 - Mar 20" subValue="8 Days Duration" />
@@ -56,10 +56,10 @@ export default function CampViewPage() {
                         </div>
                     </div>
                     <div>
-                    <Button className="mr-2 w-full md:w-64 bg-blue-600 hover:bg-blue-700 text-white font-black tracking-[0.2em] h-14 text-lg shadow-[0_0_20px_rgba(220,38,38,0.3)] p-0">
+                    <Button className="mr-2 w-full md:w-40 bg-blue-600 hover:bg-blue-700 hover:cursor-pointer text-white font-black tracking-[0.2em] h-10 text-sm shadow-[0_0_20px_rgba(220,38,38,0.3)] p-0">
                         Buy Now
                     </Button>
-                    <Button className="w-full md:w-64 bg-red-600 hover:bg-red-700 text-white font-black tracking-[0.2em] h-14 text-lg shadow-[0_0_20px_rgba(220,38,38,0.3)]">
+                    <Button className="w-full md:w-40 bg-green-600 hover:bg-green-700 hover:cursor-pointer text-white font-black tracking-[0.2em] h-10 text-sm shadow-[0_0_20px_rgba(220,38,38,0.3)]">
                         Volunteer
                     </Button>
                     </div>
@@ -73,8 +73,8 @@ export default function CampViewPage() {
                         <TabsTrigger
                             value="hosts"
                             className="relative px-0 py-6 bg-transparent rounded-xl border-b-2 border-transparent 
-               text-sm font-black tracking-[0.1em] text-zinc-500 
-               data-[state=active]:text-red-600 data-[state=active]:border-red-600 
+               text-sm font-black tracking-[0.1em] text-zinc-500
+               data-[state=active]:dark:text-green-600 
                hover:text-zinc-200 transition-all duration-300 ease-out hover:cursor-pointer"
                         >
                             Hosts
@@ -84,7 +84,7 @@ export default function CampViewPage() {
                             value="brief"
                             className="relative px-0 py-6 bg-transparent rounded-xl border-b-2 border-transparent 
                text-sm font-black tracking-[0.1em] text-zinc-500 
-               data-[state=active]:text-red-600 data-[state=active]:border-red-600 
+               data-[state=active]:dark:text-green-600
                hover:text-zinc-200 transition-all duration-300 ease-out hover:cursor-pointer"
                         >
                             Camp Brief
@@ -94,14 +94,14 @@ export default function CampViewPage() {
                             value="checklist"
                             className="relative px-0 py-6 bg-transparent rounded-xl border-b-2 border-transparent 
                text-sm font-black tracking-[0.1em] text-zinc-500 
-               data-[state=active]:text-red-600 data-[state=active]:border-red-600 
+               data-[state=active]:dark:text-green-600 
                hover:text-zinc-200 transition-all duration-300 ease-out hover:cursor-pointer"
                         >
                             Checklist
                         </TabsTrigger>
                     </TabsList>
 
-                    <TabsContent value="hosts" className="grid grid-cols-1 md:grid-cols-3 gap-8 flex flex-row justify-around">
+                    <TabsContent value="hosts" className="grid grid-cols-1 md:grid-cols-3 gap-8">
                         <HostCard
                             name="Major Vivek Jacob"
                             role="Ex-Para SF"
@@ -157,21 +157,21 @@ export default function CampViewPage() {
 // Sub-components
 function InfoItem({ icon, label, value, subValue, href }: any) {
     return (
-        <div className="space-y-2">
+        <div className="space-y-2 w-fit">
             <div className="flex items-center gap-2">
-                {icon}
-                <span className="text-sm font-black tracking-widest text-zinc-400">{label}</span>
+                {/* {icon} */}
+                <span className="text-[12px] font-black text-zinc-400">{label}</span>
             </div>
-            <div>
+            <div className="">
                 {href ? (
                     <a href={href} className="">
-                        <p className="text-lg font-bold tracking-tight underline">{value} <ChevronRight className="h-5 w-5 inline" /> </p>
+                        <p className="text-sm font-bold tracking-tight underline">{value} </p>
                         {/* {value} <ChevronRight className="h-2 w-2" /> */}
                         {label == "Meetup" && <p className="text-[11px] font-bold text-zinc-400">{subValue}</p>}
                     </a>
                 ) : (
                     <>
-                    <p className="text-lg font-bold tracking-tight">{value}</p>
+                    <p className="text-sm font-bold tracking-tight">{value}</p>
                     <p className="text-[11px] font-bold text-zinc-400">{subValue}</p>
                     </>
                 )}

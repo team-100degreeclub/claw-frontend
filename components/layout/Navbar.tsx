@@ -18,8 +18,8 @@ export default function Navbar() {
             className="h-10 w-10 rounded-full"
           />
           <h1 className="text-3xl font-black tracking-tighter text-white">
-            C.L.A.W.{" "}
-            <span className="text-sm font-light tracking-widest text-zinc-500">
+            C.L.A.W.{"  "}
+            <span className="">
               GLOBAL
             </span>
           </h1>

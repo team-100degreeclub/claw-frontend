@@ -1,9 +1,12 @@
-// CampCard.tsx
+"use client";
+
+import { useRouter } from "next/navigation";
 import { Badge } from "@/components/ui/badge";
 import { Calendar, IndianRupee, MapPin, CheckCircle2, Ticket, Clock } from "lucide-react";
 import { cn } from "@/lib/utils";
 
 export function CampCard({ camp }: { camp: any }) {
+  const router = useRouter();
   // Logic for the tactical status icon
   const getStatusContent = (status: string) => {
     switch (status.toLowerCase()) {
@@ -16,7 +19,10 @@ export function CampCard({ camp }: { camp: any }) {
   const statusInfo = getStatusContent(camp.status);
 
   return (
-    <div className="group flex flex-col bg-white dark:bg-zinc-950 rounded-xl overflow-hidden shadow-sm border border-zinc-100 dark:border-zinc-900 transition-all hover:shadow-xl hover:-translate-y-1">
+    <div
+      className="group flex flex-col min-w-[300px] bg-white dark:bg-zinc-950 rounded-xl overflow-hidden shadow-sm border border-zinc-100 dark:border-zinc-900 transition-all hover:shadow-xl hover:-translate-y-1 cursor-pointer"
+      onClick={() => router.push("/camps/123")}
+    >
       {/* 1. Tactical Visual Section */}
       <div className="relative aspect-[16/10] overflow-hidden">
         <img 

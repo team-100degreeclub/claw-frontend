@@ -15,11 +15,11 @@ const COLLABORATIONS = [
     brand: "Red Bull",
     tag: "Endurance Partner",
     title: "Conquer Your \n Inner Terrain",
-    description: "Join Major Vivek Jacob and SF veterans for the Himalayan Winter Survival Camp. Powered by Red Bull's elite performance protocols.",
+    description: "",
     image: "https://images.unsplash.com/photo-1574493202181-17762b908dc6?q=80&w=2670&auto=format&fit=crop",
     brandColor: "bg-[#ed1c24]",
     missionType: "HIMALAYAN WINTER SURVIVAL",
-    gear: "Tactical Hydration & Energy"
+    gear: "Red Bull"
   },
   {
     brand: "KTM",
@@ -29,7 +29,7 @@ const COLLABORATIONS = [
     image: "https://images.unsplash.com/photo-1677672939515-0f94f335304c?q=80&w=2670&auto=format&fit=crop",
     brandColor: "bg-[#ff6600]",
     missionType: "LAND EXTRACTION PROTOCOL",
-    gear: "KTM 890 Adventure R"
+    gear: "KTM"
   },
   {
     brand: "GoPro",
@@ -39,7 +39,7 @@ const COLLABORATIONS = [
     image: "https://images.unsplash.com/photo-1544551763-46a013bb70d5?auto=format&fit=crop&q=80&w=2000",
     brandColor: "bg-[#00aee1]",
     missionType: "MARITIME STEALTH MISSION",
-    gear: "GoPro HERO12 Tactical Kit"
+    gear: "GoPro"
   },
   {
     brand: "Nike",
@@ -49,13 +49,23 @@ const COLLABORATIONS = [
     image: "https://images.unsplash.com/photo-1721131981992-a5ce8ca75511?auto=format&fit=crop&q=80&w=2000",
     brandColor: "bg-white",
     missionType: "AIRBORNE INSERTION CAMP",
-    gear: "Nike ACG Tactical Line"
+    gear: "Nike"
+  },
+  {
+    brand: "HRX",
+    tag: "Apparel Partner",
+    title: "The HALO \n Prototype",
+    description: "Master high-altitude physiological training. Testing next-gen ACG thermal utility gear in sub-zero freefall conditions.",
+    image: "https://images.unsplash.com/photo-1721131981992-a5ce8ca75511?auto=format&fit=crop&q=80&w=2000",
+    brandColor: "bg-white",
+    missionType: "AIRBORNE INSERTION CAMP",
+    gear: "HRX"
   },
 ];
 
 export default function HeroDiscovery() {
   const plugin = React.useRef(
-    Autoplay({ delay: 3500000, stopOnInteraction: true })
+    Autoplay({ delay: 3500 })
   );
 
   return (
@@ -98,20 +108,20 @@ export default function HeroDiscovery() {
                     {collab.title}
                   </h2>
 
-                  <p className="max-w-lg text-lg text-zinc-400 font-medium leading-relaxed">
+                  {/* <p className="max-w-lg text-lg text-zinc-400 font-medium leading-relaxed">
                     {collab.description}
-                  </p>
+                  </p> */}
 
                   {/* Collaboration Metadata */}
                   <div className="mt-10 flex flex-col md:flex-row items-start md:items-center gap-8 border-t border-white/10 pt-8">
                     <div>
-                      <p className="text-[10px] uppercase tracking-widest text-zinc-500 mb-1">Official Gear</p>
-                      <p className="text-sm font-bold text-white">{collab.gear}</p>
+                      <p className="text-[10px] uppercase tracking-widest text-white mb-1">Collaboration</p>
+                      <p className="text-lg font-bold text-green-500">{collab.gear}</p>
                     </div>
-                    <div className={`h-10 w-[2px] hidden md:block ${collab.brandColor}`} />
+                    {/* <div className={`h-10 w-[2px] hidden md:block ${collab.brandColor}`} /> */}
                     <div>
                       {/* <p className="text-[10px] uppercase tracking-widest text-zinc-500 mb-1">Role</p> */}
-                      <p className="text-sm font-bold text-white uppercase">{collab.tag}</p>
+                      {/* <p className="text-sm font-bold text-white uppercase">{collab.tag}</p> */}
                     </div>
                     {/* <button className="md:ml-auto px-8 py-3 bg-white text-black text-xs font-black uppercase tracking-widest hover:invert transition-all">
                       View Mission Details
