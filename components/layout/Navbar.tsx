@@ -1,0 +1,72 @@
+"use client";
+
+import { Button } from "@/components/ui/button";
+import { Moon, PlayCircle, Sun, User } from "lucide-react";
+import { useTheme } from "next-themes";
+
+export default function Navbar() {
+  const { setTheme, theme } = useTheme();
+  setTheme("dark")
+  return (
+    <nav className="sticky top-0 z-50 w-full border-b border-zinc-800 bg-black/95 backdrop-blur">
+      <div className="container mx-auto flex h-20 items-center justify-between px-4">
+        {/* Brand Logo */}
+        <div className="flex items-center gap-2">
+          <img
+            src="https://pbs.twimg.com/profile_images/1221190646850965504/MyqCrr0y_400x400.jpg"
+            alt="C.L.A.W. Logo"
+            className="h-10 w-10 rounded-full"
+          />
+          <h1 className="text-3xl font-black tracking-tighter text-white">
+            C.L.A.W.{" "}
+            <span className="text-sm font-light tracking-widest text-zinc-500">
+              GLOBAL
+            </span>
+          </h1>
+        </div>
+
+        {/* Right Actions */}
+        <div className="flex items-center gap-4">
+          <Button
+          variant="default"
+            className="flex items-center border-0 bg-zinc-600/30 hover:bg-zinc-600/40 hover:cursor-pointer gap-2 text-sm font-bold tracking-widest text-zinc-300 transition-colors hover:text-white px-4"
+          >
+            {/* <PlayCircle className="h-5 w-5 text-red-600" /> */}
+            Invite Us
+          </Button>
+          <Button
+          variant="default"
+            className="flex items-center border-0 bg-blue-600/60 hover:bg-blue-600/80 hover:cursor-pointer gap-2 text-sm font-bold tracking-widest text-zinc-300 transition-colors hover:text-white px-4"
+          >
+            Operation Blue Freedom
+          </Button>
+          {/* <Button
+          variant="default"
+            className="flex items-center border-0 bg-zinc-600/30 hover:bg-zinc-600/40 hover:cursor-pointer gap-2 text-sm font-bold tracking-widest text-zinc-300 transition-colors hover:text-white px-4"
+          >
+            The Team
+          </Button> */}
+          <Button
+            variant="default"
+            className="px-8 border-0 bg-zinc-600/30 font-bold tracking-widest text-white hover:bg-white hover:text-white hover:bg-zinc-600/40 hover:cursor-pointer"
+          >
+            {/* <User className="mr-2 h-4 w-4" /> */}
+            Login
+          </Button>
+          <div>
+          </div>
+
+          {/* <Button
+            variant="outline"
+            size="icon"
+            onClick={() => setTheme(theme === "light" ? "dark" : "light")}
+          >
+            <Sun className="h-[1.2rem] w-[1.2rem] rotate-0 scale-100 transition-all dark:-rotate-90 dark:scale-0" />
+            <Moon className="absolute h-[1.2rem] w-[1.2rem] rotate-90 scale-0 transition-all dark:rotate-0 dark:scale-100" />
+            <span className="sr-only">Toggle theme</span>
+          </Button> */}
+        </div>
+      </div>
+    </nav>
+  );
+}
