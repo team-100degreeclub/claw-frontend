@@ -3,7 +3,6 @@ import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
 import { ThemeProvider } from "@/components/theme-provider";
 import Navbar from "@/components/layout/Navbar";
-import Leaderboard from "@/components/social/Leaderboard";
 import Footer from "@/components/layout/Footer";
 
 const geistSans = Geist({
@@ -39,18 +38,8 @@ export default function RootLayout({
         >
           <div className="min-h-screen bg-black text-white selection:bg-red-600/30">
             <Navbar />
-            <main className="container mx-auto grid grid-cols-10 gap-8 py-8 px-4 lg:px-0">
-              {/* Left Section (70%): Standard Scrolling Behavior */}
-              <section className="col-span-10 lg:col-span-7 space-y-12">
-                {children}
-              </section>
-
-              {/* Right Section (30%): Fixed/Sticky Behavior */}
-              <aside className="hidden lg:block lg:col-span-3">
-                <div className="sticky top-28 h-[calc(100vh-120px)] overflow-y-auto no-scrollbar">
-                  <Leaderboard />
-                </div>
-              </aside>
+            <main className="container mx-auto py-8 px-4 lg:px-0">
+              {children}
             </main>
             {/* <Footer /> */}
           </div>

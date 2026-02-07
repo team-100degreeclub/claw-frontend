@@ -2,10 +2,11 @@
 
 import { useRouter } from "next/navigation";
 import { Badge } from "@/components/ui/badge";
-import { Calendar, IndianRupee, MapPin, CheckCircle2, Ticket, Clock } from "lucide-react";
+import { Calendar, IndianRupee, MapPin, CheckCircle2, Ticket, Clock, FileWarning, CheckCircle } from "lucide-react";
 import { cn } from "@/lib/utils";
+import { Camp } from "@/types/camp";
 
-export function CampCard({ camp }: { camp: any }) {
+export function CampCard({ camp, documentStatus }: { camp: Camp; documentStatus?: boolean }) {
   const router = useRouter();
   // Logic for the tactical status icon
   const getStatusContent = (status: string) => {
@@ -21,7 +22,7 @@ export function CampCard({ camp }: { camp: any }) {
   return (
     <div
       className="group flex flex-col min-w-[300px] bg-white dark:bg-zinc-950 rounded-xl overflow-hidden shadow-sm border border-zinc-100 dark:border-zinc-900 transition-all hover:shadow-xl hover:-translate-y-1 cursor-pointer"
-      onClick={() => router.push("/camps/123")}
+      onClick={() => router.push(`/camps/${camp.id}`)}
     >
       {/* 1. Tactical Visual Section */}
       <div className="relative aspect-[16/10] overflow-hidden">
@@ -56,30 +57,32 @@ export function CampCard({ camp }: { camp: any }) {
             </div>
           </div>
         </div>
-
-        {/* 3. Category & Price Meta */}
-        {/* <div className="flex items-center justify-between pt-2">
-          <span className="text-[10px] font-black tracking-[0.2em] text-zinc-400 dark:text-zinc-600">
-            D{camp.environment}
-          </span>
-        </div> */}
       </div>
 
       {/* 4. Red Bull Style Status Footer */}
       <div className="mt-auto border-t border-zinc-100 dark:border-zinc-900 px-5 py-3 bg-zinc-50/50 dark:bg-zinc-900/20">
         <div className="flex items-center justify-between gap-2 font-bold text-[13px] text-zinc-800 dark:text-zinc-300">
           <div className="flex items-center text-black dark:text-white font-semibold">
-            {/* <IndianRupee className="w-3 h-3 mr-0.5" /> */}
             {camp.seatsLeft}/{camp.totalSeats} <span className="ml-1">slots left</span>
           </div>
           <div className="flex items-center text-black dark:text-white">
             <IndianRupee className="w-3 h-3 mr-0.5" />
-            {camp.price.toLocaleString()}
+            {camp.price}
           </div>
-          {/* {statusInfo.icon} */}
-          {/* {statusInfo.text} */}
         </div>
+        {documentStatus !== undefined && (
+          <div className={cn(
+            "mt-2 flex items-center justify-center gap-2 px-3 py-1.5 rounded-md",
+            documentStatus ? "bg-green-500/20 text-green-400" : "bg-orange-500/20 text-orange-400"
+          )}>
+            {documentStatus ? <CheckCircle className="w-4 h-4" /> : <FileWarning className="w-4 h-4" />}
+            <span className="text-xs font-semibold">
+              {documentStatus ? "Booking Confirmed" : "Missing Documents"}
+            </span>
+          </div>
+        )}
       </div>
     </div>
   );
-} 
+}
+ 
