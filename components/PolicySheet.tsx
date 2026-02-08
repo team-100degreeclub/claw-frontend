@@ -12,7 +12,7 @@ interface PolicySheetProps {
 export default function PolicySheet({ isOpen, onClose }: PolicySheetProps) {
   return (
     <Sheet open={isOpen} onOpenChange={onClose}>
-      <SheetContent side="right" className="min-w-[600px] bg-zinc-900 text-zinc-300 border-l border-border rounded-l-2xl">
+      <SheetContent side="right" className="min-w-[600px] bg-zinc-900  text-zinc-300 border-l border-border rounded-l-2xl">
         <SheetHeader className="flex flex-row items-center justify-between">
           <SheetTitle className="text-2xl font-bold">Policy</SheetTitle>
           <SheetClose asChild>
