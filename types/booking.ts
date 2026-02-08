@@ -1,13 +1,12 @@
 // types/booking.ts
-import { Camp } from "./camp";
+import { Camp } from './camp';
 
 export interface Booking {
   camp: Camp;
-  documentsUploaded: boolean;
+  documentsUploaded: 'Pending' | 'Uploaded' | 'Verified' | 'Rejected';
   refundInfo?: {
     amount: string;
     settlementDate: string;
     settlementId: string;
   };
-  // Add any other booking-specific details here, e.g., bookingDate, numberOfTravelers, etc.
 }

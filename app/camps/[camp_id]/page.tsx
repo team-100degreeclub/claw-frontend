@@ -4,7 +4,7 @@ import { MapPin, Calendar, Users, IndianRupee, Clock, ChevronRight, Share2, Shar
 import { Button } from "@/components/ui/button";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { CampCard } from "@/components/camps/CampCard";
-import { MOCK_CAMPS } from "@/components/camps/CampGrid";
+import { MOCK_CAMPS } from "@/lib/mockCamps";
 import { HostCard } from "@/components/camps/HostCard";
 
 export default function CampViewPage() {

@@ -1,32 +1,22 @@
-// lib/mockBookings.ts
-import { Booking } from "@/types/booking";
-import { MOCK_CAMPS } from "@/components/camps/CampGrid";
+import { Booking } from '@/types/booking';
+import { MOCK_CAMPS } from './mockCamps';
 
 export const MOCK_BOOKINGS: Booking[] = [
   {
-    camp: { ...MOCK_CAMPS[0], id: "booked-1" },
-    documentsUploaded: true,
+    camp: MOCK_CAMPS[0],
+    documentsUploaded: 'Verified',
+  },
+  {
+    camp: MOCK_CAMPS[1],
+    documentsUploaded: 'Pending',
     refundInfo: {
-        amount: "₹ 23,999",
-        settlementDate: "2024-03-15",
-        settlementId: "SETTLE-001-ABC",
+      amount: '₹10,000',
+      settlementDate: '15th July 2024',
+      settlementId: 'SETTLE12345',
     },
   },
   {
-    camp: { ...MOCK_CAMPS[1], id: "booked-2" },
-    documentsUploaded: false,
-  },
-  {
-    camp: { ...MOCK_CAMPS[2], id: "booked-3" },
-    documentsUploaded: true,
-    refundInfo: {
-        amount: "₹ 31,999",
-        settlementDate: "2024-04-01",
-        settlementId: "SETTLE-002-DEF",
-    },
-  },
-  {
-    camp: { ...MOCK_CAMPS[3], id: "booked-4" },
-    documentsUploaded: false,
+    camp: MOCK_CAMPS[2],
+    documentsUploaded: 'Uploaded',
   },
 ];

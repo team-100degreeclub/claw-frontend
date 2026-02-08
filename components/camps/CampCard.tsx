@@ -6,7 +6,9 @@ import { Calendar, IndianRupee, MapPin, CheckCircle2, Ticket, Clock, FileWarning
 import { cn } from "@/lib/utils";
 import { Camp } from "@/types/camp";
 
-export function CampCard({ camp, documentStatus }: { camp: Camp; documentStatus?: boolean }) {
+type DocumentStatus = 'Pending' | 'Uploaded' | 'Verified' | 'Rejected';
+
+export function CampCard({ camp, documentStatus }: { camp: Camp; documentStatus?: DocumentStatus }) {
   const router = useRouter();
   // Logic for the tactical status icon
   const getStatusContent = (status: string) => {
@@ -18,6 +20,37 @@ export function CampCard({ camp, documentStatus }: { camp: Camp; documentStatus?
   };
 
   const statusInfo = getStatusContent(camp.status);
+
+  const getDocumentStatusContent = (status: DocumentStatus) => {
+    switch (status) {
+      case 'Verified':
+        return {
+          icon: <CheckCircle className="w-4 h-4" />,
+          text: "Booking Confirmed",
+          className: "bg-green-500/20 text-green-400",
+        };
+      case 'Pending':
+        return {
+          icon: <FileWarning className="w-4 h-4" />,
+          text: "Missing Documents",
+          className: "bg-orange-500/20 text-orange-400",
+        };
+      case 'Uploaded':
+        return {
+          icon: <FileWarning className="w-4 h-4" />,
+          text: "Documents under review",
+          className: "bg-yellow-500/20 text-yellow-400",
+        };
+      case 'Rejected':
+        return {
+          icon: <FileWarning className="w-4 h-4" />,
+          text: "Documents Rejected",
+          className: "bg-red-500/20 text-red-400",
+        };
+    }
+  }
+
+  const documentStatusContent = documentStatus ? getDocumentStatusContent(documentStatus) : null;
 
   return (
     <div
@@ -70,14 +103,14 @@ export function CampCard({ camp, documentStatus }: { camp: Camp; documentStatus?
             {camp.price}
           </div>
         </div>
-        {documentStatus !== undefined && (
+        {documentStatusContent && (
           <div className={cn(
             "mt-2 flex items-center justify-center gap-2 px-3 py-1.5 rounded-md",
-            documentStatus ? "bg-green-500/20 text-green-400" : "bg-orange-500/20 text-orange-400"
+            documentStatusContent.className
           )}>
-            {documentStatus ? <CheckCircle className="w-4 h-4" /> : <FileWarning className="w-4 h-4" />}
+            {documentStatusContent.icon}
             <span className="text-xs font-semibold">
-              {documentStatus ? "Booking Confirmed" : "Missing Documents"}
+              {documentStatusContent.text}
             </span>
           </div>
         )}
