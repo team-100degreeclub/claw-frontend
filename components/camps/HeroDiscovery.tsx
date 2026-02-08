@@ -65,11 +65,11 @@ const COLLABORATIONS = [
 
 export default function HeroDiscovery() {
   const plugin = React.useRef(
-    Autoplay({ delay: 3500 })
+    Autoplay({ delay: 3000 })
   );
 
   return (
-    <div className="relative w-full p-4 md:p-8 bg-zinc-950">
+    <div className="relative w-full p-4 md:px-8 md:pt-8 bg-zinc-950">
       <Carousel
         plugins={[plugin.current]}
         className="w-full"

@@ -26,6 +26,8 @@ import {
 } from "lucide-react";
 import { useRouter } from "next/navigation";
 import { Input } from "@/components/ui/input";
+import { Toggle } from "@/components/ui/toggle";
+import { cn } from "@/lib/utils";
 
 // --- Simple Professional Data ---
 const CAMP_BOOKINGS = [
@@ -43,15 +45,15 @@ const CAMP_BOOKINGS = [
     travellers: [
       { ticket: "T-8821", name: "Abhishek Verma", age: 29, gender: "Male", status: "Confirmed", hasDocs: true },
       { ticket: "T-8822", name: "Tiju Lukose", age: 31, gender: "Male", status: "Pending", hasDocs: false },
-      { ticket: "T-8822", name: "Tiju Lukose", age: 31, gender: "Male", status: "Pending", hasDocs: false },
-      { ticket: "T-8822", name: "Tiju Lukose", age: 31, gender: "Male", status: "Pending", hasDocs: false },
-      { ticket: "T-8822", name: "Tiju Lukose", age: 31, gender: "Male", status: "Pending", hasDocs: false },
     ],
     payment: {
       basePrice: 45000,
-      tax: 8100,
+      totalTickets: 2,
+      pg: "1.5%",
+      softwarCharges: "10%",
+      tax: "18%",
       discount: 0,
-      total: 51100
+      total: 116000
     }
   },
   {
@@ -67,17 +69,15 @@ const CAMP_BOOKINGS = [
     documentLink: "https://100degree.club/upload/c2-user-456",
     travellers: [
       { ticket: "T-7740", name: "Sarah Jenkins", age: 27, gender: "Female", status: "Confirmed", hasDocs: true },
-      { ticket: "T-7740", name: "Sarah Jenkins", age: 27, gender: "Female", status: "Confirmed", hasDocs: true },
-      { ticket: "T-7740", name: "Sarah Jenkins", age: 27, gender: "Female", status: "Confirmed", hasDocs: true },
-      { ticket: "T-7741", name: "Michael Chen", age: 34, gender: "Male", status: "Confirmed", hasDocs: true },
-      { ticket: "T-7741", name: "Michael Chen", age: 34, gender: "Male", status: "Confirmed", hasDocs: true },
-      { ticket: "T-7741", name: "Michael Chen", age: 34, gender: "Male", status: "Confirmed", hasDocs: true },
     ],
     payment: {
       basePrice: 32000,
-      tax: 5760,
+      totalTickets: 1,
+      pg: "1.5%",
+      softwarCharges: "10%",
+      tax: "18%",
       discount: 0,
-      total: 37760
+      total: 42102.40
     }
   }
 ];
@@ -86,17 +86,50 @@ export default function TicketDashboard() {
   const router = useRouter();
 
   return (
-    <div className="min-h-screen bg-zinc-950 text-zinc-100 font-sans pb-24">
+    <div className="min-h-screen bg-zinc-950 text-zinc-100 font-sans pb-24 ">
       {/* Navbar */}
-      <header className="sticky top-0 z-30 backdrop-blur-md border-b border-zinc-800 px-8 py-5 flex items-center justify-between">
+      <header className="sticky top-0 z-30 backdrop-blur-md border-b border-zinc-800 px-40 py-5 flex items-center justify-between">
         <div className="flex items-center gap-4">
           <h1 className="text-2xl font-bold">Tickets</h1>
         </div>
-        <div className="flex items-center gap-6">
-          <p className="text-sm text-zinc-500">Need help? Email help@100degree.club</p>
-          {/* <Button variant="outline" className="border-zinc-700 text-zinc-300 hover:bg-zinc-800">
-            <Share2 className="h-4 w-4 mr-2" /> Share all details
+        <div className="flex items-center gap-2">
+          {/*
+          <Button variant="outline" className="border-zinc-700 text-zinc-300 hover:bg-zinc-800">
+          <Share2 className="h-4 w-4 mr-2" /> Share all details
           </Button> */}
+          <p className="text-sm text-zinc-500">Filter by:</p>
+          <Toggle className={cn(
+            // Base Styling (Light Mode & General)
+            "px-6 py-2 h-auto rounded-full font-black text-[12px] transition-all duration-300",
+            "border-2 border-zinc-200 bg-transparent text-white hover:bg-zinc-100 hover:text-black",
+
+            // Dark Mode Styling
+            "dark:border-zinc-800 dark:text-white",
+            "dark:hover:bg-zinc-800 dark:hover:text-white ",
+
+            // Active/Pressed State (Red Bull / CLAW Red)
+            "data-[state=on]:bg-blue-600 data-[state=on]:border-blue-600 data-[state=on]:text-white dark:data-[state=on]:text-white",
+            "dark:data-[state=on]:hover:text-white",
+            "data-[state=on]:scale-110 data-[state=on]:zoom-in-95 data-[state=on]:duration-300",
+
+            "hover:cursor-pointer",
+          )}>Past</Toggle>
+          <Toggle className={cn(
+            // Base Styling (Light Mode & General)
+            "px-6 py-2 h-auto rounded-full font-black text-[12px] transition-all duration-300",
+            "border-2 border-zinc-200 bg-transparent text-white hover:bg-zinc-100 hover:text-black",
+
+            // Dark Mode Styling
+            "dark:border-zinc-800 dark:text-white",
+            "dark:hover:bg-zinc-800 dark:hover:text-white ",
+
+            // Active/Pressed State (Red Bull / CLAW Red)
+            "data-[state=on]:bg-blue-600 data-[state=on]:border-blue-600 data-[state=on]:text-white dark:data-[state=on]:text-white",
+            "dark:data-[state=on]:hover:text-white",
+            "data-[state=on]:scale-110 data-[state=on]:zoom-in-95 data-[state=on]:duration-300",
+
+            "hover:cursor-pointer",
+          )}>Live</Toggle>
         </div>
       </header>
 
@@ -108,22 +141,22 @@ export default function TicketDashboard() {
               <div className="space-y-2">
                 <h2 className="text-3xl font-semibold">{camp.name}</h2>
                 <div className="flex gap-6 text-sm text-zinc-400 font-light">
-                  <div className="flex items-center gap-2"><MapPin className="h-4 w-4 text-zinc-500" /> {camp.location}</div>
+                  <div className="flex items-center gap-2 text-blue-500 hover:cursor-pointer underline"><MapPin className="h-4 w-4 text-zinc-500" /> {camp.location}</div>
                   <div className="flex items-center gap-2"><Calendar className="h-4 w-4 text-zinc-500" /> {new Date(camp.startDate).toLocaleDateString("en-IN", { month: "long", day: "numeric", year: "numeric" })}</div>
                 </div>
               </div>
               <Button variant="link" className="text-zinc-400 hover:text-white p-0 h-auto">
-                Visit event page <ExternalLink className="ml-2 h-4 w-4" />
+                Visit camp page <ExternalLink className="ml-2 h-4 w-4" />
               </Button>
             </div>
 
             <div className="grid grid-cols-1 lg:grid-cols-4 gap-8">
               {/* Sidebar: Details and Payment (Left 1/4) */}
               <div className="lg:col-span-1 space-y-6">
-                
+
                 {/* Check-in Details */}
-                <Card className="bg-zinc-900 border-zinc-800 p-6 rounded-2xl shadow-sm">
-                  <h3 className="text-xs font-semibold text-zinc-500 mb-5 tracking-wide">Event information</h3>
+                {/* <Card className="bg-zinc-900 border-zinc-800 p-6 rounded-2xl shadow-sm">
+                  <h3 className="text-xs font-semibold text-zinc-5  00 mb-5 tracking-wide">Camp information</h3>
                   <div className="space-y-5">
                     <div className="flex gap-4">
                       <div className="p-2.5 bg-zinc-800 rounded-xl h-fit"><Clock className="h-4 w-4 text-zinc-400" /></div>
@@ -136,11 +169,11 @@ export default function TicketDashboard() {
                       <div className="p-2.5 bg-zinc-800 rounded-xl h-fit"><MapPin className="h-4 w-4 text-zinc-400" /></div>
                       <div>
                         <p className="text-[10px] text-zinc-500 font-medium">Meeting point</p>
-                        <p className="text-sm font-medium">{camp.meetingPoint}</p>
+                        <p className="text-sm font-medium text-blue-500 hover:cursor-pointer underline">{camp.meetingPoint}</p>
                       </div>
                     </div>
                   </div>
-                </Card>
+                </Card> */}
 
                 {/* Payment Breakdown */}
                 <Card className="bg-zinc-900 border-zinc-800 p-6 rounded-2xl shadow-sm">
@@ -150,12 +183,24 @@ export default function TicketDashboard() {
                   </div>
                   <div className="space-y-3">
                     <div className="flex justify-between text-sm text-zinc-400">
-                      <span>Base amount</span>
+                      <span>Ticket Price</span>
                       <span>₹{camp.payment.basePrice.toLocaleString()}</span>
                     </div>
                     <div className="flex justify-between text-sm text-zinc-400">
+                      <span>Total Tickets</span>
+                      <span>{camp.payment.totalTickets}</span>
+                    </div>
+                    <div className="flex justify-between text-sm text-zinc-400">
+                      <span>Payment Gateway Charges</span>
+                      <span>{camp.payment.pg}</span>
+                    </div>
+                    <div className="flex justify-between text-sm text-zinc-400">
+                      <span>Software Charges</span>
+                      <span>{camp.payment.softwarCharges}</span>
+                    </div>
+                    <div className="flex justify-between text-sm text-zinc-400">
                       <span>Taxes (GST)</span>
-                      <span>₹{camp.payment.tax.toLocaleString()}</span>
+                      <span>{camp.payment.tax.toLocaleString()}</span>
                     </div>
                     {camp.payment.discount > 0 && (
                       <div className="flex justify-between text-sm text-emerald-500">
@@ -165,7 +210,7 @@ export default function TicketDashboard() {
                     )}
                     <div className="pt-3 mt-3 border-t border-zinc-800 flex justify-between items-end">
                       <span className="text-sm font-medium">Total paid</span>
-                      <span className="text-xl font-bold">₹{camp.payment.total.toLocaleString()}</span>
+                      <span className="text-xl font-bold text-green-500">₹{camp.payment.total.toLocaleString()}</span>
                     </div>
                   </div>
                 </Card>

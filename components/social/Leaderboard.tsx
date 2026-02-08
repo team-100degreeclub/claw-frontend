@@ -5,6 +5,7 @@ import { cn } from "@/lib/utils";
 import OperationBlueFreedom from "../OperationBlueFreedom";
 import Stories from "../Stories";
 import Insignia from "../camps/Insignia";
+import PastCamps from "../camps/PastCamps";
 
 // --- Types & Constants ---
 
@@ -32,7 +33,7 @@ export default function Leaderboard() {
         selectedTab === "insignia" && <Insignia />
       }
       {
-        selectedTab === "past_camps" && <Insignia />
+        selectedTab === "past_camps" && <PastCamps />
       }
       
     </div>

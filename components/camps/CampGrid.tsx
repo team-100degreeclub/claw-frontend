@@ -127,7 +127,7 @@ export const MOCK_CAMPS = [
     location: "Various",
     date: "Ongoing",
     status: "Open",
-    image: "https://images.unsplash.com/photo-1533107871321-c30c82252a17?auto=format&fit=crop&q=80&w=800",
+    image: "https://images.unsplash.com/photo-1555069855-e580a9adbf43?auto=format&fit=crop&q=80&w=800",
     price: "28,000", // Fixed price
     seatsLeft: "6",
     totalSeats: "10",
@@ -140,7 +140,7 @@ export const MOCK_CAMPS = [
     location: "Various",
     date: "Ongoing",
     status: "Open",
-    image: "https://images.unsplash.com/photo-1533107871321-c30c82252a17?auto=format&fit=crop&q=80&w=800",
+    image: "https://images.unsplash.com/photo-1526772662000-3f88f10405ff?auto=format&fit=crop&q=80&w=800",
     price: "38,000", // Fixed price
     seatsLeft: "4",
     totalSeats: "8",
@@ -153,7 +153,7 @@ export const MOCK_CAMPS = [
     location: "Various",
     date: "Ongoing",
     status: "Open",
-    image: "https://images.unsplash.com/photo-1533107871321-c30c82252a17?auto=format&fit=crop&q=80&w=800",
+    image: "https://images.unsplash.com/photo-1657664043009-c4975cb4eed3?auto=format&fit=crop&q=80&w=800",
     price: "16,000", // Fixed price
     seatsLeft: "10",
     totalSeats: "15",
@@ -166,7 +166,7 @@ export const MOCK_CAMPS = [
     location: "Various",
     date: "Ongoing",
     status: "Open",
-    image: "https://images.unsplash.com/photo-1533107871321-c30c82252a17?auto=format&fit=crop&q=80&w=800",
+    image: "https://images.unsplash.com/photo-1591769236421-3c09bdef99c0?auto=format&fit=crop&q=80&w=800",
     price: "22,000", // Fixed price
     seatsLeft: "11",
     totalSeats: "18",
@@ -179,7 +179,7 @@ export const MOCK_CAMPS = [
     location: "Various",
     date: "Ongoing",
     status: "Open",
-    image: "https://images.unsplash.com/photo-1533107871321-c30c82252a17?auto=format&fit=crop&q=80&w=800",
+    image: "https://images.unsplash.com/photo-1507520413369-94de50653411?auto=format&fit=crop&q=80&w=800",
     price: "33,000", // Fixed price
     seatsLeft: "3",
     totalSeats: "5",
@@ -192,7 +192,7 @@ export const MOCK_CAMPS = [
     location: "Various",
     date: "Ongoing",
     status: "Open",
-    image: "https://images.unsplash.com/photo-1533107871321-c30c82252a17?auto=format&fit=crop&q=80&w=800",
+    image: "https://images.unsplash.com/photo-1648662594772-786f95b9e58b?auto=format&fit=crop&q=80&w=800",
     price: "27,000", // Fixed price
     seatsLeft: "8",
     totalSeats: "12",
@@ -205,7 +205,7 @@ export const MOCK_CAMPS = [
     location: "Various",
     date: "Ongoing",
     status: "Open",
-    image: "https://images.unsplash.com/photo-1533107871321-c30c82252a17?auto=format&fit=crop&q=80&w=800",
+    image: "https://images.unsplash.com/photo-1626108862021-d6a7af6521b7?q=80&w=2264?auto=format&fit=crop&q=80&w=800",
     price: "19,000", // Fixed price
     seatsLeft: "15",
     totalSeats: "18",
@@ -218,17 +218,19 @@ export const MOCK_CAMPS = [
     location: "Various",
     date: "Ongoing",
     status: "Open",
-    image: "https://images.unsplash.com/photo-1533107871321-c30c82252a17?auto=format&fit=crop&q=80&w=800",
+    image: "https://images.unsplash.com/photo-1683624328172-88fb24625ec1?auto=format&fit=crop&q=80&w=800",
     price: "26,000", // Fixed price
     seatsLeft: "7",
     totalSeats: "10",
   },
 ];
 
-export default function CampGrid() {
-  const camps = MOCK_CAMPS;
+export default function CampGrid({ isLetsTalkActive }: { isLetsTalkActive: boolean }) {
+  const filteredCamps = isLetsTalkActive
+    ? MOCK_CAMPS.filter((camp) => camp.environment === "Conversation")
+    : MOCK_CAMPS;
 
-  if (camps.length === 0) {
+  if (filteredCamps.length === 0) {
     return (
       <div className="flex flex-col items-center justify-center py-20 border-2 border-dashed border-zinc-800 rounded-xl">
         <p className="text-zinc-500 font-bold tracking-widest text-sm">No Missions Found</p>
@@ -239,7 +241,7 @@ export default function CampGrid() {
 
   return (
     <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-x-6 gap-y-12">
-      {camps.map((camp) => (
+      {filteredCamps.map((camp) => (
         <CampCard key={camp.id} camp={camp} />
       ))}
     </div>

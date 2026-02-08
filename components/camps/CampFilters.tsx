@@ -1,7 +1,7 @@
 "use client";
 
 import * as React from "react";
-import { Brain, Activity, HeartPulse, Target, Filter, X, MapPin, Users, Calendar, Menu } from "lucide-react";
+import { Brain, Activity, HeartPulse, Target, Filter, X, MapPin, Users, Calendar as CalendarIcon, Menu } from "lucide-react";
 import { TacticalCascadeFilter } from "./TacticalCascadeFilter";
 import { cn } from "@/lib/utils";
 import { Button } from "@/components/ui/button";
@@ -9,6 +9,11 @@ import { Dialog, DialogClose, DialogContent, DialogFooter, DialogHeader, DialogT
 import { Slider } from "@/components/ui/slider"; // Ensure Shadcn Slider is installed
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { Toggle } from "@/components/ui/toggle"
+import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover";
+import { Calendar } from "@/components/ui/calendar";
+import { format } from "date-fns";
+import { Switch } from "@/components/ui/switch";
+import { Label } from "@/components/ui/label";
 
 const LOCATION_DATA = [
   {
@@ -26,7 +31,7 @@ const FOCUS_AREAS = [
   { label: "Medical", value: "medical", icon: <HeartPulse className="w-3.5 h-3.5" /> },
 ];
 
-export default function CampFilters() {
+export default function CampFilters({ isLetsTalkActive, onToggleLetsTalk }: { isLetsTalkActive: boolean, onToggleLetsTalk: (isActive: boolean) => void }) {
   const [locations, setLocations] = React.useState<string[]>(["India"]);
   const [domain, setDomain] = React.useState("Land");
   const [focus, setFocus] = React.useState<string[]>([]);
@@ -35,15 +40,19 @@ export default function CampFilters() {
   // New Filter States
   const [ageRange, setAgeRange] = React.useState([18, 60]);
   const [gender, setGender] = React.useState("all");
+  const [date, setDate] = React.useState<Date>();
+  const [weekendCamps, setWeekendCamps] = React.useState(false);
 
   return (
     <div className="flex items-center gap-1 bg-white dark:bg-zinc-950 p-4 rounded-xl shadow-sm border border-zinc-100 dark:border-zinc-800 w-full transition-colors">
       <div className="flex items-center gap-2 flex-1">
         <Toggle
+          pressed={isLetsTalkActive}
+          onPressedChange={onToggleLetsTalk}
           className={cn(
             // Base Styling (Light Mode & General)
             "px-6 py-2 h-auto rounded-full font-black tracking-widest text-[10px] transition-all duration-300",
-            "border-2 border-zinc-200 bg-transparent text-white hover:bg-zinc-100 hover:text-black",
+            "border-2 border-zinc-200 bg-blue-500 text-white hover:bg-zinc-100 hover:text-black",
 
             // Dark Mode Styling
             "dark:border-zinc-800 dark:text-white",
@@ -57,7 +66,7 @@ export default function CampFilters() {
             "hover:cursor-pointer",
           )}
         >
-          Let's Talk
+          Spirit Roads
 
         </Toggle>
         <div className="h-8 w-[1px] bg-zinc-100 dark:bg-zinc-800 mx-2" />
@@ -128,6 +137,37 @@ export default function CampFilters() {
                     <SelectItem value="female" className="font-bold text-[10px]">Transgender</SelectItem>
                   </SelectContent>
                 </Select>
+              </div>
+
+              <div className="space-y-3">
+                <label className="text-sm font-semibold">Date</label>
+                <Popover>
+                  <PopoverTrigger asChild>
+                    <Button
+                      variant={"outline"}
+                      className={cn(
+                        "w-full h-12 border-2 dark:border-zinc-800 font-bold text-xs mt-2 justify-start text-left",
+                        !date && "text-muted-foreground"
+                      )}
+                    >
+                      <CalendarIcon className="mr-2 h-4 w-4" />
+                      {date ? format(date, "PPP") : <span>Pick a date</span>}
+                    </Button>
+                  </PopoverTrigger>
+                  <PopoverContent className="w-auto p-0" align="start">
+                    <Calendar
+                      mode="single"
+                      selected={date}
+                      onSelect={setDate}
+                      initialFocus
+                    />
+                  </PopoverContent>
+                </Popover>
+              </div>
+
+              <div className="flex items-center space-x-2">
+                <Switch id="weekend-camps" checked={weekendCamps} onCheckedChange={setWeekendCamps} />
+                <Label htmlFor="weekend-camps" className="text-sm font-semibold">Weekend Camps</Label>
               </div>
 
               <div className="space-y-3 pb-4">
