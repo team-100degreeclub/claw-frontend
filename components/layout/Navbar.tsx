@@ -1,7 +1,7 @@
 "use client";
 
 import { Button } from "@/components/ui/button";
-import { HomeIcon, Moon, PlayCircle, Sun, User } from "lucide-react";
+import { HomeIcon, Moon, PlayCircle, Sun, User, CalendarCheck } from "lucide-react";
 import { useTheme } from "next-themes";
 import { useRouter } from "next/navigation";
 
@@ -13,10 +13,11 @@ export default function Navbar() {
     <nav className="sticky top-0 z-50 w-full border-b border-zinc-800 bg-black/95 backdrop-blur">
       <div className="container mx-auto flex h-20 items-center justify-between px-4">
         {/* Brand Logo */}
-        <div className="flex items-center gap-2">
+        <div className="flex items-center gap-2 cursor-pointer" onClick={() => router.push("/camps")}>
             <Button
               variant="link"
               className="ml-10 flex items-center border-0 hover:bg-zinc-600/30 hover:cursor-pointer gap-2 text-sm font-bold tracking-widest text-zinc-300 transition-colors hover:text-white px-4"
+              onClick={() => router.push("/camps")}
             >
               <HomeIcon className="h-4 w-4" />
             </Button>
@@ -54,14 +55,30 @@ export default function Navbar() {
           >
             The Team
           </Button> */}
-          <Button
+          {/* <Button
             variant="default"
-            className="px-8 border-0 bg-zinc-600/30 font-bold tracking-widest text-white hover:bg-white hover:text-white hover:bg-zinc-600/40 hover:cursor-pointer"
+            className=" border-0 bg-zinc-600/30 font-bold tracking-widest text-white hover:bg-white hover:text-white hover:bg-zinc-600/40 hover:cursor-pointer"
           >
-            {/* <User className="mr-2 h-4 w-4" /> */}
+            <User className="mr-2 h-4 w-4" />
             Login
-          </Button>
+          </Button> */}
           <div>
+            <Button
+              variant="ghost"
+              size="icon"
+              onClick={() => router.push("/traveller/profile")}
+              className="cursor-pointer hover:bg-white/60"
+            >
+              <User className="h-6 w-6 text-zinc-400" color="white"/>
+            </Button>
+            <Button
+              variant="ghost"
+              size="icon"
+              onClick={() => router.push("/bookings")}
+              className="cursor-pointer hover:bg-white/60"
+            >
+              <CalendarCheck className="h-6 w-6 text-zinc-400" color="white"/>
+            </Button>
           </div>
 
           {/* <Button

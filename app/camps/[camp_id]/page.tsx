@@ -5,10 +5,185 @@ import { Button } from "@/components/ui/button";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { CampCard } from "@/components/camps/CampCard";
 import { MOCK_CAMPS } from "@/lib/mockCamps";
-import { HostCard } from "@/components/camps/HostCard";
+import { HostCard } from "@/components/camps/HostCard"; // Importing HostCard from here, will use the one from instructions.md as a sub-component.
+import { useState } from "react";
+import { useRouter, useParams } from "next/navigation";
+import BookingSheet from "@/components/camps/BookingSheet";
+import PolicyDialog from "@/components/camps/PolicyDialog";
+import { BookedForTraveller, CampRegistrationCreate, PaymentVerificationRequest } from "@/lib/api/models/registrations";
+import { toast } from "sonner";
+import { registrationService } from "@/lib/api/services/registrations";
+import * as React from "react"; // Explicitly import React for React.useState etc.
+import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
+import { cn } from "@/lib/utils";
+import { ChevronUp, ChevronDown } from "lucide-react";
+import { Card } from "@/components/ui/card";
+
+interface RazorpayOptions {
+    key: string;
+    amount: string;
+    currency: string;
+    name: string;
+    description: string;
+    order_id: string;
+    handler: (response: {
+        razorpay_payment_id: string;
+        razorpay_order_id: string;
+        razorpay_signature: string;
+    }) => void;
+    prefill: {
+        name: string;
+        email: string;
+        contact: string;
+    };
+    notes: {
+        address: string;
+    };
+    theme: {
+        color: string;
+    };
+}
+
+interface RazorpayPaymentObject {
+    open(): void;
+}
+
+declare global {
+    interface Window {
+        Razorpay: new (options: RazorpayOptions) => RazorpayPaymentObject;
+    }
+}
 
 export default function CampViewPage() {
-    const VIDEO_ID = "H9-OOl_9r6I"
+    const VIDEO_ID = "H9-OOl_9r6I";
+    const router = useRouter();
+    const params = useParams();
+    const campId = params.camp_id as string; // Assuming parameter name is camp_id
+
+    const [isBookingSheetOpen, setIsBookingSheetOpen] = useState(false);
+
+    // Placeholder for actual camp data. In a real app, this would be fetched from an API.
+    const campPrice = 19999;
+    const campSpotsLeft = 5; // Assuming '1/10' means 1 spot left
+    const isFreeCamp = campPrice === '0';
+
+    // Placeholder for useAuth hook. In a real app, this would be a proper context.
+    const { isAuthenticated } = { isAuthenticated: true }; // Assuming user is always authenticated for now
+
+    const loadScript = (src: string) => {
+        return new Promise((resolve) => {
+            const script = document.createElement("script");
+            script.src = src;
+            script.onload = () => {
+                resolve(true);
+            };
+            script.onerror = () => {
+                resolve(false);
+            };
+            document.body.appendChild(script);
+        });
+    };
+
+    const handleBooking = async (
+        camp_id: string,
+        attendees: BookedForTraveller[],
+        isFree: boolean,
+        book_for_primary_user: boolean
+    ) => {
+        try {
+            const payload: CampRegistrationCreate = {
+                camp_id: camp_id,
+                book_for_primary_user: book_for_primary_user,
+                other_travellers: attendees,
+            };
+
+            const response = await registrationService.registerForCamp(payload);
+
+            if (response.registration.status === "success" && isFree) {
+                toast.success("Registration Successful!", {
+                    description: "You have successfully registered for the free camp.",
+                });
+                router.push("/profile?tab=camps");
+                setIsBookingSheetOpen(false);
+            } else if (
+                response.registration.status === "locked" &&
+                response.razorpay_order &&
+                response.payment
+            ) {
+                const res = await loadScript(
+                    "https://checkout.razorpay.com/v1/checkout.js"
+                );
+
+                if (!res) {
+                    toast.error("Payment Failed", {
+                        description: "Razorpay SDK failed to load. Are you online?",
+                    });
+                    return;
+                }
+
+                const options: RazorpayOptions = {
+                    key: process.env.NEXT_PUBLIC_RAZORPAY_KEY_ID!,
+                    amount: response.razorpay_order.amount.toString(),
+                    currency: response.razorpay_order.currency,
+                    name: "100DegreeClub",
+                    description: `Camp Registration for ${camp_id}`,
+                    order_id: response.razorpay_order.id,
+                    handler: async (razorpayResponse) => {
+                        try {
+                            const verifyPayload: PaymentVerificationRequest = {
+                                razorpay_order_id: razorpayResponse.razorpay_order_id,
+                                razorpay_payment_id: razorpayResponse.razorpay_payment_id,
+                                razorpay_signature: razorpayResponse.razorpay_signature,
+                            };
+                            const verificationResult =
+                                await registrationService.verifyPayment(verifyPayload);
+
+                            if (verificationResult.status === "success") {
+                                toast.success("Payment Successful!", {
+                                    description:
+                                        "Your payment has been successfully processed and registration is confirmed.",
+                                });
+                                router.push("/profile?tab=camps");
+                            } else {
+                                toast.error("Payment Verification Failed", {
+                                    description:
+                                        "There was an issue verifying your payment. Please contact support.",
+                                });
+                            }
+                        } catch (error) {
+                            console.error("Error verifying payment:", error);
+                            toast.error("Payment Verification Error", {
+                                description: "An error occurred during payment verification.",
+                            });
+                        }
+                    },
+                    prefill: {
+                        name: "",
+                        email: "",
+                        contact: "",
+                    },
+                    notes: {
+                        address: "Razorpay Corporate Office",
+                    },
+                    theme: {
+                        color: "#3399cc",
+                    },
+                };
+
+                const paymentObject = new window.Razorpay(options);
+                paymentObject.open();
+            }
+        } catch (error) {
+            console.error("Error during camp registration:", error);
+            toast.error("Registration Error", {
+                description:
+                    "An error occurred during camp registration. Please try again.",
+            });
+        } finally {
+            setIsBookingSheetOpen(false);
+        }
+    };
+
     return (
         <div className="min-h-screen bg-black text-white">
             {/* 1. Full Viewport Video Hero */}
@@ -52,11 +227,11 @@ export default function CampViewPage() {
                         </div> */}
                         <div>
                             {/* <p className="text-sm font-black text-zinc-500 tracking-widest">Price</p> */}
-                            <p className="text-2xl font-black text-white"><IndianRupee className="inline h-5 w-5 -mt-1" /> 19,999 <span className="text-sm text-zinc-400 ml-1">/ Traveller</span></p>
+                            <p className="text-2xl font-black text-white"><IndianRupee className="inline h-5 w-5 -mt-1" /> {campPrice.toLocaleString("en-IN")} <span className="text-sm text-zinc-400 ml-1">/ Traveller</span></p>
                         </div>
                     </div>
                     <div>
-                    <Button className="mr-2 w-full md:w-30 bg-blue-600 hover:bg-blue-700 hover:cursor-pointer text-white font-black tracking-[0.2em] h-10 text-xs shadow-[0_0_20px_rgba(220,38,38,0.3)] p-0">
+                    <Button onClick={() => setIsBookingSheetOpen(true)} className="mr-2 w-full md:w-30 bg-blue-600 hover:bg-blue-700 hover:cursor-pointer text-white font-black tracking-[0.2em] h-10 text-xs shadow-[0_0_20px_rgba(220,38,38,0.3)] p-0">
                         Buy Now
                     </Button>
                     <Button className="mr-2 w-full md:w-30 bg-green-600 hover:bg-green-700 hover:cursor-pointer text-white font-black tracking-[0.2em] h-10 text-xs shadow-[0_0_20px_rgba(220,38,38,0.3)]">
@@ -75,9 +250,9 @@ export default function CampViewPage() {
                     <TabsList className="relative bg-transparent border-zinc-800 w-full justify-start rounded-none h-auto p-0 mb-12 flex gap-8">
                         <TabsTrigger
                             value="hosts"
-                            className="relative px-0 py-6 bg-transparent rounded-xl border-b-2 border-transparent 
+                            className="relative px-0 py-6 bg-transparent rounded-xl border-b-2 border-transparent
                text-sm font-black tracking-[0.1em] text-zinc-500
-               data-[state=active]:dark:text-green-600 
+               data-[state=active]:dark:text-green-600
                hover:text-zinc-200 transition-all duration-300 ease-out hover:cursor-pointer"
                         >
                             Hosts
@@ -85,8 +260,8 @@ export default function CampViewPage() {
 
                         <TabsTrigger
                             value="brief"
-                            className="relative px-0 py-6 bg-transparent rounded-xl border-b-2 border-transparent 
-               text-sm font-black tracking-[0.1em] text-zinc-500 
+                            className="relative px-0 py-6 bg-transparent rounded-xl border-b-2 border-transparent
+               text-sm font-black tracking-[0.1em] text-zinc-500
                data-[state=active]:dark:text-green-600
                hover:text-zinc-200 transition-all duration-300 ease-out hover:cursor-pointer"
                         >
@@ -95,9 +270,9 @@ export default function CampViewPage() {
 
                         <TabsTrigger
                             value="checklist"
-                            className="relative px-0 py-6 bg-transparent rounded-xl border-b-2 border-transparent 
-               text-sm font-black tracking-[0.1em] text-zinc-500 
-               data-[state=active]:dark:text-green-600 
+                            className="relative px-0 py-6 bg-transparent rounded-xl border-b-2 border-transparent
+               text-sm font-black tracking-[0.1em] text-zinc-500
+               data-[state=active]:dark:text-green-600
                hover:text-zinc-200 transition-all duration-300 ease-out hover:cursor-pointer"
                         >
                             Checklist
@@ -153,6 +328,18 @@ export default function CampViewPage() {
                     </div>
                 </div>
             </section>
+
+            <BookingSheet
+                isOpen={isBookingSheetOpen}
+                onClose={() => setIsBookingSheetOpen(false)}
+                campId={campId}
+                price={campPrice}
+                spotsLeft={campSpotsLeft}
+                isFree={isFreeCamp}
+                onPay={handleBooking} // Pass handleBooking to BookingSheet
+            />
+            {/* PolicyDialog is not directly opened by a button, but could be integrated if needed */}
+            <PolicyDialog isOpen={false} onClose={() => {}} />
         </div>
     );
 }
