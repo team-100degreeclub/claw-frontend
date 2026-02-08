@@ -89,7 +89,7 @@ export default function Stories() {
           {STORIES.map((story) => (
             <div 
               key={story.id} 
-              className={`group relative overflow-hidden transition-all border-l-2 pl-4 ${story.brandColor || 'border-zinc-800'} hover:border-white`}
+              className={`group relative overflow-hidden transition-all border-l-2 pl-4 ${story.brandColor || 'border-zinc-800'} hover:border-white hover:cursor-pointer`}
             >
               {/* Image Preview (Small/Compact) */}
               <div className="relative h-64 w-full mb-3 overflow-hidden rounded-sm transition-all">

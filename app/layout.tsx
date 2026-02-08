@@ -25,6 +25,7 @@ export default function RootLayout({
 }: Readonly<{
   children: React.ReactNode;
 }>) {
+  const viewNavbar = false;
   return (
     <html lang="en" suppressHydrationWarning attribute="class">
       <body
@@ -37,7 +38,7 @@ export default function RootLayout({
           disableTransitionOnChange
         >
           <div className="min-h-screen bg-black text-white selection:bg-red-600/30">
-            <Navbar />
+            {viewNavbar && <Navbar />}
             <main className="container mx-auto py-8 px-4 lg:px-0">
               {children}
             </main>

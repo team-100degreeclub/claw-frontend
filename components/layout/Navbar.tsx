@@ -19,11 +19,11 @@ export default function Navbar() {
             alt="C.L.A.W. Logo"
             className="h-10 w-10 rounded-full"
           />
-          <h1 className="text-3xl font-black tracking-tighter text-white">
+          <h1 className="text-xl font-black tracking-tighter text-white">
             C.L.A.W.{"  "}
-            <span className="">
+            {/* <span className="">
               GLOBAL
-            </span>
+            </span> */}
           </h1>
         </div>
 

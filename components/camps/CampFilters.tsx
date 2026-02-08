@@ -43,7 +43,7 @@ export default function CampFilters() {
         </span>
 
         {/* Primary Domain Toggles */}
-        <div className="flex bg-zinc-100 dark:bg-zinc-900 p-1 rounded-full border border-transparent dark:border-zinc-800">
+        <div className="flex bg-zinc-100 dark:bg-zinc-900 p-1 rounded-full border border-transparent dark:border-zinc-800 text-lg">
           <ToggleButton active={domain === "Land"} onClick={() => setDomain("Land")} label="Land" />
           <ToggleButton active={domain === "Air"} onClick={() => setDomain("Air")} label="Air" />
           <ToggleButton active={domain === "Water"} onClick={() => setDomain("Water")} label="Water" />
@@ -125,7 +125,7 @@ export default function CampFilters() {
               <DialogFooter className="sm:justify-start">
                 <DialogClose asChild>
 
-                  <Button className="w-full bg-zinc-200/90 hover:bg-zinc-200/60 hover:cursor-pointer text-black font-black tracking-[0.2em] h-12">
+                  <Button className="flex items-center border-0 bg-zinc-600/30 hover:bg-zinc-600/40 hover:cursor-pointer gap-2 text-sm font-bold tracking-widest text-zinc-300 transition-colors w-full hover:text-white px-4">
                     Apply
                   </Button>
                 </DialogClose>

@@ -115,7 +115,7 @@ export function TacticalCascadeFilter({ title, icon: Icon, data, selection, onSe
                     )}
                 >
                     {/* <Icon className="mr-2 h-4 w-4" /> */}
-                    <span className="text-sm tracking-tighter ">
+                    <span className="text-xs tracking-tighter ">
                         {selection.length === 0 ? title : `${selection[0]} ${selection.length > 1 ? title == "Location" ? selection.slice(1).join(", ") : `+${selection.length - 1}` : ""}`}
                     </span>
                     {/* <ChevronRight className="ml-2 h-3 w-3 opacity-30 group-data-[state=open]:rotate-90 transition-transform" /> */}
