@@ -27,6 +27,12 @@ const PAST_EVENTS = [
   { company: "Samsung Electronics", country: "South Korea" },
   { company: "Emirates", country: "United Arab Emirates" },
   { company: "Atlassian", country: "Australia" },
+  { company: "Zerodha", country: "India" },
+  { company: "Zoho", country: "India" },
+  { company: "Snapchat", country: "India" },
+  { company: "Urban Company", country: "India" },
+  { company: "Boeing", country: "Germany" },
+  { company: "Air India", country: "India" },
 ];
 
 export default function CorporateEvents() {
@@ -62,7 +68,7 @@ export default function CorporateEvents() {
           
           {/* Left Column: Request Form */}
           <div className="bg-zinc-900/50 p-8 rounded-2xl border border-zinc-800">
-            <h2 className="text-2xl font-medium mb-8">Request a camp</h2>
+            <h2 className="text-2xl font-medium mb-8">Request a seminar</h2>
             
             <form className="space-y-6">
               <div className="space-y-2">
@@ -133,7 +139,7 @@ export default function CorporateEvents() {
               </div>
 
               <div className="pt-4 border-t border-zinc-800">
-                <p className="text-sm font-medium mb-4 text-zinc-300">Point of contact for callback</p>
+                <p className="text-sm font-medium mb-4 text-zinc-300">Point of contact</p>
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
                   <div className="relative">
                     <User className="absolute left-3 top-3 h-5 w-5 text-zinc-600" />
@@ -157,11 +163,11 @@ export default function CorporateEvents() {
           </div>
 
           {/* Right Column: Global Footprint */}
-          <div className="flex flex-col justify-center">
-            <h2 className="text-2xl font-medium mb-4">Our global footprint</h2>
-            <p className="text-zinc-400 mb-8 font-light leading-relaxed">
+          <div className="flex flex-col mt-6">
+            <h2 className="text-2xl font-medium mb-10 text-center">Successful Seminars</h2>
+            {/* <p className="text-zinc-400 mb-8 font-light leading-relaxed">
               We have successfully organized and facilitated corporate resilience camps for industry leaders across the globe. Join the network of organizations investing in their human capital.
-            </p>
+            </p> */}
             
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
               {PAST_EVENTS.map((item, idx) => (
@@ -191,18 +197,18 @@ export default function CorporateEvents() {
         <div className="max-w-7xl mx-auto px-6 lg:px-12 text-center md:text-left">
           <div className="grid grid-cols-1 md:grid-cols-2 gap-8 items-center">
             <div>
-              <h3 className="text-lg font-medium mb-4">Office Address</h3>
+              <h3 className="text-lg font-medium mb-4">C.L.A.W's Den</h3>
               <address className="not-italic text-zinc-400 leading-relaxed text-sm">
                 Department of Industries,<br />
                 Majitha House, Near H.P. Secretariat Chhota Shimla,<br />
                 Shimla-2, Himachal Pradesh
               </address>
-            </div>
-            {/* <div className="md:text-right">
-              <p className="text-xs text-zinc-600">
-                © 2026 Corporate Camp Services. All rights reserved.
+              <p className="mt-3 text-zinc-400">
+                Email: <span className="">claw@gmail.com</span>
               </p>
-            </div> */}
+            </div>
+            <div className="md:text-right">
+            </div>
           </div>
         </div>
       </footer>

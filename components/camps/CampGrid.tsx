@@ -53,10 +53,180 @@ export const MOCK_CAMPS = [
     seatsLeft: "5",
     totalSeats: "10",
   },
+  // New Camps from instructions.md
+  {
+    id: "5",
+    title: "Talk under the stars",
+    environment: "Conversation",
+    specialization: "Conversation",
+    location: "Various",
+    date: "Ongoing",
+    status: "Open",
+    image: "https://images.unsplash.com/photo-1527871899604-f1425bcce779?auto=format&fit=crop&q=80&w=800",
+    price: "25,000", // Fixed price
+    seatsLeft: "8",
+    totalSeats: "15",
+  },
+  {
+    id: "6",
+    title: "Five shots, five deaths",
+    environment: "Conversation",
+    specialization: "Conversation",
+    location: "Various",
+    date: "Ongoing",
+    status: "Open",
+    image: "https://images.unsplash.com/photo-1551847609-5aaf21a58ebc?auto=format&fit=crop&q=80&w=800",
+    price: "30,000", // Fixed price
+    seatsLeft: "5",
+    totalSeats: "10",
+  },
+  {
+    id: "7",
+    title: "Lost my buddy",
+    environment: "Conversation",
+    specialization: "Conversation",
+    location: "Various",
+    date: "Ongoing",
+    status: "Open",
+    image: "https://images.unsplash.com/photo-1515187029135-18ee286d815b?auto=format&fit=crop&q=80&w=800",
+    price: "18,500", // Fixed price
+    seatsLeft: "12",
+    totalSeats: "18",
+  },
+  {
+    id: "8",
+    title: "Dinner at my home",
+    environment: "Conversation",
+    specialization: "Conversation",
+    location: "Various",
+    date: "Ongoing",
+    status: "Open",
+    image: "https://images.unsplash.com/photo-1569435998017-abb5d562dedf?auto=format&fit=crop&q=80&w=800",
+    price: "35,000", // Fixed price
+    seatsLeft: "7",
+    totalSeats: "12",
+  },
+  {
+    id: "9",
+    title: "50 is the new 20",
+    environment: "Conversation",
+    specialization: "Conversation",
+    location: "Various",
+    date: "Ongoing",
+    status: "Open",
+    image: "https://images.unsplash.com/photo-1610070835951-156b6921281d?auto=format&fit=crop&q=80&w=800",
+    price: "20,000", // Fixed price
+    seatsLeft: "9",
+    totalSeats: "15",
+  },
+  {
+    id: "10",
+    title: "Stories from the field",
+    environment: "Conversation",
+    specialization: "Conversation",
+    location: "Various",
+    date: "Ongoing",
+    status: "Open",
+    image: "https://images.unsplash.com/photo-1533107871321-c30c82252a17?auto=format&fit=crop&q=80&w=800",
+    price: "28,000", // Fixed price
+    seatsLeft: "6",
+    totalSeats: "10",
+  },
+  {
+    id: "11",
+    title: "Trekking the Himalayas",
+    environment: "Conversation",
+    specialization: "Conversation",
+    location: "Various",
+    date: "Ongoing",
+    status: "Open",
+    image: "https://images.unsplash.com/photo-1533107871321-c30c82252a17?auto=format&fit=crop&q=80&w=800",
+    price: "38,000", // Fixed price
+    seatsLeft: "4",
+    totalSeats: "8",
+  },
+  {
+    id: "12",
+    title: "Gardening at my farm",
+    environment: "Conversation",
+    specialization: "Conversation",
+    location: "Various",
+    date: "Ongoing",
+    status: "Open",
+    image: "https://images.unsplash.com/photo-1533107871321-c30c82252a17?auto=format&fit=crop&q=80&w=800",
+    price: "16,000", // Fixed price
+    seatsLeft: "10",
+    totalSeats: "15",
+  },
+  {
+    id: "13",
+    title: "By the river",
+    environment: "Conversation",
+    specialization: "Conversation",
+    location: "Various",
+    date: "Ongoing",
+    status: "Open",
+    image: "https://images.unsplash.com/photo-1533107871321-c30c82252a17?auto=format&fit=crop&q=80&w=800",
+    price: "22,000", // Fixed price
+    seatsLeft: "11",
+    totalSeats: "18",
+  },
+  {
+    id: "14",
+    title: "Cycling the North East",
+    environment: "Conversation",
+    specialization: "Conversation",
+    location: "Various",
+    date: "Ongoing",
+    status: "Open",
+    image: "https://images.unsplash.com/photo-1533107871321-c30c82252a17?auto=format&fit=crop&q=80&w=800",
+    price: "33,000", // Fixed price
+    seatsLeft: "3",
+    totalSeats: "5",
+  },
+  {
+    id: "15",
+    title: "Cleaning Ladakh",
+    environment: "Conversation",
+    specialization: "Conversation",
+    location: "Various",
+    date: "Ongoing",
+    status: "Open",
+    image: "https://images.unsplash.com/photo-1533107871321-c30c82252a17?auto=format&fit=crop&q=80&w=800",
+    price: "27,000", // Fixed price
+    seatsLeft: "8",
+    totalSeats: "12",
+  },
+  {
+    id: "16",
+    title: "A journey within",
+    environment: "Conversation",
+    specialization: "Conversation",
+    location: "Various",
+    date: "Ongoing",
+    status: "Open",
+    image: "https://images.unsplash.com/photo-1533107871321-c30c82252a17?auto=format&fit=crop&q=80&w=800",
+    price: "19,000", // Fixed price
+    seatsLeft: "15",
+    totalSeats: "18",
+  },
+  {
+    id: "17",
+    title: "Let’s cook together",
+    environment: "Conversation",
+    specialization: "Conversation",
+    location: "Various",
+    date: "Ongoing",
+    status: "Open",
+    image: "https://images.unsplash.com/photo-1533107871321-c30c82252a17?auto=format&fit=crop&q=80&w=800",
+    price: "26,000", // Fixed price
+    seatsLeft: "7",
+    totalSeats: "10",
+  },
 ];
 
 export default function CampGrid() {
-  const camps = MOCK_CAMPS; 
+  const camps = MOCK_CAMPS;
 
   if (camps.length === 0) {
     return (

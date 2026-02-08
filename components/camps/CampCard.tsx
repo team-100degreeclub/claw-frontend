@@ -34,7 +34,7 @@ export function CampCard({ camp, documentStatus }: { camp: Camp; documentStatus?
         {/* Environment/Focus Badge - Overlaid like Red Bull partner logos */}
         <div className="absolute bottom-3 left-3">
           <Badge className="bg-white/90 dark:bg-black/80 text-black dark:text-white border-none font-black text-[9px] tracking-widest px-2 py-1 backdrop-blur-sm">
-            {camp.environment} / {camp.specialization}
+            {camp.environment.toString() === "Conversation" ? "Conversation" : camp.environment + "/" + camp.specialization}
           </Badge>
         </div>
       </div>

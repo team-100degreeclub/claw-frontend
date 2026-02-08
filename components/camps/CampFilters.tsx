@@ -8,6 +8,7 @@ import { Button } from "@/components/ui/button";
 import { Dialog, DialogClose, DialogContent, DialogFooter, DialogHeader, DialogTitle, DialogTrigger } from "@/components/ui/dialog";
 import { Slider } from "@/components/ui/slider"; // Ensure Shadcn Slider is installed
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
+import { Toggle } from "@/components/ui/toggle"
 
 const LOCATION_DATA = [
   {
@@ -29,15 +30,37 @@ export default function CampFilters() {
   const [locations, setLocations] = React.useState<string[]>(["India"]);
   const [domain, setDomain] = React.useState("Land");
   const [focus, setFocus] = React.useState<string[]>([]);
-  const [timeframe, setTimeframe] = React.useState("upcoming");
+  const [timeframe, setTimeframe] = React.useState("preregistrations");
 
   // New Filter States
   const [ageRange, setAgeRange] = React.useState([18, 60]);
   const [gender, setGender] = React.useState("all");
 
   return (
-    <div className="flex items-center gap-6 bg-white dark:bg-zinc-950 p-4 rounded-xl shadow-sm border border-zinc-100 dark:border-zinc-800 w-full transition-colors">
-      <div className="flex items-center gap-4 flex-1">
+    <div className="flex items-center gap-1 bg-white dark:bg-zinc-950 p-4 rounded-xl shadow-sm border border-zinc-100 dark:border-zinc-800 w-full transition-colors">
+      <div className="flex items-center gap-2 flex-1">
+        <Toggle
+          className={cn(
+            // Base Styling (Light Mode & General)
+            "px-6 py-2 h-auto rounded-full font-black tracking-widest text-[10px] transition-all duration-300",
+            "border-2 border-zinc-200 bg-transparent text-white hover:bg-zinc-100 hover:text-black",
+
+            // Dark Mode Styling
+            "dark:border-zinc-800 dark:text-white",
+            "dark:hover:bg-zinc-800 dark:hover:text-white ",
+
+            // Active/Pressed State (Red Bull / CLAW Red)
+            "data-[state=on]:bg-blue-600 data-[state=on]:border-blue-600 data-[state=on]:text-white dark:data-[state=on]:text-white",
+            "dark:data-[state=on]:hover:text-white",
+            "data-[state=on]:scale-110 data-[state=on]:zoom-in-95 data-[state=on]:duration-300",
+
+            "hover:cursor-pointer",
+          )}
+        >
+          Let's Talk
+
+        </Toggle>
+        <div className="h-8 w-[1px] bg-zinc-100 dark:bg-zinc-800 mx-2" />
         <span className="text-[10px] font-black tracking-widest text-zinc-900 dark:text-white">
           Conquer
         </span>
@@ -138,18 +161,18 @@ export default function CampFilters() {
       <div className="h-8 w-[1px] bg-zinc-100 dark:bg-zinc-800 mx-2" />
 
       {/* Status Toggles */}
-      <div className="ml-auto flex bg-zinc-100 dark:bg-zinc-900 p-1 rounded-full border border-transparent dark:border-zinc-800">
-        <ToggleButton active={timeframe === "upcoming"} onClick={() => setTimeframe("upcoming")} label="Upcoming" />
+      <div className="flex bg-zinc-100 dark:bg-zinc-900 p-1 rounded-full border border-transparent dark:border-zinc-800">
+        <ToggleButton active={timeframe === "preregistrations"} onClick={() => setTimeframe("preregistrations")} label="Pre-registrations" />
         <ToggleButton active={timeframe === "live"} onClick={() => setTimeframe("live")} label="Live" />
-        <ToggleButton active={timeframe === "past"} onClick={() => setTimeframe("past")} label="Past" />
+        {/* <ToggleButton active={timeframe === "past"} onClick={() => setTimeframe("past")} label="Past" /> */}
       </div>
 
       <Button
-          variant="default"
-            className="flex items-center border-0 bg-green-600/60 hover:bg-green-600/80 hover:cursor-pointer gap-2 text-sm font-bold tracking-widest text-white transition-colors hover:text-white px-4"
-          >
-            Volunteer
-          </Button>
+        variant="default"
+        className="flex items-center border-0 bg-green-600/60 hover:bg-green-600/80 hover:cursor-pointer gap-2 text-sm font-bold tracking-widest text-white transition-colors hover:text-white px-4"
+      >
+        Volunteer
+      </Button>
     </div>
   );
 }

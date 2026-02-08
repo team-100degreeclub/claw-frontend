@@ -19,6 +19,7 @@ export default function Leaderboard() {
         {/* <ToggleButton active={selectedTab === "operationBlueFreedom"} onClick={() => setSelectedTab("operationBlueFreedom")} label="Operation Blue Freedom" /> */}
         <ToggleButton active={selectedTab === "stories"} onClick={() => setSelectedTab("stories")} label="Stories" />
         <ToggleButton active={selectedTab === "insignia"} onClick={() => setSelectedTab("insignia")} label="Insignia" className="w-full" />
+        <ToggleButton active={selectedTab === "past_camps"} onClick={() => setSelectedTab("past_camps")} label="Past Camps" className="w-full" />
       </div>
       </div>
       {/* {
@@ -29,6 +30,9 @@ export default function Leaderboard() {
       }
       {
         selectedTab === "insignia" && <Insignia />
+      }
+      {
+        selectedTab === "past_camps" && <Insignia />
       }
       
     </div>

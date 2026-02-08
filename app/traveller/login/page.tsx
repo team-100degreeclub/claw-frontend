@@ -9,10 +9,49 @@ import { Shield, Target, ChevronRight, MapPin, Award } from "lucide-react";
 export default function LoginPage() {
   const [step, setStep] = React.useState<"email" | "otp">("email");
   const [email, setEmail] = React.useState("");
+  const [otp, setOtp] = React.useState<string[]>(Array(6).fill(""));
+  const inputRefs = React.useRef<Array<HTMLInputElement | null>>([]);
 
   const handleEmailSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     if (email) setStep("otp");
+  };
+
+  const handleChange = (
+    e: React.ChangeEvent<HTMLInputElement>,
+    index: number
+  ) => {
+    const value = e.target.value;
+    if (/[0-9]/.test(value) || value === "") {
+      const newOtp = [...otp];
+      newOtp[index] = value;
+      setOtp(newOtp);
+
+      // Auto-tab to the next field if a digit is entered and it's not the last field
+      if (value && index < 5) {
+        inputRefs.current[index + 1]?.focus();
+      }
+    }
+  };
+
+  const handleKeyDown = (
+    e: React.KeyboardEvent<HTMLInputElement>,
+    index: number
+  ) => {
+    if (e.key === "Backspace") {
+      if (otp[index] === "" && index > 0) {
+        // If backspace is pressed and current field is empty, move to previous field and clear it
+        inputRefs.current[index - 1]?.focus();
+        const newOtp = [...otp];
+        newOtp[index - 1] = "";
+        setOtp(newOtp);
+      } else if (otp[index] !== "") {
+        // If backspace is pressed and current field has content, clear current field
+        const newOtp = [...otp];
+        newOtp[index] = "";
+        setOtp(newOtp);
+      }
+    }
   };
 
   return (
@@ -35,7 +74,12 @@ export default function LoginPage() {
           {/* <div className="p-2.5 bg-red-600 rounded-lg shadow-[0_0_15px_rgba(220,38,38,0.4)]">
             <Target className="h-6 w-6 text-white" />
           </div> */}
-          <span className="text-3xl font-black tracking-tighter text-white ">C.L.A.W.</span>
+          <img
+            src="https://pbs.twimg.com/profile_images/1221190646850965504/MyqCrr0y_400x400.jpg"
+            alt="C.L.A.W. Logo"
+            className="h-10 w-10 rounded-full"
+          />
+          <span className="text-3xl font-bold text-white">C.L.A.W.</span>
         </div>
 
         {/* Center: Floating Mission Dossier Card */}
@@ -144,12 +188,16 @@ export default function LoginPage() {
                     We've sent an email with your code to {email}
                   </label>
                   <div className="flex gap-2 justify-between">
-                    {[1, 2, 3, 4, 5, 6].map((i) => (
+                    {[0, 1, 2, 3, 4, 5].map((index) => (
                       <input
-                        key={i}
+                        key={index}
                         type="text"
                         maxLength={1}
                         className="w-full h-14 bg-zinc-900 border border-zinc-800 rounded-lg text-center text-xl font-black text-white focus:border-red-600 outline-none transition-all"
+                        value={otp[index]}
+                        onChange={(e) => handleChange(e, index)}
+                        onKeyDown={(e) => handleKeyDown(e, index)}
+                        ref={(el) => (inputRefs.current[index] = el)}
                       />
                     ))}
                   </div>

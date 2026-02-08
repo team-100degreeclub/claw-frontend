@@ -1,7 +1,7 @@
 "use client";
 
 import { Button } from "@/components/ui/button";
-import { Moon, PlayCircle, Sun, User } from "lucide-react";
+import { HomeIcon, Moon, PlayCircle, Sun, User } from "lucide-react";
 import { useTheme } from "next-themes";
 import { useRouter } from "next/navigation";
 
@@ -14,6 +14,12 @@ export default function Navbar() {
       <div className="container mx-auto flex h-20 items-center justify-between px-4">
         {/* Brand Logo */}
         <div className="flex items-center gap-2">
+            <Button
+              variant="link"
+              className="ml-10 flex items-center border-0 hover:bg-zinc-600/30 hover:cursor-pointer gap-2 text-sm font-bold tracking-widest text-zinc-300 transition-colors hover:text-white px-4"
+            >
+              <HomeIcon className="h-4 w-4" />
+            </Button>
           <img
             src="https://pbs.twimg.com/profile_images/1221190646850965504/MyqCrr0y_400x400.jpg"
             alt="C.L.A.W. Logo"
@@ -21,23 +27,23 @@ export default function Navbar() {
           />
           <h1 className="text-xl font-black tracking-tighter text-white">
             C.L.A.W.{"  "}
-            {/* <span className="">
+            <span className="ml-1">
               GLOBAL
-            </span> */}
+            </span>
           </h1>
         </div>
 
         {/* Right Actions */}
         <div className="flex items-center gap-4">
           <Button
-          variant="default"
-          onClick={() => router.push("/corporate-events")}
+            variant="default"
+            onClick={() => router.push("/corporate-events")}
             className="flex items-center border-0 bg-zinc-600/30 hover:bg-zinc-600/40 hover:cursor-pointer gap-2 text-sm font-bold tracking-widest text-zinc-300 transition-colors hover:text-white px-4"
           >
             Invite Us
           </Button>
           <Button
-          variant="default"
+            variant="default"
             className="flex items-center border-0 bg-blue-600/60 hover:bg-blue-600/80 hover:cursor-pointer gap-2 text-sm font-bold tracking-widest text-zinc-300 transition-colors hover:text-white px-4"
           >
             Operation Blue Freedom

@@ -1,6 +1,6 @@
 "use client";
 
-import { MapPin, Calendar, Users, IndianRupee, Clock, ChevronRight } from "lucide-react";
+import { MapPin, Calendar, Users, IndianRupee, Clock, ChevronRight, Share2, Share2Icon } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { CampCard } from "@/components/camps/CampCard";
@@ -44,7 +44,7 @@ export default function CampViewPage() {
                     <InfoItem icon={<Users className="text-red-600" />} label="Slots Remaining" value="1/10" />
                 </div>
 
-                <div className="mt-8 pt-8 border-t border-zinc-800 flex flex-col md:flex-row justify-between items-center gap-6">
+                <div className="mt-8 pt-8 border-t border-zinc-800 flex flex-col md:flex-row justify-between items-center gap-6 ">
                     <div className="flex gap-10">
                         {/* <div>
                             <p className="text-[10px] font-black text-zinc-500 tracking-widest">Slots Remaining</p>
@@ -56,11 +56,14 @@ export default function CampViewPage() {
                         </div>
                     </div>
                     <div>
-                    <Button className="mr-2 w-full md:w-40 bg-blue-600 hover:bg-blue-700 hover:cursor-pointer text-white font-black tracking-[0.2em] h-10 text-sm shadow-[0_0_20px_rgba(220,38,38,0.3)] p-0">
+                    <Button className="mr-2 w-full md:w-30 bg-blue-600 hover:bg-blue-700 hover:cursor-pointer text-white font-black tracking-[0.2em] h-10 text-xs shadow-[0_0_20px_rgba(220,38,38,0.3)] p-0">
                         Buy Now
                     </Button>
-                    <Button className="w-full md:w-40 bg-green-600 hover:bg-green-700 hover:cursor-pointer text-white font-black tracking-[0.2em] h-10 text-sm shadow-[0_0_20px_rgba(220,38,38,0.3)]">
+                    <Button className="mr-2 w-full md:w-30 bg-green-600 hover:bg-green-700 hover:cursor-pointer text-white font-black tracking-[0.2em] h-10 text-xs shadow-[0_0_20px_rgba(220,38,38,0.3)]">
                         Volunteer
+                    </Button>
+                    <Button className="w-fit md:w-30 bg-zinc-700 hover:bg-zinc-800 hover:cursor-pointer text-white font-black tracking-[0.2em] h-10 text-xs">
+                        Share <Share2Icon className="mr-2 h-4 w-4" />
                     </Button>
                     </div>
                 </div>

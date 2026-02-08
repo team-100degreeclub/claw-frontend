@@ -2,8 +2,8 @@ import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
 import { ThemeProvider } from "@/components/theme-provider";
-import Navbar from "@/components/layout/Navbar";
 import Footer from "@/components/layout/Footer";
+import { NavbarWrapper } from "@/components/layout/NavbarWrapper";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -25,7 +25,6 @@ export default function RootLayout({
 }: Readonly<{
   children: React.ReactNode;
 }>) {
-  const viewNavbar = false;
   return (
     <html lang="en" suppressHydrationWarning attribute="class">
       <body
@@ -38,10 +37,11 @@ export default function RootLayout({
           disableTransitionOnChange
         >
           <div className="min-h-screen bg-black text-white selection:bg-red-600/30">
-            {viewNavbar && <Navbar />}
-            <main className="container mx-auto py-8 px-4 lg:px-0">
-              {children}
-            </main>
+            <NavbarWrapper>
+              <main className="container mx-auto py-8 px-4 lg:px-0">
+                {children}
+              </main>
+            </NavbarWrapper>
             {/* <Footer /> */}
           </div>
         </ThemeProvider>
