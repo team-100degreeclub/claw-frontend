@@ -1,7 +1,7 @@
 // src/lib/api/services/camps.ts
 import { apiClient } from '../client';
 import { CampListItem, CampDetailsResponse } from '../models/camps';
-import { CampFilters } from '@/context/CampFilterContext';
+import { CampFilters } from '@/components/context/CampFilterContext';
 import { format } from 'date-fns';
 
 export const campService = {

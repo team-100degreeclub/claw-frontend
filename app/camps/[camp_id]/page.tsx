@@ -65,7 +65,7 @@ export default function CampViewPage() {
     // Placeholder for actual camp data. In a real app, this would be fetched from an API.
     const campPrice = 19999;
     const campSpotsLeft = 5; // Assuming '1/10' means 1 spot left
-    const isFreeCamp = campPrice === '0';
+    const isFreeCamp = false;
 
     // Placeholder for useAuth hook. In a real app, this would be a proper context.
     const { isAuthenticated } = { isAuthenticated: true }; // Assuming user is always authenticated for now
