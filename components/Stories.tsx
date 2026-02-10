@@ -4,13 +4,27 @@ import { ScrollArea } from "@/components/ui/scroll-area"; // Assuming shadcn/ui
 import { Badge } from "@/components/ui/badge";
 import { ExternalLink, Clock, Newspaper } from "lucide-react";
 
-const STORIES = [
+interface Story {
+  id: number;
+  category?: string;
+  brand?: string;
+  title: string;
+  excerpt: string;
+  videoUrl: string;
+  image: string; // Now required
+  type: string;
+  date?: string;
+  brandColor?: string;
+}
+
+const STORIES: Story[] = [
   {
     id: 1,
     category: "Collaboration",
     title: "Major Jacob's Story - Joe Rogan",
     excerpt: "How a career in the shadows led to the creation of a global mental resilience platform.",
     videoUrl: "https://www.youtube.com/embed/Q2UIwPyx9_0?autoplay=1&mute=1&controls=0&loop=1&playlist=Q2UIwPyx9_0",
+    image: "/hero_image.jpg",
     type: "Founder",
     date: "1h ago"
   },
@@ -20,6 +34,7 @@ const STORIES = [
     title: "What is C.L.A.W.",
     excerpt: "Born from elite special forces training, C.L.A.W. is redefining tactical psychological endurance...",
     videoUrl: "https://www.youtube.com/embed/IOErA5UpyhY?autoplay=1&mute=1&controls=0&loop=1&playlist=IOErA5UpyhY",
+    image: "/hero_image.jpg",
     type: "Company",
     date: "2m ago"
   },
@@ -29,6 +44,7 @@ const STORIES = [
     title: "Aviator Tactical: Sight Beyond Vision",
     excerpt: "Official eyewear for the Maritime Stealth mission. Polarized for high-glare naval operations.",
     videoUrl: "https://www.youtube.com/embed/LDsI6l5GCVo?autoplay=1&mute=1&controls=0&loop=1&playlist=LDsI6l5GCVo",
+    image: "/hero_image.jpg",
     type: "Promotion",
     brandColor: "border-red-600"
   },
@@ -38,6 +54,7 @@ const STORIES = [
     title: "Master of G: The Mudmaster Protocol",
     excerpt: "The only timepiece capable of withstanding the vibration of a KTM extraction.",
     videoUrl: "https://www.youtube.com/embed/Q2UIwPyx9_0?autoplay=1&mute=1&controls=0&loop=1&playlist=Q2UIwPyx9_0",
+    image: "/hero_image.jpg",
     type: "Promotion",
     brandColor: "border-orange-500"
   },
@@ -47,6 +64,7 @@ const STORIES = [
     title: "Global Resilience Framework 2026",
     excerpt: "Partnering with C.L.A.W. to set new standards for civilian psychological first aid.",
     videoUrl: "https://www.youtube.com/embed/IOErA5UpyhY?autoplay=1&mute=1&controls=0&loop=1&playlist=IOErA5UpyhY",
+    image: "/hero_image.jpg",
     type: "Collaboration",
     brandColor: "border-blue-500"
   },
@@ -56,6 +74,7 @@ const STORIES = [
     title: "The Founding Team",
     excerpt: "Testing the limits of ergonomic hardware in high-stress simulation environments.",
     videoUrl: "https://www.youtube.com/embed/LDsI6l5GCVo?autoplay=1&mute=1&controls=0&loop=1&playlist=LDsI6l5GCVo",
+    image: "/hero_image.jpg",
     type: "Promotion",
     brandColor: "border-zinc-100"
   },
@@ -65,6 +84,7 @@ const STORIES = [
     title: "Black Ops Brew: Stay Sharp",
     excerpt: "The fuel behind the 3:00 AM planning sessions. Pure caffeine, zero compromise.",
     videoUrl: "https://www.youtube.com/embed/Q2UIwPyx9_0?autoplay=1&mute=1&controls=0&loop=1&playlist=Q2UIwPyx9_0",
+    image: "/hero_image.jpg",
     type: "Promotion",
     brandColor: "border-yellow-900"
   }

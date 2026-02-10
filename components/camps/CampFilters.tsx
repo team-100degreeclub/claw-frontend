@@ -36,6 +36,7 @@ export default function CampFilters({ isLetsTalkActive, onToggleLetsTalk }: { is
   const [domain, setDomain] = React.useState("Land");
   const [focus, setFocus] = React.useState<string[]>([]);
   const [timeframe, setTimeframe] = React.useState("preregistrations");
+  const [activeMode, setActiveMode] = React.useState<"Spirit Roads" | "Adventure">("Spirit Roads"); // New state for the mode toggle
 
   // New Filter States
   const [ageRange, setAgeRange] = React.useState([18, 60]);
@@ -43,48 +44,37 @@ export default function CampFilters({ isLetsTalkActive, onToggleLetsTalk }: { is
   const [date, setDate] = React.useState<Date>();
   const [weekendCamps, setWeekendCamps] = React.useState(false);
 
+  React.useEffect(() => {
+    if (activeMode === "Spirit Roads") {
+      onToggleLetsTalk(true);
+      setDomain(""); // Deselect Land/Air/Water
+    } else { // activeMode === "Adventure"
+      onToggleLetsTalk(false);
+      setDomain("Land"); // Select Land by default for Adventure
+    }
+  }, [activeMode]);
+
   return (
     <div className="flex items-center gap-1 bg-white dark:bg-zinc-950 p-4 rounded-xl shadow-sm border border-zinc-100 dark:border-zinc-800 w-full transition-colors">
       <div className="flex items-center gap-2 flex-1">
-      <Toggle
-          pressed={isLetsTalkActive}
-          onPressedChange={(pressed) => {
-            onToggleLetsTalk(pressed);
-            if (pressed) {
-              setDomain(""); // Deselect Land/Air/Water when Spirit Roads is active
-            }
-          }}
-          className={cn(
-            // Base Styling (Light Mode & General)
-            "px-6 py-2 h-auto rounded-full font-black tracking-widest text-[10px] transition-all duration-300",
-            "border-2 border-zinc-200 bg-transparent text-white hover:bg-zinc-100 hover:text-black",
+      {/* New Mode Toggles: Spirit Roads / Adventure */}
+      <div className="flex bg-zinc-100 dark:bg-zinc-900 p-1 rounded-full border border-transparent dark:border-zinc-800 text-lg">
+        <ToggleButton active={activeMode === "Spirit Roads"} onClick={() => setActiveMode("Spirit Roads")} label="Spirit Roads" />
+        <ToggleButton active={activeMode === "Adventure"} onClick={() => setActiveMode("Adventure")} label="Adventure" />
+      </div>
 
-            // Dark Mode Styling
-            "dark:border-zinc-800 dark:text-white",
-            "dark:hover:bg-zinc-800 dark:hover:text-white ",
-
-            // Active/Pressed State (Red Bull / CLAW Red)
-            "data-[state=on]:bg-blue-600 data-[state=on]:border-blue-600 data-[state=on]:text-white dark:data-[state=on]:text-white",
-            "dark:data-[state=on]:hover:text-white",
-            "data-[state=on]:scale-110 data-[state=on]:zoom-in-95 data-[state=on]:duration-300",
-
-            "hover:cursor-pointer",
-          )}
-        >
-          Spirit Roads
-
-        </Toggle>
+      {activeMode === "Adventure" && (
+        <>
         <div className="h-8 w-[1px] bg-zinc-100 dark:bg-zinc-800 mx-2" />
-        <span className="text-[10px] font-black tracking-widest text-zinc-900 dark:text-white">
-          Conquer
-        </span>
-
-        {/* Primary Domain Toggles */}
-        <div className="flex bg-zinc-100 dark:bg-zinc-900 p-1 rounded-full border border-transparent dark:border-zinc-800 text-lg">
-          <ToggleButton active={domain === "Land"} onClick={() => { setDomain("Land"); onToggleLetsTalk(false); }} label="Land" />
-          <ToggleButton active={domain === "Air"} onClick={() => { setDomain("Air"); onToggleLetsTalk(false); }} label="Air" />
-          <ToggleButton active={domain === "Water"} onClick={() => { setDomain("Water"); onToggleLetsTalk(false); }} label="Water" />
-        </div>
+        
+          <span className="text-xs font-semibold">Conquer</span>
+          <div className="flex bg-zinc-100 dark:bg-zinc-900 p-1 rounded-full border border-transparent dark:border-zinc-800 text-lg">
+            <ToggleButton active={domain === "Land"} onClick={() => setDomain("Land")} label="Land" />
+            <ToggleButton active={domain === "Air"} onClick={() => setDomain("Air")} label="Air" />
+            <ToggleButton active={domain === "Water"} onClick={() => setDomain("Water")} label="Water" />
+          </div>
+        </>
+      )}
 
         {/* <TacticalCascadeFilter
           title="Focus Area"

@@ -231,15 +231,15 @@ export default function CampViewPage() {
                         </div>
                     </div>
                     <div>
-                    <Button onClick={() => setIsBookingSheetOpen(true)} className="mr-2 w-full md:w-30 bg-blue-600 hover:bg-blue-700 hover:cursor-pointer text-white font-black tracking-[0.2em] h-10 text-xs shadow-[0_0_20px_rgba(220,38,38,0.3)] p-0">
-                        Buy Now
-                    </Button>
-                    <Button disabled className="mr-2 w-full md:w-30 bg-green-600 hover:bg-green-700 hover:cursor-pointer text-white font-black tracking-[0.2em] h-10 text-xs shadow-[0_0_20px_rgba(220,38,38,0.3)]">
-                        Volunteer
-                    </Button>
-                    <Button className="w-fit md:w-30 bg-zinc-700 hover:bg-zinc-800 hover:cursor-pointer text-white font-black tracking-[0.2em] h-10 text-xs">
-                        Share <Share2Icon className="mr-2 h-4 w-4" />
-                    </Button>
+                        <Button onClick={() => setIsBookingSheetOpen(true)} className="mr-2 w-full md:w-30 bg-blue-600 hover:bg-blue-700 hover:cursor-pointer text-white font-black tracking-[0.2em] h-10 text-xs shadow-[0_0_20px_rgba(220,38,38,0.3)] p-0">
+                            Buy Now
+                        </Button>
+                        <Button disabled className="mr-2 w-full md:w-30 bg-green-600 hover:bg-green-700 hover:cursor-pointer text-white font-black tracking-[0.2em] h-10 text-xs shadow-[0_0_20px_rgba(220,38,38,0.3)]">
+                            Volunteer
+                        </Button>
+                        <Button className="w-fit md:w-30 bg-zinc-700 hover:bg-zinc-800 hover:cursor-pointer text-white font-black tracking-[0.2em] h-10 text-xs">
+                            Share <Share2Icon className="mr-2 h-4 w-4" />
+                        </Button>
                     </div>
                 </div>
             </div>
@@ -311,7 +311,7 @@ export default function CampViewPage() {
                     <TabsContent value="checklist" className="prose prose-invert">
                         {/* <h3 className="text-2xl font-black tracking-tighter mb-4">Checklist</h3> */}
                         <p className="text-zinc-400 leading-relaxed text-lg">Please review all details carefully before attending. Ensure you have completed your registration, shared any required personal or emergency information, and confirmed the camp date, time, and location. Arrive on time and follow the schedule shared by the host. Carry a valid ID, any passes or confirmations sent to you, and keep your phone charged for updates or coordination. Dress appropriately for the nature of the camp and the activities planned, and bring any personal essentials you may need during the event. If meals are included, note the timings and inform the organizers in advance about any dietary restrictions or allergies. Follow all safety instructions given by the host, respect fellow participants, and adhere to the code of conduct throughout the camp. In case of any discomfort, emergency, or uncertainty, immediately reach out to the camp organizers or designated point of contact.
-                            </p>
+                        </p>
                     </TabsContent>
                 </Tabs>
             </section>
@@ -339,7 +339,7 @@ export default function CampViewPage() {
                 onPay={handleBooking} // Pass handleBooking to BookingSheet
             />
             {/* PolicyDialog is not directly opened by a button, but could be integrated if needed */}
-            <PolicyDialog isOpen={false} onClose={() => {}} />
+            <PolicyDialog isOpen={false} onClose={() => { }} />
         </div>
     );
 }
@@ -361,8 +361,8 @@ function InfoItem({ icon, label, value, subValue, href }: any) {
                     </a>
                 ) : (
                     <>
-                    <p className="text-sm font-bold tracking-tight">{value}</p>
-                    <p className="text-[11px] font-bold text-zinc-400">{subValue}</p>
+                        <p className="text-sm font-bold tracking-tight">{value}</p>
+                        <p className="text-[11px] font-bold text-zinc-400">{subValue}</p>
                     </>
                 )}
             </div>
