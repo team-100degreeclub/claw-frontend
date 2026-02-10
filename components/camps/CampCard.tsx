@@ -8,7 +8,7 @@ import { Camp } from "@/types/camp";
 
 type DocumentStatus = 'Pending' | 'Uploaded' | 'Verified' | 'Rejected';
 
-export function CampCard({ camp, documentStatus }: { camp: Camp; documentStatus?: DocumentStatus }) {
+export function CampCard({ camp, documentStatus, onCardClick }: { camp: Camp; documentStatus?: DocumentStatus; onCardClick?: () => void }) {
   const router = useRouter();
   // Logic for the tactical status icon
   const getStatusContent = (status: string) => {
@@ -55,7 +55,7 @@ export function CampCard({ camp, documentStatus }: { camp: Camp; documentStatus?
   return (
     <div
       className="group flex flex-col min-w-[300px] bg-white dark:bg-zinc-950 rounded-xl overflow-hidden shadow-sm border border-zinc-100 dark:border-zinc-900 transition-all hover:shadow-xl hover:-translate-y-1 cursor-pointer"
-      onClick={() => router.push(`/camps/${camp.id}`)}
+      onClick={onCardClick || (() => router.push(`/camps/${camp.id}`))}
     >
       {/* 1. Tactical Visual Section */}
       <div className="relative aspect-[16/10] overflow-hidden">

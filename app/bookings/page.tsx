@@ -1,6 +1,9 @@
+"use client";
+
 // app/my-bookings/page.tsx
 import { CampCard } from "@/components/camps/CampCard";
 import { MOCK_BOOKINGS } from "@/lib/mockBookings";
+import { useRouter } from "next/navigation";
 import {
   Table,
   TableBody,
@@ -13,6 +16,7 @@ import {
 export default function MyBookingsPage() {
   const bookings = MOCK_BOOKINGS;
   const refunds = MOCK_BOOKINGS.filter(booking => booking.refundInfo);
+  const router = useRouter();
 
   return (
     <div className="container mx-auto py-8">
@@ -29,7 +33,8 @@ export default function MyBookingsPage() {
             <CampCard 
               key={booking.camp.id} 
               camp={booking.camp} 
-              documentStatus={booking.documentsUploaded} 
+              documentStatus={booking.documentsUploaded}
+              onCardClick={() => router.push("/tickets")}
             />
           ))}
         </div>

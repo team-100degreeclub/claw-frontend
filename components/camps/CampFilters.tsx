@@ -46,13 +46,18 @@ export default function CampFilters({ isLetsTalkActive, onToggleLetsTalk }: { is
   return (
     <div className="flex items-center gap-1 bg-white dark:bg-zinc-950 p-4 rounded-xl shadow-sm border border-zinc-100 dark:border-zinc-800 w-full transition-colors">
       <div className="flex items-center gap-2 flex-1">
-        <Toggle
+      <Toggle
           pressed={isLetsTalkActive}
-          onPressedChange={onToggleLetsTalk}
+          onPressedChange={(pressed) => {
+            onToggleLetsTalk(pressed);
+            if (pressed) {
+              setDomain(""); // Deselect Land/Air/Water when Spirit Roads is active
+            }
+          }}
           className={cn(
             // Base Styling (Light Mode & General)
             "px-6 py-2 h-auto rounded-full font-black tracking-widest text-[10px] transition-all duration-300",
-            "border-2 border-zinc-200 bg-blue-500 text-white hover:bg-zinc-100 hover:text-black",
+            "border-2 border-zinc-200 bg-transparent text-white hover:bg-zinc-100 hover:text-black",
 
             // Dark Mode Styling
             "dark:border-zinc-800 dark:text-white",
@@ -76,9 +81,9 @@ export default function CampFilters({ isLetsTalkActive, onToggleLetsTalk }: { is
 
         {/* Primary Domain Toggles */}
         <div className="flex bg-zinc-100 dark:bg-zinc-900 p-1 rounded-full border border-transparent dark:border-zinc-800 text-lg">
-          <ToggleButton active={domain === "Land"} onClick={() => setDomain("Land")} label="Land" />
-          <ToggleButton active={domain === "Air"} onClick={() => setDomain("Air")} label="Air" />
-          <ToggleButton active={domain === "Water"} onClick={() => setDomain("Water")} label="Water" />
+          <ToggleButton active={domain === "Land"} onClick={() => { setDomain("Land"); onToggleLetsTalk(false); }} label="Land" />
+          <ToggleButton active={domain === "Air"} onClick={() => { setDomain("Air"); onToggleLetsTalk(false); }} label="Air" />
+          <ToggleButton active={domain === "Water"} onClick={() => { setDomain("Water"); onToggleLetsTalk(false); }} label="Water" />
         </div>
 
         {/* <TacticalCascadeFilter

@@ -45,7 +45,7 @@ interface BookingSheetProps {
 }
 
 export default function BookingSheet({ isOpen, onClose, campId, price, spotsLeft, isFree, onPay }: BookingSheetProps) {
-	const [isBookingForSelf, setIsBookingForSelf] = React.useState(true);
+	const [isBookingForSelf, setIsBookingForSelf] = React.useState(false);
 	const [isPolicyDialogOpen, setIsPolicyDialogOpen] = React.useState(false);
 
 	const form = useForm<BookingFormValues>({
@@ -212,7 +212,7 @@ export default function BookingSheet({ isOpen, onClose, campId, price, spotsLeft
 									className="w-full h-14 border-dashed border-zinc-800 text-white hover:text-white hover:border-zinc-700 transition-all bg-transparent font-bold text-xs"
 								>
 									<PlusCircle className="w-4 h-4 mr-2" />
-									Add Attendee
+									Add
 								</Button>
 							)}
 						</form>
@@ -223,7 +223,7 @@ export default function BookingSheet({ isOpen, onClose, campId, price, spotsLeft
 					<div className="w-full space-y-6">
 						<div className="flex justify-between items-end">
 							<div>
-								<p className="text-sm font-bold text-zinc-400">Amount Due</p>
+								<p className="text-sm font-bold text-zinc-400">Total</p>
 								<h3 className="text-3xl font-black ">₹{totalPrice.toLocaleString()}</h3>
 							</div>
 							<Popover>

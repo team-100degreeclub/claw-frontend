@@ -17,15 +17,14 @@ export default function Navbar() {
             <Button
               variant="link"
               className="ml-10 flex items-center border-0 hover:bg-zinc-600/30 hover:cursor-pointer gap-2 text-sm font-bold tracking-widest text-zinc-300 transition-colors hover:text-white px-4"
-              onClick={() => router.push("/camps")}
             >
               <HomeIcon className="h-4 w-4" />
             </Button>
-          <img
+          {/* <img
             src="https://pbs.twimg.com/profile_images/1221190646850965504/MyqCrr0y_400x400.jpg"
             alt="C.L.A.W. Logo"
             className="h-10 w-10 rounded-full"
-          />
+          /> */}
           <h1 className="text-xl font-black tracking-tighter text-white">
             C.L.A.W.{"  "}
             <span className="ml-1">
