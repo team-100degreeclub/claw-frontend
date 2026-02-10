@@ -65,7 +65,7 @@ const COLLABORATIONS = [
 
 export default function HeroDiscovery() {
   const plugin = React.useRef(
-    Autoplay({ delay: 3000 })
+    Autoplay({ delay: 2500 })
   );
 
   return (

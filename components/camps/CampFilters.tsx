@@ -81,13 +81,13 @@ export default function CampFilters({ isLetsTalkActive, onToggleLetsTalk }: { is
           <ToggleButton active={domain === "Water"} onClick={() => setDomain("Water")} label="Water" />
         </div>
 
-        <TacticalCascadeFilter
+        {/* <TacticalCascadeFilter
           title="Focus Area"
           icon={Target}
           data={FOCUS_AREAS}
           selection={focus}
           onSelect={setFocus}
-        />
+        /> */}
 
         <Dialog>
           <DialogTrigger asChild >
@@ -207,12 +207,12 @@ export default function CampFilters({ isLetsTalkActive, onToggleLetsTalk }: { is
         {/* <ToggleButton active={timeframe === "past"} onClick={() => setTimeframe("past")} label="Past" /> */}
       </div>
 
-      <Button
+      {/* <Button
         variant="default"
         className="flex items-center border-0 bg-green-600/60 hover:bg-green-600/80 hover:cursor-pointer gap-2 text-sm font-bold tracking-widest text-white transition-colors hover:text-white px-4"
       >
         Volunteer
-      </Button>
+      </Button> */}
     </div>
   );
 }
