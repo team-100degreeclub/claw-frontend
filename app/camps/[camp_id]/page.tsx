@@ -200,9 +200,9 @@ export default function CampViewPage() {
 
                 {/* Camp Identity Overlay */}
                 <div className="absolute bottom-24 left-10 md:left-5">
-                    {/* <span className="bg-white/20 text-green-500 p-3 py-2 rounded-sm text-lg font-black tracking-[0.1em]">
-                        Active
-                    </span> */}
+                    <span className="bg-white text-green-500 p-3 py-2 rounded-sm text-xs font-black tracking-[0.1em]">
+                        Adventure/Land
+                    </span>
                     <h1 className="text-6xl md:text-5xl font-black leading-none mt-4">
                         Himalayan Endurance
                     </h1>
