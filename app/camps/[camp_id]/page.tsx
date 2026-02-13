@@ -54,18 +54,138 @@ declare global {
     }
 }
 
+interface Host {
+    name: string;
+    role: string;
+    img: string;
+    bio: string;
+    specialization: string[];
+}
+
+interface Camp {
+    id: string;
+    type: string;
+    name: string;
+    video_id: string;
+    location: string;
+    campDates: string;
+    duration: string;
+    meetupLocation: string;
+    meetupTime: string;
+    eligibility: string;
+    genders: string;
+    slotsRemaining: string;
+    price: number;
+    isFree: boolean;
+    hosts: Host[];
+    brief: string;
+    checklist: string;
+}
+
 export default function CampViewPage() {
-    const VIDEO_ID = "H9-OOl_9r6I";
     const router = useRouter();
     const params = useParams();
-    const campId = params.camp_id as string; // Assuming parameter name is camp_id
+    const campId = params.camp_id as string;
 
     const [isBookingSheetOpen, setIsBookingSheetOpen] = useState(false);
 
+    const adventureCampData: Camp = {
+        id: "adventure-camp-1",
+        type: "Adventure/Land",
+        name: "Himalayan Endurance",
+        video_id: "H9-OOl_9r6I",
+        location: "Leh, Ladakh",
+        campDates: "Mar 12 - Mar 20",
+        duration: "8 Days Duration",
+        meetupLocation: "Leh Airport",
+        meetupTime: "Mar 11, 09:00 AM",
+        eligibility: "18-40 Yrs",
+        genders: "All Genders",
+        slotsRemaining: "1/10",
+        price: 19999,
+        isFree: false,
+        hosts: [
+            {
+                name: "Major Vivek Jacob",
+                role: "Ex-Para SF",
+                img: "/vivek_jacob.jpg",
+                bio: "The mastermind behind CLAW Global. A specialist in high-altitude combat and rescue operations with decades of experience in the world's harshest terrains.",
+                specialization: ["Indian Army Special Forces", "Founder, C.L.A.W"],
+            },
+            {
+                name: "Capt. Sameer S.",
+                role: "Combat Diver",
+                img: "/gaurav_bali.jpg",
+                bio: "Maritime extraction specialist and master of underwater tactical operations. Leading the Water Domain missions with surgical precision.",
+                specialization: ["MARCOS", "Member, C.L.A.W"],
+            },
+            {
+                name: "Lt. Col. Rhea D.",
+                role: "Survival Instructor",
+                img: "/gaurav_bali_2.jpg",
+                bio: "Mental resilience expert and SERE (Survival, Evasion, Resistance, and Escape) instructor. Her missions focus on the psychological threshold of the human spirit.",
+                specialization: ["NSG", "Member, C.L.A.W"],
+            },
+        ],
+        brief: `Experience high-altitude hiking.
+Develop mental resilience in the world's harshest terrains.
+Led by ex-Para SF and MARCOS veterans.`,
+        checklist: `Gear: All-weather clothing, sturdy boots, medical kit.
+Fitness: High physical endurance required.
+Essentials: Hydration pack, navigation tools.
+Safety: Follow all instructions, emergency protocols.`,
+    };
+
+    const spiritRoadsCampData: Camp = {
+        id: "spirit-roads-camp-1",
+        type: "Conversation",
+        name: "Dinner At My Home – Honest Stories From My Service",
+        video_id: "H9-OOl_9r6I", // Placeholder, ideally a different video
+        location: "Manali, Himachal Pradesh",
+        campDates: "Apr 5 - Apr 10",
+        duration: "6 Days Duration",
+        meetupLocation: "Manali Bus Stand",
+        meetupTime: "Apr 4, 12:00 PM",
+        eligibility: "20-50 Yrs",
+        genders: "All Genders",
+        slotsRemaining: "5/15",
+        price: 15000,
+        isFree: false,
+        hosts: [
+            {
+                name: "Dr. Anya Sharma",
+                role: "Mindfulness Coach",
+                img: "/vivek_jacob.jpg",
+                bio: "A renowned expert in cognitive behavioral therapy and mindfulness, Dr. Sharma helps individuals unlock their potential through guided conversations and meditation.",
+                specialization: ["Mindfulness", "CBT", "Leadership Coaching"],
+            },
+            {
+                name: "Professor K.L. Singh",
+                role: "Philosopher",
+                img: "/gaurav_bali.jpg",
+                bio: "Professor Singh specializes in ancient philosophies and their modern applications, fostering deep intellectual discussions and critical thinking.",
+                specialization: ["Eastern Philosophy", "Ethics", "Critical Thinking"],
+            },
+        ],
+        brief: `I am hosting a simple vegetarian dinner at my home.
+We will sit together, share our food, and have conversations about my service. 
+This is just honest conversations where I share about how we worked, some operations we did, and how you can build a mindset that helps you understand yourself better.`,
+        checklist: `Dinner begins at 8 pm sharp.
+Please don’t get any food. I will be cooking for you personally.
+The seating will be Indian style, on the floor.
+I have a pet dog at home, Goofy, a golden retriever. He will be around and will not be tied.
+Please wear comfortable clothes, no formality.
+We will clean together before leaving.
+
+PS
+Oh.. please do not ask how to join the Army..`,
+    };
+
+    const selectedCamp = campId === "1" ? adventureCampData : spiritRoadsCampData;
+
     // Placeholder for actual camp data. In a real app, this would be fetched from an API.
-    const campPrice = 19999;
-    const campSpotsLeft = 5; // Assuming '1/10' means 1 spot left
-    const isFreeCamp = false;
+    const campSpotsLeft = parseInt(selectedCamp.slotsRemaining.split('/')[0]); // Assuming '1/10' means 1 spot left
+    const isFreeCamp = selectedCamp.isFree;
 
     // Placeholder for useAuth hook. In a real app, this would be a proper context.
     const { isAuthenticated } = { isAuthenticated: true }; // Assuming user is always authenticated for now
@@ -190,7 +310,7 @@ export default function CampViewPage() {
             <section className="relative w-full overflow-hidden pb-[56.25%]">
                 <div className="absolute inset-0 h-full w-full pointer-events-none">
                     <iframe
-                        src={`https://www.youtube.com/embed/${VIDEO_ID}?autoplay=1&mute=1&loop=1&controls=0&modestbranding=0&rel=0&start=109&showinfo=0&playlist=${VIDEO_ID}&enablejsapi=1`}
+                        src={`https://www.youtube.com/embed/${selectedCamp.video_id}?autoplay=1&mute=1&loop=1&controls=0&modestbranding=0&rel=0&start=109&showinfo=0&playlist=${selectedCamp.video_id}&enablejsapi=1`}
                         allow="autoplay; encrypted-media"
                         className="absolute top-0 left-0 w-full h-full border-none"
                         title="Camp Hero Video"
@@ -201,10 +321,10 @@ export default function CampViewPage() {
                 {/* Camp Identity Overlay */}
                 <div className="absolute bottom-24 left-10 md:left-5">
                     <span className="bg-white text-green-500 p-3 py-2 rounded-sm text-xs font-black tracking-[0.1em]">
-                        Adventure/Land
+                        {selectedCamp.type}
                     </span>
                     <h1 className="text-6xl md:text-5xl font-black leading-none mt-4">
-                        Himalayan Endurance
+                        {selectedCamp.name}
                     </h1>
                 </div>
             </section>
@@ -212,11 +332,11 @@ export default function CampViewPage() {
             {/* 2. Tactical Info Bar (Data Points) */}
             <div className="relative z-10 -mt-20 mx-4 bg-zinc-950 border border-zinc-800 p-8 rounded-xl shadow-2xl">
                 <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-8">
-                    <InfoItem icon={<MapPin className="text-red-600" />} label="Location" value="Leh, Ladakh" subValue="Google Maps Pin" href="https://maps.google.com" />
-                    <InfoItem icon={<Calendar className="text-red-600" />} label="Camp Dates" value="Mar 12 - Mar 20" subValue="8 Days Duration" />
-                    <InfoItem icon={<Clock className="text-red-600" />} label="Meetup" value="Leh Airport" subValue="Mar 11, 09:00 AM" href="https://maps.google.com" />
-                    <InfoItem icon={<Users className="text-red-600" />} label="Eligibility" value="18-40 Yrs" subValue="All Genders" />
-                    <InfoItem icon={<Users className="text-red-600" />} label="Slots Remaining" value="1/10" />
+                    <InfoItem icon={<MapPin className="text-red-600" />} label="Location" value={selectedCamp.location} subValue="Google Maps Pin" href="https://maps.google.com" />
+                    <InfoItem icon={<Calendar className="text-red-600" />} label="Camp Dates" value={selectedCamp.campDates} subValue={selectedCamp.duration} />
+                    <InfoItem icon={<Clock className="text-red-600" />} label="Meetup" value={selectedCamp.meetupLocation} subValue={selectedCamp.meetupTime} href="https://maps.google.com" />
+                    <InfoItem icon={<Users className="text-red-600" />} label="Eligibility" value={selectedCamp.eligibility} subValue={selectedCamp.genders} />
+                    <InfoItem icon={<Users className="text-red-600" />} label="Slots Remaining" value={selectedCamp.slotsRemaining} />
                 </div>
 
                 <div className="mt-8 pt-8 border-t border-zinc-800 flex flex-col md:flex-row justify-between items-center gap-6 ">
@@ -227,7 +347,7 @@ export default function CampViewPage() {
                         </div> */}
                         <div>
                             {/* <p className="text-sm font-black text-zinc-500 tracking-widest">Price</p> */}
-                            <p className="text-2xl font-black text-white"><IndianRupee className="inline h-5 w-5 -mt-1" /> {campPrice.toLocaleString("en-IN")} <span className="text-sm text-zinc-400 ml-1">/ Traveller</span></p>
+                            <p className="text-2xl font-black text-white"><IndianRupee className="inline h-5 w-5 -mt-1" /> {selectedCamp.price.toLocaleString("en-IN")} <span className="text-sm text-zinc-400 ml-1">/ Traveller</span></p>
                         </div>
                     </div>
                     <div>
@@ -280,38 +400,24 @@ export default function CampViewPage() {
                     </TabsList>
 
                     <TabsContent value="hosts" className="grid grid-cols-1 md:grid-cols-3 gap-8">
-                        <HostCard
-                            name="Major Vivek Jacob"
-                            role="Ex-Para SF"
-                            img="/vivek_jacob.jpg"
-                            bio="The mastermind behind CLAW Global. A specialist in high-altitude combat and rescue operations with decades of experience in the world's harshest terrains."
-                            specialization={["Indian Army Special Forces", "Founder, C.L.A.W"]}
-                        />
-                        <HostCard
-                            name="Capt. Sameer S."
-                            role="Combat Diver"
-                            img="/gaurav_bali.jpg"
-                            bio="Maritime extraction specialist and master of underwater tactical operations. Leading the Water Domain missions with surgical precision."
-                            specialization={["MARCOS", "Member, C.L.A.W"]}
-                        />
-                        <HostCard
-                            name="Lt. Col. Rhea D."
-                            role="Survival Instructor"
-                            img="/gaurav_bali_2.jpg"
-                            bio="Mental resilience expert and SERE (Survival, Evasion, Resistance, and Escape) instructor. Her missions focus on the psychological threshold of the human spirit."
-                            specialization={["NSG", "Member, C.L.A.W"]}
-                        />
+                        {selectedCamp.hosts.map((host, index) => (
+                            <HostCard
+                                key={index} // Ideally use a unique host ID if available
+                                name={host.name}
+                                role={host.role}
+                                img={host.img}
+                                bio={host.bio}
+                                specialization={host.specialization}
+                            />
+                        ))}
                     </TabsContent>
 
                     <TabsContent value="brief" className="prose prose-invert">
-                        {/* <h3 className="text-2xl font-black tracking-tighter mb-4">Brief</h3> */}
-                        <p className="text-zinc-400 leading-relaxed text-lg">The camp is designed to offer a structured yet flexible experience led by the host, with activities, discussions, or sessions aligned to the camp’s objective. Participants are encouraged to come with an open mindset, be actively involved, and respect differing perspectives. The duration, flow, and pace of the camp may vary, so adaptability is important. Any materials, instructions, or updates will be shared by the host before or during the camp. The environment is intended to be safe, inclusive, and respectful, and all participants are expected to uphold these values. Outcomes may include learning, networking, shared experiences, or personal growth, depending on the nature of the camp. For any clarifications before or during the camp, participants should refer to the communication shared by the organizers or reach out to the designated contact person.</p>
+                        <p className="text-zinc-400 leading-relaxed text-lg">{renderNewlines(selectedCamp.brief)}</p>
                     </TabsContent>
 
                     <TabsContent value="checklist" className="prose prose-invert">
-                        {/* <h3 className="text-2xl font-black tracking-tighter mb-4">Checklist</h3> */}
-                        <p className="text-zinc-400 leading-relaxed text-lg">Please review all details carefully before attending. Ensure you have completed your registration, shared any required personal or emergency information, and confirmed the camp date, time, and location. Arrive on time and follow the schedule shared by the host. Carry a valid ID, any passes or confirmations sent to you, and keep your phone charged for updates or coordination. Dress appropriately for the nature of the camp and the activities planned, and bring any personal essentials you may need during the event. If meals are included, note the timings and inform the organizers in advance about any dietary restrictions or allergies. Follow all safety instructions given by the host, respect fellow participants, and adhere to the code of conduct throughout the camp. In case of any discomfort, emergency, or uncertainty, immediately reach out to the camp organizers or designated point of contact.
-                        </p>
+                        <p className="text-zinc-400 leading-relaxed text-lg">{renderNewlines(selectedCamp.checklist)}</p>
                     </TabsContent>
                 </Tabs>
             </section>
@@ -332,16 +438,26 @@ export default function CampViewPage() {
             <BookingSheet
                 isOpen={isBookingSheetOpen}
                 onClose={() => setIsBookingSheetOpen(false)}
-                campId={campId}
-                price={campPrice}
+                campId={selectedCamp.id}
+                price={selectedCamp.price}
                 spotsLeft={campSpotsLeft}
-                isFree={isFreeCamp}
+                isFree={selectedCamp.isFree}
                 onPay={handleBooking} // Pass handleBooking to BookingSheet
             />
             {/* PolicyDialog is not directly opened by a button, but could be integrated if needed */}
             <PolicyDialog isOpen={false} onClose={() => { }} />
         </div>
     );
+}
+
+// Helper function to render newlines
+function renderNewlines(text: string) {
+    return text.split('\n').map((line, index) => (
+        <React.Fragment key={index}>
+            {line}
+            {index < text.split('\n').length - 1 && <br />}
+        </React.Fragment>
+    ));
 }
 
 // Sub-components

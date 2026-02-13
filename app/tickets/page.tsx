@@ -23,13 +23,15 @@ import {
   CheckCircle2,
   AlertCircle,
   ReceiptText,
+  RotateCcw, // Added for refunds
+  History
 } from "lucide-react";
 import { useRouter } from "next/navigation";
 import { Input } from "@/components/ui/input";
 import { Toggle } from "@/components/ui/toggle";
 import { cn } from "@/lib/utils";
 
-// --- Simple Professional Data ---
+// --- Updated Data with Refund Info ---
 const CAMP_BOOKINGS = [
   {
     id: "c1",
@@ -54,6 +56,14 @@ const CAMP_BOOKINGS = [
       tax: "18%",
       discount: 0,
       total: 116000
+    },
+    // Dummy Refund Data
+    refund: {
+      hasRefund: true,
+      amount: 12000,
+      status: "Processing", // "Processing" | "Completed" | "Failed"
+      requestedDate: "2026-10-15",
+      reason: "Partial cancellation (1 Traveller)"
     }
   },
   {
@@ -78,6 +88,9 @@ const CAMP_BOOKINGS = [
       tax: "18%",
       discount: 0,
       total: 42102.40
+    },
+    refund: {
+      hasRefund: false // No refund for this one
     }
   }
 ];
@@ -87,56 +100,20 @@ export default function TicketDashboard() {
 
   return (
     <div className="min-h-screen bg-zinc-950 text-zinc-100 font-sans pb-24 ">
-      {/* Navbar */}
       <header className="sticky top-0 z-30 backdrop-blur-md border-b border-zinc-800 px-40 py-5 flex items-center justify-between">
         <div className="flex items-center gap-4">
           <h1 className="text-2xl font-bold">Tickets</h1>
         </div>
         <div className="flex items-center gap-2">
-          {/*
-          <Button variant="outline" className="border-zinc-700 text-zinc-300 hover:bg-zinc-800">
-          <Share2 className="h-4 w-4 mr-2" /> Share all details
-          </Button> */}
           <p className="text-sm text-zinc-500">Filter by:</p>
-          <Toggle className={cn(
-            // Base Styling (Light Mode & General)
-            "px-6 py-2 h-auto rounded-full font-black text-[12px] transition-all duration-300",
-            "border-2 border-zinc-200 bg-transparent text-white hover:bg-zinc-100 hover:text-black",
-
-            // Dark Mode Styling
-            "dark:border-zinc-800 dark:text-white",
-            "dark:hover:bg-zinc-800 dark:hover:text-white ",
-
-            // Active/Pressed State (Red Bull / CLAW Red)
-            "data-[state=on]:bg-blue-600 data-[state=on]:border-blue-600 data-[state=on]:text-white dark:data-[state=on]:text-white",
-            "dark:data-[state=on]:hover:text-white",
-            "data-[state=on]:scale-110 data-[state=on]:zoom-in-95 data-[state=on]:duration-300",
-
-            "hover:cursor-pointer",
-          )}>Past</Toggle>
-          <Toggle className={cn(
-            // Base Styling (Light Mode & General)
-            "px-6 py-2 h-auto rounded-full font-black text-[12px] transition-all duration-300",
-            "border-2 border-zinc-200 bg-transparent text-white hover:bg-zinc-100 hover:text-black",
-
-            // Dark Mode Styling
-            "dark:border-zinc-800 dark:text-white",
-            "dark:hover:bg-zinc-800 dark:hover:text-white ",
-
-            // Active/Pressed State (Red Bull / CLAW Red)
-            "data-[state=on]:bg-blue-600 data-[state=on]:border-blue-600 data-[state=on]:text-white dark:data-[state=on]:text-white",
-            "dark:data-[state=on]:hover:text-white",
-            "data-[state=on]:scale-110 data-[state=on]:zoom-in-95 data-[state=on]:duration-300",
-
-            "hover:cursor-pointer",
-          )}>Live</Toggle>
+          <Toggle className="px-6 py-2 h-auto rounded-full font-black text-[12px] border-2 border-zinc-800 bg-transparent text-white data-[state=on]:bg-blue-600">Past</Toggle>
+          <Toggle className="px-6 py-2 h-auto rounded-full font-black text-[12px] border-2 border-zinc-800 bg-transparent text-white data-[state=on]:bg-blue-600">Live</Toggle>
         </div>
       </header>
 
       <main className="max-w-7xl mx-auto px-8 py-12 space-y-20">
         {CAMP_BOOKINGS.map((camp) => (
           <div key={camp.id} className="space-y-8">
-            {/* Header Area */}
             <div className="flex items-end justify-between border-b border-zinc-800 pb-6">
               <div className="space-y-2">
                 <h2 className="text-3xl font-semibold">{camp.name}</h2>
@@ -151,30 +128,8 @@ export default function TicketDashboard() {
             </div>
 
             <div className="grid grid-cols-1 lg:grid-cols-4 gap-8">
-              {/* Sidebar: Details and Payment (Left 1/4) */}
-              <div className="lg:col-span-1 space-y-6">
-
-                {/* Check-in Details */}
-                {/* <Card className="bg-zinc-900 border-zinc-800 p-6 rounded-2xl shadow-sm">
-                  <h3 className="text-xs font-semibold text-zinc-5  00 mb-5 tracking-wide">Camp information</h3>
-                  <div className="space-y-5">
-                    <div className="flex gap-4">
-                      <div className="p-2.5 bg-zinc-800 rounded-xl h-fit"><Clock className="h-4 w-4 text-zinc-400" /></div>
-                      <div>
-                        <p className="text-[10px] text-zinc-500 font-medium">Meeting time</p>
-                        <p className="text-sm font-medium">{new Date(camp.meetingTime).toLocaleTimeString([], { day: "numeric", month: "long", year: "numeric", hour: "numeric", minute: "numeric" })}</p>
-                      </div>
-                    </div>
-                    <div className="flex gap-4">
-                      <div className="p-2.5 bg-zinc-800 rounded-xl h-fit"><MapPin className="h-4 w-4 text-zinc-400" /></div>
-                      <div>
-                        <p className="text-[10px] text-zinc-500 font-medium">Meeting point</p>
-                        <p className="text-sm font-medium text-blue-500 hover:cursor-pointer underline">{camp.meetingPoint}</p>
-                      </div>
-                    </div>
-                  </div>
-                </Card> */}
-
+              {/* Sidebar */}
+              <div className="lg:col-span-1 space-y-4">
                 {/* Payment Breakdown */}
                 <Card className="bg-zinc-900 border-zinc-800 p-6 rounded-2xl shadow-sm">
                   <div className="flex items-center gap-2 mb-5">
@@ -214,13 +169,41 @@ export default function TicketDashboard() {
                     </div>
                   </div>
                 </Card>
+
+                {/* --- REFUND SECTION --- */}
+                {camp.refund.hasRefund && (
+                  <Card className="bg-zinc-900/50 border-orange-500/20 p-6 rounded-2xl shadow-sm border">
+                    <div className="flex items-center gap-2 mb-4">
+                      <RotateCcw className="h-4 w-4 text-orange-400" />
+                      <h3 className="text-xs font-semibold text-orange-400 tracking-wide uppercase">Refund Status</h3>
+                    </div>
+                    <div className="space-y-3">
+                      <div className="flex justify-between text-sm">
+                        <span className="text-zinc-400">Amount</span>
+                        <span className="font-semibold text-zinc-200 text-lg">₹{camp.refund.amount?.toLocaleString()}</span>
+                      </div>
+                      <div className="flex justify-between items-center">
+                         <span className="text-[11px] text-zinc-500">Status</span>
+                         <span className={cn(
+                           "text-[10px] px-2 py-0.5 rounded-full font-bold uppercase tracking-wider",
+                           camp.refund.status === "Processing" ? "bg-orange-500/10 text-orange-500" : "bg-emerald-500/10 text-emerald-500"
+                         )}>
+                           {camp.refund.status}
+                         </span>
+                      </div>
+                      <p className="text-[11px] text-zinc-500 leading-relaxed border-t border-zinc-800 pt-3">
+                        {camp.refund.reason}
+                      </p>
+                    </div>
+                  </Card>
+                )}
               </div>
 
-              {/* Main Content: Travellers Table (Right 3/4) */}
+              {/* Main Content */}
               <div className="lg:col-span-3 space-y-6">
                 <div className="bg-zinc-900 border border-zinc-800 rounded-2xl overflow-hidden shadow-sm">
                   <table className="w-full text-left text-sm">
-                    <thead className="bg-zinc-800/40 text-zinc-500 text-[11px] font-semibold border-b border-zinc-800">
+                    <thead className="bg-zinc-800/40 text-zinc-500 text-[11px] font-semibold border-b border-zinc-800 uppercase tracking-wider">
                       <tr>
                         <th className="px-8 py-5">Ticket id</th>
                         <th className="px-8 py-5">Traveller name</th>
@@ -274,18 +257,6 @@ export default function TicketDashboard() {
                     </tbody>
                   </table>
                 </div>
-
-                {/* Section Footer Buttons */}
-                {/* <div className="flex items-center justify-between px-2">
-                  <div className="flex gap-4">
-                    <Button className="bg-zinc-100 text-zinc-950 hover:bg-white font-semibold rounded-xl px-6">
-                      <Ticket className="h-4 w-4 mr-2" /> Book more seats
-                    </Button>
-                    <Button variant="outline" className="border-zinc-800 text-zinc-400 rounded-xl px-6">
-                      Download all invoices
-                    </Button>
-                  </div>
-                </div> */}
               </div>
             </div>
           </div>

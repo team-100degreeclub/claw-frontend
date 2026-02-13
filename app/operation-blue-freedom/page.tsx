@@ -32,9 +32,9 @@ export default function OperationBlueFreedomPage() {
           frameBorder="0"
           allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
           allowFullScreen
-          className="absolute inset-0 h-full w-full opacity-40 pointer-events-none"
+          className="absolute inset-0 h-full w-full opacity-60 pointer-events-none"
         ></iframe>
-        <div className="absolute inset-0 bg-gradient-to-t from-black via-black/20 to-transparent" />
+        {/* <div className="absolute inset-0 bg-gradient-to-t from-black via-black/20 to-transparent" /> */}
         
         <div className="relative z-10 max-w-4xl space-y-4">
           <div className="flex items-center gap-3">
@@ -56,7 +56,7 @@ export default function OperationBlueFreedomPage() {
         <aside className="space-y-10">
           <div className="sticky top-28 space-y-8">
             <div className="space-y-2">
-              <h2 className="text-2xl font-black uppercase  tracking-tight">The Veterans</h2>
+              <h2 className="text-2xl font-black uppercase tracking-tight">The Veterans</h2>
               <p className="text-zinc-500 text-sm">The former Special Forces team leading this journey.</p>
             </div>
             
@@ -113,7 +113,7 @@ export default function OperationBlueFreedomPage() {
           <div className="bg-zinc-900/50 border border-zinc-800 rounded-2xl p-8 lg:p-12">
              <div className="flex flex-col lg:flex-row gap-10 items-center">
                 <div className="flex-1 space-y-6">
-                  <h4 className="text-2xl font-black uppercase  tracking-tight">Watch the Trailer</h4>
+                  <h4 className="text-2xl font-black uppercase  tracking-tight">Watch The Success</h4>
                   <p className="text-zinc-400 text-sm">See how Major Jacob and his team made history with Operation Blue Freedom.</p>
                   <a 
                     href="https://www.redbull.com/in-en/conquer-land-air-water-operation-blue-freedom" 
@@ -125,7 +125,7 @@ export default function OperationBlueFreedomPage() {
                 </div>
                 <div className="relative group cursor-pointer overflow-hidden rounded-xl border border-zinc-800 shadow-2xl w-full lg:w-[560px] aspect-video">
                    <iframe
-                     src="https://www.youtube.com/embed/yN3g8CdRgss" // Placeholder YouTube video
+                     src="https://www.youtube.com/embed/DN8qr6l8sxw" // Placeholder YouTube video
                      frameBorder="0"
                      allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
                      allowFullScreen
