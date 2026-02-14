@@ -14,16 +14,15 @@ const VIEW_COMPONENTS: Record<string, React.ComponentType> = {
   // Add more as you build them
 };
 
-export default function DynamicDashboardPage({ 
+export default async function DynamicDashboardPage({ 
   params 
 }: { 
-  params: { view: string } 
+  params: Promise<{ category: string; view: string }> 
 }) {
-  const { view } = params;
+  const { category, view } = await params;
   
   // Fallback to Performance if view isn't found
   const SelectedView = VIEW_COMPONENTS[view] || PerformanceDashboard;
-  console.log(view);
 
   return (
     <div className="animate-in fade-in slide-in-from-right-4 duration-500">
