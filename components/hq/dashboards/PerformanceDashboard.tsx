@@ -9,6 +9,17 @@ import {
 } from "recharts";
 import { Badge } from "@/components/ui/badge";
 
+
+
+// Helper function to format numbers to Indian Rupee currency
+const formatToIndianCurrency = (amount: number): string => {
+  return amount.toLocaleString('en-IN', {
+    style: 'currency',
+    currency: 'INR',
+    maximumFractionDigits: 0, // Assuming whole rupees for these displays
+  });
+};
+
 // Mock data for the graph
 const graphData = [
   { name: "Jan", revenue: 4000, travelers: 2400, camps: 24, corporate: 12 },
@@ -45,22 +56,22 @@ export default function PerformanceDashboard() {
         <KPIGroup
           title="Corporate Summary"
           metrics={[
-            { label: "Gross", value: "₹14.5M", color: "text-white" },
-            { label: "Expenses", value: "₹8.0M", color: "text-red-400" },
-            { label: "Net", value: "₹6.5M", color: "text-cyan-400" }
+            { label: "Gross", value: 14500000, color: "text-white" },
+            { label: "Expenses", value: 8000000, color: "text-red-400" },
+            { label: "Net", value: 6500000, color: "text-cyan-400" }
           ]}
         />
         <KPIGroup
           title="Camps Summary"
           metrics={[
-            { label: "Gross", value: "₹11.4M", color: "text-white" },
-            { label: "Expenses", value: "₹5.2M", color: "text-red-400" },
-            { label: "Net", value: "₹6.2M", color: "text-emerald-400" }
+            { label: "Gross", value: 11400000, color: "text-white" },
+            { label: "Expenses", value: 5200000, color: "text-red-400" },
+            { label: "Net", value: 6200000, color: "text-emerald-400" }
           ]}
         />
       </div>
 
-      <div className="grid grid-cols-1 xl:grid-cols-2 gap-8">
+      <div className="grid grid-cols-1 xl:grid-cols-1 gap-8">
 
         {/* 2. CORPORATE INSIGHTS */}
         <InsightCard title="Corporate Insights" showFilter>
@@ -72,14 +83,14 @@ export default function PerformanceDashboard() {
           </div>
           <div className="grid grid-cols-1 md:grid-cols-2 gap-10">
             <StatList title="Pay" items={[
-              { label: "Average", value: "₹120,000" },
-              { label: "High", value: "₹1.5M", desc: "Tech Corp / NY" },
-              { label: "Low", value: "₹10,500", desc: "Local Biz / MI" }
+              { label: "Average", value: "120000"},
+              { label: "High", value: "1500000", desc: "Facebook / California" },
+              { label: "Low", value: "10500", desc: "Zerodha / Bangalore" }
             ]} />
             <StatList title="Time to Convert" items={[
               { label: "Average", value: "12 Days" },
-              { label: "High", value: "90 Days", desc: "Global Fortune 500" },
-              { label: "Low", value: "24 Hours", desc: "Rapid Deployment" }
+              { label: "High", value: "90 Days", desc: "Google / New York" },
+              { label: "Low", value: "24 Hours", desc: "Boeing / San Francisco" }
             ]} />
           </div>
         </InsightCard>
@@ -90,28 +101,28 @@ export default function PerformanceDashboard() {
             <DataPoint label="Total Camps" value="210" />
             <DataPoint label="Total Travelers" value="8,542" />
             <DataPoint label="Avg Traveler/Camp" value="40" />
-            <DataPoint label="Avg Ticket/Camp" value="₹500" highlight />
+            <DataPoint label="Avg Ticket/Camp" value={500} highlight />
           </div>
           <div className="space-y-2">
-            <p className="text-[10px]  font-black text-zinc-500 tracking-widest mb-4">Camp Breakdown</p>
+            <p className="text-base font-black text-zinc-500 tracking-widest mb-4">Camp Breakdown</p>
             <div className="overflow-x-auto">
               <table className="w-full text-left">
-                <thead className="text-[10px] text-zinc-500  font-bold border-b border-zinc-800">
+                <thead className="text-[13px] text-zinc-500  font-bold border-b border-zinc-800">
                   <tr>
-                    <th className="pb-2">Type</th>
-                    <th className="pb-2 text-right">Sold</th>
+                    <th className="pb-2 w-[120px]">Type</th>
+                    <th className="pb-2 text-right">Tickets Sold</th>
                     <th className="pb-2 text-right">Gross</th>
                     <th className="pb-2 text-right">Net</th>
                     <th className="pb-2 text-right">Avg</th>
                     <th className="pb-2 text-right">High</th>
-                    <th className="pb-2 text-right">Low</th>
+                  <th className="pb-2 text-right">Low</th>
                   </tr>
                 </thead>
                 <tbody className="text-xs divide-y divide-zinc-900">
-                  <CampTableRow type="Spirit Road" sold="20" gross="50k" net="30k" avg="2.5k" high="5k" low="1k" />
-                  <CampTableRow type="Adventure-Land" sold="142" gross="284k" net="120k" avg="2k" high="4k" low="800" />
-                  <CampTableRow type="Adventure-Air" sold="12" gross="144k" net="90k" avg="12k" high="15k" low="10k" />
-                  <CampTableRow type="Adventure-Water" sold="36" gross="72k" net="40k" avg="2k" high="3k" low="1.5k" />
+                  <CampTableRow type="Spirit Road" sold="20" gross={50000} net={30000} avg={2500} high={5000} low={1000} />
+                  <CampTableRow type="Adventure-Land" sold="142" gross={284000} net={120000} avg={2000} high={4000} low={800} />
+                  <CampTableRow type="Adventure-Air" sold="12" gross={144000} net={90000} avg={12000} high={15000} low={10000} />
+                  <CampTableRow type="Adventure-Water" sold="36" gross={72000} net={40000} avg={2000} high={3000} low={1500} />
                 </tbody>
               </table>
             </div>
@@ -122,26 +133,34 @@ export default function PerformanceDashboard() {
         <InsightCard title="Team Insights" showFilter>
           <div className="grid grid-cols-3 gap-6 border-b border-zinc-800 pb-8 mb-8">
             <DataPoint label="Total Members" value="15" />
-            <DataPoint label="Total Payout" value="₹450K" />
-            <DataPoint label="Avg/Person" value="₹30K" highlight />
+            <DataPoint label="Total Payout" value={450000} />
+            <DataPoint label="Avg/Person" value={30000} highlight />
           </div>
-          <div className="grid grid-cols-2 gap-8">
-            <div className="space-y-4">
-              <p className="text-[10px]  font-black text-emerald-500">Highest Payout</p>
-              <div className="bg-zinc-950 p-4 border border-zinc-800 rounded-sm">
-                <p className="text-xl font-bold">₹19,000</p>
-                <p className="text-xs text-white">Major Sandeep</p>
-                <p className="text-[10px] text-zinc-500 ">Everest Base Camp</p>
-              </div>
-            </div>
-            <div className="space-y-4">
-              <p className="text-[10px]  font-black text-red-400">Lowest Payout</p>
-              <div className="bg-zinc-950 p-4 border border-zinc-800 rounded-sm">
-                <p className="text-xl font-bold">₹2,000</p>
-                <p className="text-xs text-white">Sgt. Miller</p>
-                <p className="text-[10px] text-zinc-500 ">Local Hike / MI</p>
-              </div>
-            </div>
+          <div className="overflow-x-auto">
+            <table className="w-full text-left">
+              <thead className="text-base text-zinc-500 font-bold border-b border-zinc-800">
+                <tr>
+                  <th className="pb-2"></th>
+                  <th className="pb-2">Amount</th>
+                  <th className="pb-2">Name</th>
+                  <th className="pb-2">Location</th>
+                </tr>
+              </thead>
+              <tbody className="text-sm divide-y divide-zinc-900 text-white">
+                <tr className="hover:bg-zinc-800/30 transition-colors">
+                  <td className="py-3 font-bold text-emerald-500">Highest Payout</td>
+                  <td className="py-3 font-black">{formatToIndianCurrency(19000)}</td>
+                  <td className="py-3">Major Sandeep</td>
+                  <td className="py-3">Everest Base Camp</td>
+                </tr>
+                <tr className="hover:bg-zinc-800/30 transition-colors text-white">
+                  <td className="py-3 font-bold text-red-400">Lowest Payout</td>
+                  <td className="py-3 font-black">{formatToIndianCurrency(2000)}</td>
+                  <td className="py-3">Sgt. Miller</td>
+                  <td className="py-3">Local Hike / MI</td>
+                </tr>
+              </tbody>
+            </table>
           </div>
         </InsightCard>
 
@@ -164,8 +183,8 @@ export default function PerformanceDashboard() {
       {/* 6. TIME-BASED PERFORMANCE GRAPH */}
       <Card className="bg-zinc-900/40 border border-zinc-700 rounded-none p-8">
         <div className="flex flex-col md:flex-row justify-between items-start md:items-center mb-10 gap-4">
-          <h3 className="text-sm  tracking-[0.2em] font-black text-white ">Operational Growth Velocity</h3>
-          <div className="flex flex-wrap gap-4 text-[10px] font-black  tracking-tighter">
+          <h3 className="text-sm font-black text-white ">MoM Performance</h3>
+          <div className="flex flex-wrap gap-4 text-[10px] font-black">
             <LegendItem color="bg-blue-500" label="Revenue" />
             <LegendItem color="bg-emerald-500" label="Travelers" />
             <LegendItem color="bg-amber-500" label="Camps" />
@@ -251,7 +270,7 @@ export default function PerformanceDashboard() {
 
 // --- UI HELPER COMPONENTS ---
 
-function KPIGroup({ title, metrics }: { title: string, metrics: any[] }) {
+export function KPIGroup({ title, metrics }: { title: string, metrics: { label: string; value: number; color: string }[] }) {
   return (
     <Card className="bg-zinc-900 border-zinc-700 rounded-sm p-6 overflow-hidden">
       <h3 className="text-lg  tracking-widest font-black text-white mb-6 ">{title}</h3>
@@ -259,7 +278,7 @@ function KPIGroup({ title, metrics }: { title: string, metrics: any[] }) {
         {metrics.map((m, i) => (
           <div key={i} className={i !== 0 ? "border-l border-zinc-800 pl-4" : ""}>
             <p className="text-sm text-zinc-500  font-bold mb-1">{m.label}</p>
-            <p className={`text-2xl font-black tracking-tighter ${m.color}`}>{m.value}</p>
+            <p className={`text-2xl font-black tracking-tighter ${m.color}`}>{formatToIndianCurrency(m.value)}</p>
           </div>
         ))}
       </div>
@@ -267,7 +286,7 @@ function KPIGroup({ title, metrics }: { title: string, metrics: any[] }) {
   );
 }
 
-function InsightCard({ title, children, showFilter }: { title: string, children: React.ReactNode, showFilter?: boolean }) {
+export function InsightCard({ title, children, showFilter }: { title: string, children: React.ReactNode, showFilter?: boolean }) {
   return (
     <Card className="bg-zinc-900/30 border border-zinc-700 rounded-sm p-8 flex flex-col">
       <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 mb-10">
@@ -292,16 +311,17 @@ function InsightCard({ title, children, showFilter }: { title: string, children:
   );
 }
 
-function DataPoint({ label, value, highlight }: any) {
+export function DataPoint({ label, value, highlight }: any) {
+  const displayValue = typeof value === 'number' ? formatToIndianCurrency(value) : value;
   return (
     <div className="space-y-1">
       <p className="text-xs text-zinc-500  font-black tracking-widest">{label}</p>
-      <p className={`text-2xl font-black ${highlight ? 'text-cyan-400' : 'text-white'}`}>{value}</p>
+      <p className={`text-2xl font-black ${highlight ? 'text-cyan-400' : 'text-white'}`}>{displayValue}</p>
     </div>
   );
 }
 
-function StatList({ title, items }: any) {
+function StatList({ title, items }: { title: string; items: { label: string; value: string; desc?: string }[] }) {
   return (
     <div className="space-y-5">
       <p className="text-[11px]  font-black text-zinc-500 tracking-widest">{title}</p>
@@ -310,9 +330,9 @@ function StatList({ title, items }: any) {
           <div key={i} className="flex justify-between items-start border-b border-zinc-800/50 pb-2">
             <div className="space-y-0.5">
               <p className="text-sm text-zinc-300 font-bold">{item.label}</p>
-              {item.desc && <p className="text-[9px] text-zinc-600  font-bold tracking-tighter">{item.desc}</p>}
+              {item.desc && <p className="text-[12px] text-zinc-500  font-bold tracking-tighter">{item.desc}</p>}
             </div>
-            <p className="text-sm font-black text-white">{item.value}</p>
+            <p className="text-sm font-black text-white">{title == "Pay" ? formatToIndianCurrency(parseInt(item.value)) : item.value}</p>
           </div>
         ))}
       </div>
@@ -320,16 +340,16 @@ function StatList({ title, items }: any) {
   );
 }
 
-function CampTableRow({ type, sold, gross, net, avg, high, low }: any) {
+function CampTableRow({ type, sold, gross, net, avg, high, low }: { type: string; sold: string; gross: number; net: number; avg: number; high: number; low: number }) {
   return (
     <tr className="hover:bg-zinc-800/30 transition-colors">
       <td className="py-3 font-bold text-zinc-300">{type}</td>
       <td className="py-3 text-right font-black text-zinc-500">{sold}</td>
-      <td className="py-3 text-right font-black">₹{gross}</td>
-      <td className="py-3 text-right font-black text-emerald-500">₹{net}</td>
-      <td className="py-3 text-right font-black">₹{avg}</td>
-      <td className="py-3 text-right font-black text-white">₹{high}</td>
-      <td className="py-3 text-right font-black text-zinc-500">₹{low}</td>
+      <td className="py-3 text-right font-black">{formatToIndianCurrency(gross)}</td>
+      <td className="py-3 text-right font-black text-emerald-500">{formatToIndianCurrency(net)}</td>
+      <td className="py-3 text-right font-black">{formatToIndianCurrency(avg)}</td>
+      <td className="py-3 text-right font-black text-white">{formatToIndianCurrency(high)}</td>
+      <td className="py-3 text-right font-black text-zinc-500">{formatToIndianCurrency(low)}</td>
     </tr>
   );
 }
@@ -365,12 +385,12 @@ const CustomTooltip = ({ active, payload, label }: any) => {
               <div key={index} className="flex items-center justify-between gap-12">
                 <div className="flex items-center gap-2.5">
                   <div className="w-1.5 h-1.5 rounded-full shadow-[0_0_8px_currentColor]" style={{ color: entry.color, backgroundColor: entry.color }} />
-                  <span className="text-[11px] font-black text-zinc-400 uppercase tracking-tight">{entry.name}</span>
+                  <span className="text-[11px] font-black text-zinc-400">{entry.name}</span>
                 </div>
-                <span className="text-xs font-black text-white font-mono">
+                <span className="text-xs font-black text-white">
                   {entry.name === "Revenue" 
-                    ? `₹${originalValue.toLocaleString('en-IN')}` 
-                    : originalValue.toLocaleString()
+                    ? `₹${originalValue.toLocaleString('en-IN', { maximumFractionDigits: 0 })}` 
+                    : originalValue.toLocaleString('en-IN')
                   }
                 </span>
               </div>

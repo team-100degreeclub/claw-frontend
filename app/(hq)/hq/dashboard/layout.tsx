@@ -108,36 +108,53 @@ export default function DashboardLayout({ children }: { children: React.ReactNod
 
       {/* SECONDARY SIDEBAR */}
       {hasSecondary && (
-        <aside className={cn("w-64 border-r border-zinc-800 bg-zinc-900/50")}>
-        <ScrollArea className="flex-1 p-6">
-          {secondaryMenus["Board Room"].map((group) => (
-            <div key={group.category} className="mb-8">
-              <h3 className="text-[10px] uppercase tracking-widest text-zinc-500 font-bold mb-4">
-                {group.category}
-              </h3>
-              <div className="space-y-1">
-                {group.items.map((item) => {
-                  const itemSlug = item.toLowerCase().replace(/\s+/g, "-");
-                  const isActive = currentView === itemSlug;
-                  
-                  return (
-                    <button
-                      key={item}
-                      onClick={() => handleSecondaryClick(group.category, item)}
-                      className={cn(
-                        "w-full text-left px-3 py-2 text-sm rounded-md transition-colors",
-                        isActive ? "bg-zinc-800 text-white" : "text-zinc-500 hover:text-zinc-300"
-                      )}
-                    >
-                      {item}
-                    </button>
-                  );
-                })}
-              </div>
+        <aside className={cn(
+          "relative flex flex-col border-r border-zinc-800 bg-zinc-900/30 backdrop-blur-xl transition-all duration-300 ease-in-out z-20",
+          secondaryCollapsed ? "w-12" : "w-64"
+        )}>
+          {!secondaryCollapsed ? (
+            <ScrollArea className="flex-1 p-6">
+              {/* <div className="mb-6">
+                <p className="text-[10px] uppercase font-black text-cyan-500 italic tracking-[0.2em]">Context</p>
+                <h2 className="text-lg font-bold text-white">{activePrimary}</h2>
+              </div> */}
+              
+              {secondaryMenus[activePrimary].map((group) => (
+                <div key={group.category} className="mb-10">
+                  <h3 className="text-[10px] uppercase tracking-[0.2em] text-zinc-500 font-black mb-4 px-2">
+                    {group.category}
+                  </h3>
+                  <div className="space-y-1">
+                    {group.items.map((item) => (
+                      <button
+                        key={item}
+                        onClick={() => handleSecondaryClick(group.category, item)}
+                        className="w-full text-left px-3 py-2 text-xs font-bold uppercase tracking-tight rounded-sm transition-all text-zinc-400 hover:text-white hover:bg-zinc-800/50"
+                      >
+                        {item}
+                      </button>
+                    ))}
+                  </div>
+                </div>
+              ))}
+            </ScrollArea>
+          ) : (
+            // Indicator for collapsed secondary state
+            <div className="flex flex-col items-center py-10 gap-8">
+               <div className="h-1 w-6 bg-zinc-800 rounded-full" />
+               <div className="h-1 w-6 bg-zinc-800 rounded-full" />
             </div>
-          ))}
-        </ScrollArea>
-      </aside>
+          )}
+
+          {/* SECONDARY COLLAPSE TOGGLE - ADDED THIS */}
+          <Button 
+            variant="ghost" size="icon" 
+            className="absolute -right-3 top-20 h-6 w-6 rounded-full border border-zinc-700 bg-zinc-900 hover:bg-zinc-800 z-40"
+            onClick={() => setSecondaryCollapsed(!secondaryCollapsed)}
+          >
+            {secondaryCollapsed ? <ChevronRight size={12}/> : <ChevronLeft size={12}/>}
+          </Button>
+        </aside>
       )}
 
       {/* MAIN CONTENT AREA */}
