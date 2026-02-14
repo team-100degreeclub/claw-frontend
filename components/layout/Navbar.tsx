@@ -13,7 +13,7 @@ export default function Navbar() {
     <nav className="sticky top-0 z-50 w-full border-b border-zinc-800 bg-black/95 backdrop-blur">
       <div className="container mx-auto flex h-20 items-center justify-between px-4">
         {/* Brand Logo */}
-        <div className="flex items-center gap-2 cursor-pointer" onClick={() => router.push("/camps")}>
+        <div className="flex items-center gap-2 cursor-pointer" onClick={() => router.push("/")}>
             <Button
               variant="link"
               className="ml-10 flex items-center border-0 hover:bg-zinc-600/30 hover:cursor-pointer gap-2 text-sm font-bold tracking-widest text-zinc-300 transition-colors hover:text-white px-4"
