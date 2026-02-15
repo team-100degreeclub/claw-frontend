@@ -8,6 +8,7 @@ import {
   Tooltip, ResponsiveContainer, Legend
 } from "recharts";
 import { Badge } from "@/components/ui/badge";
+import { cn } from "@/lib/utils";
 
 
 
@@ -286,9 +287,9 @@ export function KPIGroup({ title, metrics }: { title: string, metrics: { label: 
   );
 }
 
-export function InsightCard({ title, children, showFilter }: { title: string, children: React.ReactNode, showFilter?: boolean }) {
+export function InsightCard({ title, children, showFilter, className }: { title: string, children: React.ReactNode, showFilter?: boolean, className?: string }) {
   return (
-    <Card className="bg-zinc-900/30 border border-zinc-700 rounded-sm p-8 flex flex-col">
+    <Card className={cn("bg-zinc-900/30 border border-zinc-700 rounded-sm p-8 flex flex-col", className)}>
       <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 mb-10">
         <div className="flex items-center gap-3">
           <div className="w-1 h-6 bg-cyan-500" />
@@ -354,7 +355,7 @@ function CampTableRow({ type, sold, gross, net, avg, high, low }: { type: string
   );
 }
 
-function LegendItem({ color, label }: { color: string, label: string }) {
+export function LegendItem({ color, label }: { color: string, label: string }) {
   return (
     <span className="flex items-center gap-1.5">
       <span className={`w-2.5 h-2.5 rounded-full ${color}`} />
@@ -363,7 +364,7 @@ function LegendItem({ color, label }: { color: string, label: string }) {
   );
 }
 
-const CustomTooltip = ({ active, payload, label }: any) => {
+export const CustomTooltip = ({ active, payload, label }: any) => {
   if (active && payload && payload.length) {
     return (
       <div className="bg-zinc-950/95 border border-zinc-700 p-4 shadow-[0_0_30px_rgba(0,0,0,0.5)] rounded-sm backdrop-blur-xl ring-1 ring-white/10">

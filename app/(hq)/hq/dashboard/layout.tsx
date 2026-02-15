@@ -6,7 +6,8 @@ import { Button } from "@/components/ui/button";
 import { ScrollArea } from "@/components/ui/scroll-area";
 import { 
   LayoutDashboard, Tent, Users, Bell, 
-  Library, LifeBuoy, UserCircle, ChevronLeft, ChevronRight 
+  Library, LifeBuoy, UserCircle, ChevronLeft, ChevronRight, 
+  LampDesk
 } from "lucide-react";
 import { usePathname, useRouter } from "next/navigation";
 
@@ -14,11 +15,17 @@ const secondaryMenus: Record<string, { category: string; items: string[] }[]> = 
   "Board Room": [
     {
       category: "Business",
-      items: ["Performance", "Books", "Corporate Leads", "Camp", "Traveler", "Insignia", "Joining Request"],
+      items: ["Performance", "Books", "Corporate Leads", "Camp", "Traveller", "Insignia", "Joining Request"],
     },
     {
       category: "Operations",
       items: ["Alert", "Engagement", "Errors & Bugs", "Api", "Social Media", "Feature Request", "Customer Support"],
+    },
+  ],
+  "Work Station": [
+    {
+      category: "Workstation",
+      items: ["Insights", "Corporate", "Camps"],
     },
   ],
 };
@@ -62,7 +69,7 @@ export default function DashboardLayout({ children }: { children: React.ReactNod
           <div className="space-y-2">
             {[
               { label: "Board Room", icon: LayoutDashboard },
-              { label: "Camp Manager", icon: Tent },
+              { label: "Work Station", icon: LampDesk },
               { label: "Team", icon: Users },
               { label: "Updates", icon: Bell },
             ].map((item) => (
@@ -78,7 +85,7 @@ export default function DashboardLayout({ children }: { children: React.ReactNod
             ))}
           </div>
 
-          <div className="mt-auto pt-10 pb-6 space-y-2">
+          <div className="mb-auto pt-10 pb-6 space-y-2">
             {[
               { label: "Library", icon: Library },
               { label: "Support", icon: LifeBuoy },
