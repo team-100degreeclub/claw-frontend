@@ -7,10 +7,12 @@ import { ScrollArea } from "@/components/ui/scroll-area";
 import {
   LayoutDashboard, Tent, Users, Bell,
   Library, LifeBuoy, UserCircle, ChevronLeft, ChevronRight,
-  LampDesk
+  LampDesk,
+  NotebookPen
 } from "lucide-react";
 import { usePathname, useRouter } from "next/navigation";
 import { TeamSidebar } from "@/components/hq/team/TeamSidebar";
+import { NotepadDialog } from "@/components/hq/NotepadDialog";
 
 const secondaryMenus: Record<string, { category: string; items: string[] }[]> = {
   "Board Room": [
@@ -23,7 +25,7 @@ const secondaryMenus: Record<string, { category: string; items: string[] }[]> = 
       items: ["Alert", "Engagement", "Errors & Bugs", "Api", "Social Media", "Feature Request", "Customer Support"],
     },
   ],
-  "Work Station": [
+  "Workstation": [
     {
       category: "Workstation",
       items: ["Insights", "Corporate", "Camps"],
@@ -36,6 +38,7 @@ export default function DashboardLayout({ children }: { children: React.ReactNod
 
   const [primaryCollapsed, setPrimaryCollapsed] = useState(false);
   const [secondaryCollapsed, setSecondaryCollapsed] = useState(false);
+  const [isNotepadOpen, setIsNotepadOpen] = useState(false); // New state for Notepad dialog
 
   const pathname = usePathname();
   const router = useRouter();
@@ -50,7 +53,7 @@ export default function DashboardLayout({ children }: { children: React.ReactNod
     if (["business", "operations"].includes(dashboardCategorySegment)) {
       activePrimaryLabel = "Board Room";
     } else if (dashboardCategorySegment === "workstation") {
-      activePrimaryLabel = "Work Station";
+      activePrimaryLabel = "Workstation";
     } else if (dashboardCategorySegment === "team") {
       activePrimaryLabel = "Team";
     } else if (dashboardCategorySegment === "updates") {
@@ -89,16 +92,18 @@ export default function DashboardLayout({ children }: { children: React.ReactNod
   if (!activeSecondaryLabel) {
     if (activePrimaryLabel === "Board Room" && secondaryMenus["Board Room"] && secondaryMenus["Board Room"][0]) {
       activeSecondaryLabel = secondaryMenus["Board Room"][0].items[0]; // "Performance"
-    } else if (activePrimaryLabel === "Work Station" && secondaryMenus["Work Station"] && secondaryMenus["Work Station"][0]) {
-      activeSecondaryLabel = secondaryMenus["Work Station"][0].items[0]; // "Insights"
+    } else if (activePrimaryLabel === "Workstation" && secondaryMenus["Workstation"] && secondaryMenus["Workstation"][0]) {
+      activeSecondaryLabel = secondaryMenus["Workstation"][0].items[0]; // "Insights"
     }
   }
 
   const handlePrimaryClick = (label: string) => {
-    if (label === "Board Room") {
+    if (label === "Notepad") {
+      setIsNotepadOpen(true);
+    } else if (label === "Board Room") {
       router.push("/hq/dashboard/business/performance"); // Default for Board Room
-    } else if (label === "Work Station") {
-      router.push("/hq/dashboard/workstation/insights"); // Default for Work Station
+    } else if (label === "Workstation") {
+      router.push("/hq/dashboard/workstation/insights"); // Default for Workstation
     } else if (label === "Team") {
       router.push("/hq/dashboard/team/self"); // Assuming this is a direct path without secondary menus
     } else if (label === "Updates") {
@@ -114,7 +119,7 @@ export default function DashboardLayout({ children }: { children: React.ReactNod
 
   const hasSecondary =
     (!!secondaryMenus[activePrimaryLabel] || activePrimaryLabel === "Team") &&
-    !["Library", "Support", "Profile", "Updates"].includes(activePrimaryLabel);
+    !["Library", "Support", "Profile", "Updates", "Notepad"].includes(activePrimaryLabel);
 
   const handleSecondaryClick = (category: string, item: string) => {
     // Format item name for URL (e.g., "Corporate Leads" -> "corporate-leads")
@@ -134,11 +139,11 @@ export default function DashboardLayout({ children }: { children: React.ReactNod
           {primaryCollapsed ? "C." : "C.L.A.W HQ"}
         </div>
 
-        <ScrollArea className="flex-1 px-3">
+        <div className="flex-1 px-3 min-h-[-webkit-fill-available] mt-6 flex flex-col justify-between">
           <div className="space-y-2">
             {[
               { label: "Board Room", icon: LayoutDashboard },
-              { label: "Work Station", icon: LampDesk },
+              { label: "Workstation", icon: LampDesk },
               { label: "Team", icon: Users },
               { label: "Updates", icon: Bell },
             ].map((item) => (
@@ -154,8 +159,9 @@ export default function DashboardLayout({ children }: { children: React.ReactNod
             ))}
           </div>
 
-          <div className="mb-auto pt-10 pb-6 space-y-2">
+          <div className="mt-auto pt-10 pb-6 space-y-2">
             {[
+              { label: "Notepad", icon: NotebookPen },
               { label: "Library", icon: Library },
               { label: "Support", icon: LifeBuoy },
               { label: "Profile", icon: UserCircle },
@@ -171,7 +177,7 @@ export default function DashboardLayout({ children }: { children: React.ReactNod
               </Button>
             ))}
           </div>
-        </ScrollArea>
+        </div>
 
         <Button
           variant="ghost" size="icon"
@@ -256,6 +262,9 @@ export default function DashboardLayout({ children }: { children: React.ReactNod
       <main className="flex-1 overflow-y-auto bg-black p-8">
         {children}
       </main>
+
+      {/* Notepad Dialog */}
+      <NotepadDialog isOpen={isNotepadOpen} onClose={() => setIsNotepadOpen(false)} />
     </div>
   );
 }

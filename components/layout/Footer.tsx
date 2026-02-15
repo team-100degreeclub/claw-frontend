@@ -1,33 +1,46 @@
+import React from "react";
+import Link from "next/link";
+import { Facebook, Twitter, Instagram, Send } from "lucide-react";
+
 export default function Footer() {
-  const links = ["About C.L.A.W.","Contact", "Privacy", "Terms"];
-  
   return (
-    <footer className="mt-20 border-t border-zinc-900 bg-black py-16">
-      <div className="container mx-auto px-4">
-        <div className="gap-12 mb-12 flex justify-between">
-          <div className="col-span-2">
-             <h2 className="text-4xl font-black tracking-tighter text-white mb-4">C.L.A.W.</h2>
-             <p className="text-zinc-500 max-w-sm text-sm leading-relaxed">
-               A global functional training revolution led by Special Forces veterans. Conquer Land, Air, and Water.
-             </p>
-          </div>
-          <div className="flex flex-col items-end">
-          {links.map(link => (
-            <a key={link} href="#" className="text-xs font-bold tracking-widest text-zinc-400 hover:text-white p-2">
-              {link}
-            </a>
-          ))}
-          </div>
-        </div>
-        <div className="flex justify-between items-center border-t border-zinc-900 pt-8 text-[10px] font-bold tracking-widest text-zinc-600">
-          <p>© 2026 C.L.A.W. GLOBAL(Beta) - ALL RIGHTS RESERVED</p>
-          <div className="flex gap-6">
-            <span>Instagram</span>
-            <span>YouTube</span>
-            <span>X (Twitter)</span>
-          </div>
+    <footer className="w-full bg-[#0D0D0D] border-t border-zinc-900 py-6 px-8 flex items-center justify-between">
+      {/* 1. Left Section: Logo */}
+      <div className="flex items-center">
+        <span className="text-2xl font-black tracking-tighter text-white">
+          CL<span className="text-orange-500">A</span>W
+        </span>
+      </div>
+
+      {/* 2. Right Section: CTA & Socials */}
+      <div className="flex items-center gap-8">
+        <Link 
+          href="/hq" 
+          className="text-xs font-black uppercase tracking-[0.2em] text-white hover:text-cyan-400 transition-colors"
+        >
+          Join CLAW
+        </Link>
+
+        <div className="flex items-center gap-4">
+          <SocialIcon href="https://facebook.com" icon={Facebook} />
+          <SocialIcon href="https://twitter.com" icon={Twitter} />
+          <SocialIcon href="https://instagram.com" icon={Instagram} />
+          <SocialIcon href="https://telegram.org" icon={Send} />
         </div>
       </div>
     </footer>
+  );
+}
+
+function SocialIcon({ href, icon: Icon }: { href: string; icon: any }) {
+  return (
+    <Link 
+      href={href} 
+      target="_blank" 
+      rel="noopener noreferrer"
+      className="text-zinc-500 hover:text-white transition-all transform hover:scale-110"
+    >
+      <Icon size={18} strokeWidth={2.5} />
+    </Link>
   );
 }

@@ -46,6 +46,12 @@ export default function HQLandingPage() {
             </DialogContent>
           </Dialog>
         </div>
+
+          <Link href="/hq/dashboard" className="mt-6">
+              <Button variant="outline" className="w-72 h-14 border-white/10 text-white backdrop-blur-md hover:bg-white/5">
+                View Dashboard
+              </Button>
+          </Link>
       </div>
     </main>
   );

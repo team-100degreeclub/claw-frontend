@@ -1,3 +1,4 @@
+import Footer from "@/components/layout/Footer";
 import Navbar from "@/components/layout/Navbar";
 import Leaderboard from "@/components/social/Leaderboard";
 
@@ -14,7 +15,7 @@ export default function MarketingLayout({ children }: { children: React.ReactNod
           <Leaderboard />
         </aside>
       </div>
-      {/* <Footer /> */}
+      <Footer />
     </div>
   );
 }

@@ -27,7 +27,7 @@ export function TeamSidebar() {
     <div className="flex flex-col h-full bg-zinc-900/30 backdrop-blur-xl border-r border-zinc-800 w-64">
       <div className="p-4 border-b border-zinc-800">
         <Input 
-          placeholder="Search Team..." 
+          placeholder="Search..." 
           className="bg-zinc-950 border-zinc-800 text-xs h-9"
           value={search}
           onChange={(e) => setSearch(e.target.value)}

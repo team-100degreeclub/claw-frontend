@@ -31,6 +31,7 @@ export default function Navbar() {
               GLOBAL
             </span>
           </h1>
+          
         </div>
 
         {/* Right Actions */}

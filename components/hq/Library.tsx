@@ -81,17 +81,17 @@ function VideoCard({ video }: { video: any }) {
         </div>
 
         {/* Top Badges */}
-        <div className="absolute top-3 left-3 z-30">
-          <Badge className="bg-zinc-950/80 text-[9px]  font-black border-zinc-700 rounded-none backdrop-blur-md">
+        {/* <div className="absolute top-3 left-3 z-30">
+          <Badge className="bg-white text-[9px] font-black border-zinc-700 rounded-none backdrop-blur-md">
             {video.tag}
           </Badge>
-        </div>
+        </div> */}
 
         {/* Duration Badge */}
-        <div className="absolute bottom-3 right-3 z-30 bg-zinc-950/90 px-2 py-1 rounded-sm border border-zinc-800 flex items-center gap-1.5 backdrop-blur-md">
+        {/* <div className="absolute bottom-3 right-3 z-30 bg-zinc-950/90 px-2 py-1 rounded-sm border border-zinc-800 flex items-center gap-1.5 backdrop-blur-md">
           <Clock size={10} className="text-zinc-500" />
           <span className="text-[10px] font-bold text-white font-mono">{video.duration}</span>
-        </div>
+        </div> */}
 
         {/* Placeholder Thumbnail - In production replace with <Image /> */}
         <div className="w-full h-full bg-gradient-to-br from-zinc-800 to-zinc-950 flex items-center justify-center">
@@ -111,9 +111,9 @@ function VideoCard({ video }: { video: any }) {
             Internal Mission Briefing
           </p>
         </div>
-        <Button variant="ghost" size="icon" className="h-8 w-8 text-zinc-500 hover:text-white hover:bg-zinc-800">
+        {/* <Button variant="ghost" size="icon" className="h-8 w-8 text-zinc-500 hover:text-white hover:bg-zinc-800">
           <Share2 size={14} />
-        </Button>
+        </Button> */}
       </div>
     </div>
   );
