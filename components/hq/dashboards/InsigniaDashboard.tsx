@@ -9,7 +9,8 @@ import {
 } from "recharts";
 import { 
   Mountain, Wind, Droplets, Flame, Shield, 
-  Users, MapPin, TrendingUp, Trophy 
+  Users, MapPin, TrendingUp, Trophy, 
+  Medal
 } from "lucide-react";
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
 import { Badge } from "@/components/ui/badge";
@@ -37,7 +38,8 @@ export default function InsigniaDashboard() {
     <div className="space-y-8 pb-20 max-w-[1600px] mx-auto animate-in fade-in duration-500 text-white">
       
       {/* 1. SYMBOLIZE BADGES & TOTALS */}
-      <div className="grid grid-cols-1 md:grid-cols-5 gap-4">
+      <div className="grid grid-cols-1 md:grid-cols-6 gap-4">
+        <BadgeCategoryCard icon={Medal} label="Total" count="3,572" color="text-white" />
         <BadgeCategoryCard icon={Mountain} label="Land" count="1,240" color="text-emerald-500" />
         <BadgeCategoryCard icon={Wind} label="Air" count="850" color="text-blue-500" />
         <BadgeCategoryCard icon={Droplets} label="Water" count="920" color="text-cyan-500" />
@@ -48,7 +50,7 @@ export default function InsigniaDashboard() {
       <div className="grid grid-cols-1 xl:grid-cols-3 gap-8">
         
         {/* 2. TIME DIMENSION & TRENDS */}
-        <InsightCard title="Badge Velocity & Trends" className="xl:col-span-2" showFilter>
+        <InsightCard title="Badge Trend" className="xl:col-span-2" showFilter>
           <div className="h-[300px] w-full mt-6">
             <ResponsiveContainer width="100%" height="100%">
               <AreaChart data={timelineData} margin={{ top: 0, right: 20, left: 20, bottom: 0 }}>
@@ -221,7 +223,7 @@ function BadgeCategoryCard({ icon: Icon, label, count, color }: any) {
       <div className={`p-3 rounded-full bg-zinc-950 border border-zinc-800 mb-4 group-hover:scale-110 transition-transform ${color}`}>
         <Icon size={24} />
       </div>
-      <p className="text-[10px]  font-black text-zinc-500 tracking-widest">{label}</p>
+      <p className="text-sm font-black text-zinc-500">{label}</p>
       <h3 className="text-2xl font-black mt-1 text-white">{count}</h3>
     </Card>
   );

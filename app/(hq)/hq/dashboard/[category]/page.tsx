@@ -8,22 +8,13 @@ import InsigniaDashboard from "@/components/hq/dashboards/InsigniaDashboard";
 import HostInsightsView from "@/components/hq/dashboards/HostInsightsDashboard";
 import CorporateDashboard from "@/components/hq/dashboards/CorporateDashboard";
 import HostCampsDashboard from "@/components/hq/dashboards/HostCampsDashboard";
+import Library from "@/components/hq/Library";
 
 
 // This is a mapping of slugs to actual UI components
 const VIEW_COMPONENTS: Record<string, React.ComponentType> = {
-  "business_performance": PerformanceDashboard,
-  "business_books": BooksDashboard,
-  "business_joining-request": JoiningRequests,
-  "business_corporate-leads": CorporateLeadsDashboard,
-  "business_camp": CampDashboard,
-  "business_traveller": TravellerDashboard,
-  "business_insignia": InsigniaDashboard,
-  "workstation_insights": HostInsightsView,
-  "workstation_corporate": CorporateDashboard,
-  "workstation_camps": HostCampsDashboard,
-  "team": HostInsightsView,
   // Add more as you build them
+  "library": Library
 };
 
 export default async function DynamicDashboardPage({ 
@@ -33,16 +24,8 @@ export default async function DynamicDashboardPage({
 }) {
   const { category, view } = await params;
 
-  if (category === "team") {
-    return (
-      <div className="animate-in fade-in slide-in-from-right-4 duration-500">
-        <HostInsightsView />
-      </div>
-    );
-  }
-  
   // Fallback to Performance if view isn't found
-  const SelectedView = VIEW_COMPONENTS[category + "_" + view] || PerformanceDashboard;
+  const SelectedView = VIEW_COMPONENTS[category] || PerformanceDashboard;
 
   return (
     <div className="animate-in fade-in slide-in-from-right-4 duration-500">

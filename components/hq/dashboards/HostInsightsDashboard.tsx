@@ -10,9 +10,14 @@ import {
   Tooltip, ResponsiveContainer 
 } from "recharts";
 import { HDTooltip } from "./InsigniaDashboard";
+import { useParams } from "next/navigation";
+import { HOST_DATA } from "@/components/hq/team/TeamSidebar";
 
 export default function HostInsightsView() {
+    const { view } = useParams();
   const [isAvailable, setIsAvailable] = useState(true);
+
+  const host = HOST_DATA.find(h => h.id === view) || HOST_DATA[0];
 
   return (
     <div className="space-y-8 pb-20 text-white animate-in fade-in duration-500">
@@ -21,10 +26,10 @@ export default function HostInsightsView() {
       <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-6 border-b border-zinc-800 pb-8">
         <div>
           <h1 className="text-4xl font-black   tracking-tighter">
-            Welcome <span className="text-blue-500 ml-2">Major</span> Arjun Mehta
+            Welcome <span className="text-cyan-400">{host.rank}</span> {host.name.split(' ').slice(1).join(' ')}
           </h1>
           <p className="text-xs text-zinc-500 font-bold  tracking-widest mt-2">
-            CLAW Collaboration ID: #SF-992-ALPHA
+            CLAW Collaboration ID: #SF-{host.id.split('-')[0].toUpperCase()}
           </p>
         </div>
 
@@ -45,17 +50,17 @@ export default function HostInsightsView() {
 
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 pt-4">
         <div className="space-y-6">
-          <ProfileDetail label="Email Address" value="arjun.mehta@claw.mission" />
-          <ProfileDetail label="Nationality" value="Indian" />
-          <ProfileDetail label="Present Location" value="Leh, Ladakh Sector" />
+          <ProfileDetail label="Email Address" value={`${host.id}@claw.mission`} />
+          <ProfileDetail label="Nationality" value={host.nationality} />
+          <ProfileDetail label="Present Location" value={host.location} />
         </div>
 
         {/* Service Record Table */}
         <div className="bg-zinc-900/40 border border-zinc-800 p-4 rounded-sm">
-          <p className="text-[10px] uppercase font-black text-zinc-500 mb-4 tracking-widest italic">Service Record</p>
+          <p className="text-[10px]  font-black text-zinc-500 mb-4 tracking-widest ">Service Record</p>
           <Table>
             <TableHeader className="border-b border-zinc-800">
-              <TableRow className="hover:bg-transparent text-[9px] uppercase font-bold text-zinc-500">
+              <TableRow className="hover:bg-transparent text-[9px]  font-bold text-zinc-500">
                 <TableHead className="h-8">Rank</TableHead>
                 <TableHead className="h-8">Unit</TableHead>
                 <TableHead className="h-8 text-right">Service Time</TableHead>
@@ -73,8 +78,8 @@ export default function HostInsightsView() {
 
         {/* Host Vision / Bio */}
         <div className="bg-zinc-900/20 border-l-2 border-cyan-500 p-6 rounded-sm lg:col-span-2">
-          <p className="text-[10px] uppercase font-black text-cyan-500 mb-2 tracking-widest italic">Vision</p>
-          <p className="text-sm leading-relaxed text-zinc-300 italic font-medium">
+          <p className="text-[10px]  font-black text-cyan-500 mb-2 tracking-widest ">Vision</p>
+          <p className="text-sm leading-relaxed text-zinc-300  font-medium">
             "To bridge the gap between elite survivalist training and civilian resilience. 
             My mission is to cultivate a tribe of travelers who find strength in the wild 
             and discipline in the spirit of the special forces."
@@ -258,7 +263,7 @@ function MiniDataPoint({ label, value, highlight }: any) {
 function ProfileDetail({ label, value }: { label: string; value: string }) {
   return (
     <div className="flex flex-col border-b border-zinc-900 pb-2">
-      <span className="text-[9px] uppercase font-black text-zinc-500 tracking-widest">{label}</span>
+      <span className="text-[9px]  font-black text-zinc-500 tracking-widest">{label}</span>
       <span className="text-sm font-bold text-white mt-1">{value}</span>
     </div>
   );
