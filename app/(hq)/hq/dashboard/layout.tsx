@@ -159,7 +159,7 @@ export default function DashboardLayout({ children }: { children: React.ReactNod
             ))}
           </div>
 
-          <div className="mt-auto pt-10 pb-6 space-y-2">
+          <div className="mt-auto pb-15 space-y-2">
             {[
               { label: "Notepad", icon: NotebookPen },
               { label: "Library", icon: Library },
