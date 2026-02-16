@@ -17,6 +17,7 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import { Badge } from "@/components/ui/badge";
+import { CampTable } from "./camps/CampTable";
 
 // Mock data for the host's assigned camps
 const CAMP_DATA = [
@@ -49,7 +50,11 @@ const CAMP_DATA = [
   },
 ];
 
+
 export default function HostCampsDashboard() {
+  return (
+    <CampTable profile={null}/>
+  )
   return (
     <div className="space-y-8 pb-20 text-white animate-in fade-in duration-500">
       

@@ -43,50 +43,47 @@ const CORPORATE_DEALS = [
 
 export default function CorporateDashboard() {
   return (
-    <div className="space-y-8 pb-20 text-white animate-in fade-in duration-500">
+    <div className="space-y-8 text-white animate-in fade-in duration-500 p-4 pt-6  rounded-xl">
       
       {/* Header Section */}
-      <div className="border-b border-zinc-800 pb-6">
-        <h2 className="text-2xl font-black   tracking-tighter">
+      <div>
+        <h2 className="text-2xl font-black tracking-tighter text-white">
           Corporate Engagements
         </h2>
-        {/* <p className="text-xs text-zinc-500 font-bold  tracking-widest mt-1">
-          Individual Deal Tracking & Status Management
-        </p> */}
       </div>
 
       {/* Corporate Deals Table */}
-      <div className="bg-zinc-900/20 border border-zinc-700 rounded-none overflow-hidden">
+      <div className="bg-zinc-900/40 border border-zinc-800 rounded-xl overflow-hidden shadow-2xl">
         <Table>
-          <TableHeader className="bg-zinc-900/50">
-            <TableRow className="border-zinc-800 text-[10px]  font-black text-zinc-500 tracking-widest hover:bg-transparent">
-              <TableHead>Company Name</TableHead>
+          <TableHeader className="bg-zinc-900/80">
+            <TableRow className="border-zinc-800 text-xs font-black text-zinc-500 tracking-widest hover:bg-transparent">
+              <TableHead className="py-4">Company Name</TableHead>
               <TableHead>Location</TableHead>
               <TableHead>Date</TableHead>
-              <TableHead className="text-right">Gross</TableHead>
-              <TableHead className="text-right text-cyan-500">Net</TableHead>
+              <TableHead >Gross</TableHead>
+              <TableHead className="text-cyan-400">Net</TableHead>
               <TableHead className="w-[180px]">Status</TableHead>
               <TableHead className="text-center">Details</TableHead>
             </TableRow>
           </TableHeader>
           <TableBody className="text-xs font-medium">
             {CORPORATE_DEALS.map((deal) => (
-              <TableRow key={deal.id} className="border-zinc-800 hover:bg-zinc-800/20 transition-colors">
-                <TableCell className="font-bold text-white py-4">{deal.company}</TableCell>
+              <TableRow key={deal.id} className="border-zinc-800 hover:bg-zinc-800/40 transition-colors">
+                <TableCell className="font-bold text-white py-5">{deal.company}</TableCell>
                 <TableCell className="text-zinc-400">{deal.location}</TableCell>
-                <TableCell className="text-zinc-400 font-mono">{deal.date}</TableCell>
-                <TableCell className="text-right font-black">{deal.gross}</TableCell>
-                <TableCell className="text-right font-black text-emerald-500">{deal.net}</TableCell>
+                <TableCell className="text-zinc-500">{deal.date}</TableCell>
+                <TableCell className="font-black text-zinc-300">{deal.gross}</TableCell>
+                <TableCell className="font-black text-emerald-400">{deal.net}</TableCell>
                 <TableCell>
                   <Select defaultValue={deal.status}>
-                    <SelectTrigger className="h-8 bg-zinc-950 border-zinc-800 text-[10px]  font-black tracking-tighter ring-offset-zinc-950 focus:ring-zinc-700">
+                    <SelectTrigger className="h-9 bg-zinc-950 border-zinc-800 text-xs text-zinc-200 ring-offset-zinc-950 focus:ring-1 focus:ring-zinc-700">
                       <SelectValue />
                     </SelectTrigger>
-                    <SelectContent className="bg-zinc-900 border-zinc-700 text-white">
-                      <SelectItem value="Completed" className="text-[10px]  font-bold focus:bg-emerald-500/20 focus:text-emerald-400">
+                    <SelectContent className="bg-zinc-950 border-zinc-800 text-white shadow-2xl">
+                      <SelectItem value="Completed" className="text-xs focus:bg-emerald-500/10 focus:text-emerald-400 cursor-pointer">
                         Completed
                       </SelectItem>
-                      <SelectItem value="Canceled" className="text-[10px]  font-bold focus:bg-red-500/20 focus:text-red-400">
+                      <SelectItem value="Canceled" className="text-xs focus:bg-red-500/10 focus:text-red-400 cursor-pointer">
                         Canceled
                       </SelectItem>
                     </SelectContent>
@@ -96,7 +93,7 @@ export default function CorporateDashboard() {
                   <Button 
                     variant="ghost" 
                     size="icon" 
-                    className="h-8 w-8 text-zinc-500 hover:text-cyan-400 hover:bg-zinc-800"
+                    className="h-9 w-9 text-zinc-600 hover:text-cyan-400 hover:bg-zinc-900 rounded-full transition-all"
                     title="More Information"
                   >
                     <Info size={16} />
