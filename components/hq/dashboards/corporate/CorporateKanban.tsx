@@ -110,18 +110,18 @@ const DUMMY_LEADS: Record<string, LeadData[]> = {
             assignSpeaker: "Robert P.", docsLink: "https://dropbox.com/s/proposal-v2"
         }
     ],
-    Assign: [],
-    Live: [
+    // Assign: [],
+    Deal: [
         {
-            id: "d4", column: "Live", inquiryDate: "2026-01-10", company: "Creative Minds Agency", location: "Remote",
+            id: "d4", column: "Deal", inquiryDate: "2026-01-10", company: "Creative Minds Agency", location: "Remote",
             schedule: "2026-02-25", time: "11:00", phone: "555-7788", email: "hello@creativeminds.com",
             message: "Monthly inspiration webinar.", requestSpeaker: "Emily Rivera",
             teamAvailable: "Web-Team", gross: 5000, fee: 750.00, taxes: 400, net: 3850.00,
             assignSpeaker: "Emily Rivera", docsLink: "https://zoom.us/webinar/123"
         }
     ],
-    Completed: [],
-    Canceled: [],
+    // Completed: [],
+    // Canceled: [],
 };
 
 export function CorporateKanban() {
@@ -202,15 +202,15 @@ export function CorporateKanban() {
     };
 
     return (
-        <div className="flex flex-col gap-6 w-full p-6 bg-zinc-950 min-h-screen text-white">
+        <div className="flex flex-col gap-6 w-full p-6 bg-zinc-900/70 min-h-screen text-white rounded-2xl">
             <div className="flex justify-between items-center border-b border-zinc-800 pb-6">
                 <div>
-                    <h1 className="text-2xl font-bold tracking-tight text-zinc-100">Lead Scrum Board</h1>
+                    <h1 className="text-2xl font-bold tracking-tight text-zinc-100">Lead Board</h1>
                     {/* <p className="text-zinc-500 text-sm">Track inquiries and revenue pipeline</p> */}
                 </div>
-                <Button onClick={handleAddNew} className="bg-zinc-100 text-zinc-950 hover:bg-zinc-300 font-medium h-10 px-6">
+                {/* <Button onClick={handleAddNew} className="bg-zinc-100 text-zinc-950 hover:bg-zinc-300 font-medium h-10 px-6">
                     <Plus size={18} className="mr-2" /> Add Task
-                </Button>
+                </Button> */}
             </div>
 
             <DndContext sensors={sensors} collisionDetection={closestCorners} onDragStart={(e) => setActiveId(e.active.id as string)} onDragOver={handleDragOver} onDragEnd={handleDragEnd}>
@@ -520,16 +520,31 @@ function KanbanCard({ id, item, onClick }: any) {
             <div className="flex items-center gap-1.5 text-zinc-500 text-[11px] mb-4 pointer-events-none">
                 <MapPin size={10} /> {item?.location || "No location"}
             </div>
-            <div className="flex justify-between items-end border-t border-zinc-900 pt-3">
-                <div>
-                    <p className="text-[9px] text-zinc-600 font-bold  mb-0.5">Net Deal</p>
-                    {/* <span className="text-xs font-bold text-emerald-400">{formatToIndianCurrency(item?.net || 0)}</span> */}
-                    <span className="text-xs font-bold text-emerald-400">₹{parseInt(item?.net).toLocaleString("en-IN")}</span>
+                <div className="flex flex-col justify-between border-t border-zinc-900 pt-3">
+                    {/* <div className="flex justify-between"> */}
+                        {/* <p className="text-[9px] text-zinc-600 font-bold  mb-0.5">Net Deal</p>
+                        <span className="text-xs font-bold text-emerald-400">{formatToIndianCurrency(item?.net || 0)}</span>
+                        <span className="text-xs font-bold text-emerald-400">₹{parseInt(item?.net).toLocaleString("en-IN")}</span> */}
+                        <p className="text-xs text-zinc-300 font-bold mb-0.5">Event Date: {item?.schedule ? new Intl.DateTimeFormat('en-IN', { year: 'numeric', month: 'long', day: 'numeric' }).format(new Date(item.schedule)) : "No Date"}</p>
+                        {/* <span className="text-xs font-bold">{item?.schedule || "No Date"}</span> */}
+                    {/* </div> */}
+                    {/* <div className="tflex justify-between"> */}
+                        {/* <p className="text-[10px] text-zinc-400 font-medium">{item?.schedule || "No Date"}</p> */}
+                        <p className="text-xs text-zinc-300 font-bold mb-0.5">Lead Date: {item.inquiryDate ? new Intl.DateTimeFormat('en-IN', { year: 'numeric', month: 'long', day: 'numeric' }).format(new Date(item.inquiryDate)) : "No Date"}</p>
+                        {/* <span className="text-xs font-bold">{item.inquiryDate || "No Date"}</span> */}
+                    {/* </div> */}
+                    {item.column === "Deal" && 
+                        (
+                            <div>
+                                <div>
+                                    <span className="text-xs text-zinc-300 font-bold mb-0.5">Deal Size: </span>
+                                    <span className="text-xs font-bold text-emerald-400">₹{parseInt(item?.net).toLocaleString("en-IN")}</span>
+                                </div>
+                                
+                            </div>
+                        )
+                    }
                 </div>
-                <div className="text-right">
-                    <p className="text-[10px] text-zinc-400 font-medium">{item?.schedule || "No Date"}</p>
-                </div>
-            </div>
         </div>
     );
 }

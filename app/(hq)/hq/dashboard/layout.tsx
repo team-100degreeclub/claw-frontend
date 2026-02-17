@@ -133,7 +133,7 @@ export default function DashboardLayout({ children }: { children: React.ReactNod
       {/* PRIMARY SIDEBAR */}
       <aside className={cn(
         "relative flex flex-col border-r border-zinc-800 bg-zinc-950 transition-all duration-300",
-        primaryCollapsed ? "w-16" : "w-64"
+        primaryCollapsed ? "w-16" : "w-48"
       )}>
         <div className="p-6 font-bold text-white tracking-tighter truncate">
           {primaryCollapsed ? "C." : "C.L.A.W HQ"}
@@ -150,7 +150,7 @@ export default function DashboardLayout({ children }: { children: React.ReactNod
               <Button
                 key={item.label}
                 variant={activePrimaryLabel === item.label ? "secondary" : "ghost"}
-                className={cn("w-full justify-start gap-4", primaryCollapsed && "justify-center px-0")}
+                className={cn("w-full justify-start gap-4", primaryCollapsed && "justify-center px-0", activePrimaryLabel === item.label && "text-green-400")}
                 onClick={() => handlePrimaryClick(item.label)}
               >
                 <item.icon className="h-5 w-5" />
@@ -193,7 +193,7 @@ export default function DashboardLayout({ children }: { children: React.ReactNod
         <aside
           className={cn(
             "relative flex flex-col border-r border-zinc-800 bg-zinc-900/30 backdrop-blur-xl transition-all duration-300 ease-in-out z-20",
-            secondaryCollapsed ? "w-12" : "w-64"
+            secondaryCollapsed ? "w-12" : "w-48"
           )}
         >
           {!secondaryCollapsed ? (
@@ -204,7 +204,7 @@ export default function DashboardLayout({ children }: { children: React.ReactNod
                 <ScrollArea className="flex-1 p-6">
                   {secondaryMenus[activePrimaryLabel].map((group) => (
                     <div key={group.category} className="mb-10">
-                      <h3 className="text-[10px] uppercase tracking-[0.2em] text-zinc-500 font-black mb-4 px-2">
+                      <h3 className="text-sm text-zinc-500 font-black mb-4 px-2">
                         {group.category}
                       </h3>
 
@@ -216,11 +216,11 @@ export default function DashboardLayout({ children }: { children: React.ReactNod
                               handleSecondaryClick(group.category, item)
                             }
                             className={cn(
-                              "w-full text-left px-3 py-2 text-xs font-bold uppercase tracking-tight rounded-sm transition-all",
+                              "w-full text-left px-3 py-2 text-xs font-bold  tracking-tight rounded-sm transition-all",
                               activeSecondaryLabel === item &&
                                 group.category.toLowerCase() ===
                                 currentCategorySegment
-                                ? "text-white bg-zinc-800/50"
+                                ? "text-green-400 bg-zinc-800/50"
                                 : "text-zinc-400 hover:text-white hover:bg-zinc-800/50"
                             )}
                           >

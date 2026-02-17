@@ -53,8 +53,100 @@ export default function PerformanceDashboard() {
     <div className="space-y-8 text-white pb-20 max-w-[1600px] mx-auto animate-in fade-in duration-500">
 
       {/* 1. TOP KPI SECTION: CORPORATE & CAMPS SUMMARY */}
-      <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
-        <KPIGroup
+      <InsightCard title="Summary">
+          <div className="space-y-2">
+            <div className="overflow-x-auto">
+              <table className="w-full text-left">
+                <thead className="text-[13px] text-zinc-500  font-bold border-b border-zinc-800">
+                  <tr>
+                    <th className="pb-2 w-[120px]"></th>
+                    <th className="pb-2 text-right">Gross</th>
+                    <th className="pb-2 text-right">Net</th>
+                    <th className="pb-2 text-right">Avg. Payout</th>
+                    <th className="pb-2 text-right">High</th>
+                    <th className="pb-2 text-right">Low</th>
+                    <th className="pb-2 text-right">Cancelled</th>
+                  </tr>
+                </thead>
+                <tbody className="text-xs divide-y divide-zinc-900">
+                  {/* <KPIRow type="CORPORATE" gross={14500000} expenses={8000000} net={6500000} />
+                  <KPIRow type="CAMPS" gross={11400000} expenses={5200000} net={6200000} /> */}
+                  <KPIRow type="Corporate" gross={14500000} net={6500000} avg={6500000} high={6500000} low={6500000} cancel={6500000} />
+                  <KPIRow type="Camps" gross={11400000} net={6200000} avg={6200000} high={6200000} low={6200000} cancel={6200000} />
+                </tbody>
+              </table>
+            </div>
+          </div>
+          {/* <p className="text-base font-black text-zinc-500 tracking-widest mt-4 -mb">Payout - Corporate</p> */}
+          <div className="overflow-x-auto mt-4">
+            <table className="w-full text-left">
+              <thead className="text-[13px] text-zinc-500 font-bold border-b border-zinc-800">
+                <tr>
+                  <th className="pb-2 w-1/4">Payout - Corporate</th>
+                  <th className="pb-2 w-1/4">Organization</th>
+                  <th className="pb-2 w-1/4">Host</th>
+                  <th className="pb-2 w-1/4">Time To Convert</th>
+                  <th className="pb-2 w-1/4 text-right">Amount</th>
+                </tr>
+              </thead>
+              <tbody className="text-sm divide-y divide-zinc-900 text-white">
+                <tr className="hover:bg-zinc-800/30 transition-colors">
+                  <td className="py-3">Highest Payout</td>
+                  <td className="py-3">Boeing, USA</td>
+                  <td className="py-3">Major Sandeep</td>
+                  <td className="py-3">12 days</td>
+                  <td className="py-3 text-green-400 text-right">{formatToIndianCurrency(19000)}</td>
+                </tr>
+                <tr className="hover:bg-zinc-800/30 transition-colors text-white">
+                  <td className="py-3">Lowest Payout</td>
+                  <td className="py-3">Zerodha, India</td>
+                  <td className="py-3">Sgt. Miller</td>
+                  <td className="py-3">10 days</td>
+                  <td className="py-3 text-green-400 text-right">{formatToIndianCurrency(2000)}</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+          {/* <p className="text-base font-black text-zinc-500 tracking-widest mt-4 -mb">Payout - Camps</p> */}
+          <div className="overflow-x-auto mt-4">
+            <table className="w-full text-left">
+              <thead className="text-[13px] text-zinc-500 font-bold border-b border-zinc-800">
+                <tr>
+                  <th className="pb-2 w-1/4">Payout - Camps</th>
+                  <th className="pb-2 w-1/4">Camp Name</th>
+                  <th className="pb-2 w-1/4">Host</th>
+                  <th className="pb-2 w-1/4">Time To Convert</th>
+                  <th className="pb-2 w-1/4 text-right">Amount</th>
+                </tr>
+              </thead>
+              <tbody className="text-sm divide-y divide-zinc-900 text-white">
+                <tr className="hover:bg-zinc-800/30 transition-colors">
+                  <td className="py-3">Highest Payout</td>
+                  <td className="py-3">Endurance (CLAW)</td>
+                  <td className="py-3">Major Sandeep</td>
+                  <td className="py-3">18 days</td>
+                  <td className="py-3 text-green-400 text-right">{formatToIndianCurrency(19000)}</td>
+                </tr>
+                <tr className="hover:bg-zinc-800/30 transition-colors text-white">
+                  <td className="py-3">Lowest Payout</td>
+                  <td className="py-3">Dive of the Day</td>
+                  <td className="py-3">Sgt. Miller</td>
+                  <td className="py-3">17 days</td>
+                  <td className="py-3 text-green-400 text-right">{formatToIndianCurrency(2000)}</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+
+          
+        </InsightCard>
+
+        {/* <InsightCard title="Team Insights" showFilter>
+          
+        </InsightCard> */}
+      {/* <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+
+         <KPIGroup
           title="Corporate Summary"
           metrics={[
             { label: "Gross", value: 14500000, color: "text-white" },
@@ -70,10 +162,9 @@ export default function PerformanceDashboard() {
             { label: "Net", value: 6200000, color: "text-emerald-400" }
           ]}
         />
-      </div>
+      </div> */}
 
       <div className="grid grid-cols-1 xl:grid-cols-1 gap-8">
-
         {/* 2. CORPORATE INSIGHTS */}
         <InsightCard title="Corporate Insights" showFilter>
           <div className="grid grid-cols-2 sm:grid-cols-4 gap-6 border-b border-zinc-800 pb-8 mb-8">
@@ -137,32 +228,44 @@ export default function PerformanceDashboard() {
             <DataPoint label="Total Payout" value={450000} />
             <DataPoint label="Avg/Person" value={30000} highlight />
           </div>
-          <div className="overflow-x-auto">
+          {/* <div className="overflow-x-auto">
             <table className="w-full text-left">
               <thead className="text-base text-zinc-500 font-bold border-b border-zinc-800">
                 <tr>
                   <th className="pb-2"></th>
                   <th className="pb-2">Amount</th>
                   <th className="pb-2">Name</th>
-                  <th className="pb-2">Location</th>
+                  <th className="pb-2">Camp Name / Org. Name</th>
                 </tr>
               </thead>
               <tbody className="text-sm divide-y divide-zinc-900 text-white">
                 <tr className="hover:bg-zinc-800/30 transition-colors">
-                  <td className="py-3 font-bold text-emerald-500">Highest Payout</td>
-                  <td className="py-3 font-black">{formatToIndianCurrency(19000)}</td>
+                  <td className="py-3">Highest Payout - Corporate</td>
+                  <td className="py-3">{formatToIndianCurrency(19000)}</td>
+                  <td className="py-3">Major Sandeep</td>
+                  <td className="py-3">Boeing</td>
+                </tr>
+                <tr className="hover:bg-zinc-800/30 transition-colors">
+                  <td className="py-3">Highest Payout - Camps</td>
+                  <td className="py-3">{formatToIndianCurrency(19000)}</td>
                   <td className="py-3">Major Sandeep</td>
                   <td className="py-3">Everest Base Camp</td>
                 </tr>
                 <tr className="hover:bg-zinc-800/30 transition-colors text-white">
-                  <td className="py-3 font-bold text-red-400">Lowest Payout</td>
-                  <td className="py-3 font-black">{formatToIndianCurrency(2000)}</td>
+                  <td className="py-3">Lowest Payout - Corporate</td>
+                  <td className="py-3">{formatToIndianCurrency(2000)}</td>
+                  <td className="py-3">Sgt. Miller</td>
+                  <td className="py-3">Zerodha</td>
+                </tr>
+                <tr className="hover:bg-zinc-800/30 transition-colors text-white">
+                  <td className="py-3">Lowest Payout - Camps</td>
+                  <td className="py-3">{formatToIndianCurrency(2000)}</td>
                   <td className="py-3">Sgt. Miller</td>
                   <td className="py-3">Local Hike / MI</td>
                 </tr>
               </tbody>
             </table>
-          </div>
+          </div> */}
         </InsightCard>
 
         {/* 5. TRAVELLER INSIGHTS */}
@@ -317,7 +420,7 @@ export function DataPoint({ label, value, highlight }: any) {
   return (
     <div className="space-y-1">
       <p className="text-xs text-zinc-500  font-black tracking-widest">{label}</p>
-      <p className={`text-2xl font-black ${highlight ? 'text-cyan-400' : 'text-white'}`}>{displayValue}</p>
+      <p className={`text-2xl font-black ${highlight ? 'text-green-400' : 'text-white'}`}>{displayValue}</p>
     </div>
   );
 }
@@ -351,6 +454,20 @@ function CampTableRow({ type, sold, gross, net, avg, high, low }: { type: string
       <td className="py-3 text-right font-black">{formatToIndianCurrency(avg)}</td>
       <td className="py-3 text-right font-black text-white">{formatToIndianCurrency(high)}</td>
       <td className="py-3 text-right font-black text-zinc-500">{formatToIndianCurrency(low)}</td>
+    </tr>
+  );
+}
+
+function KPIRow({ type, gross, net, avg, high, low, cancel }: { type: string; gross: number; net: number, avg: number; high: number; low: number; cancel: number }) {
+  return (
+    <tr className="hover:bg-zinc-800/30 transition-colors">
+      <td className="py-3 font-bold text-zinc-300">{type}</td>
+      <td className="py-3 text-right font-black">{formatToIndianCurrency(gross)}</td>
+      <td className="py-3 text-right font-black text-green-400">{formatToIndianCurrency(net)}</td>
+      <td className="py-3 text-right font-black">{formatToIndianCurrency(avg)}</td>
+      <td className="py-3 text-right font-black">{formatToIndianCurrency(high)}</td>
+      <td className="py-3 text-right font-black">{formatToIndianCurrency(low)}</td>
+      <td className="py-3 text-right font-black">{cancel}</td>
     </tr>
   );
 }
