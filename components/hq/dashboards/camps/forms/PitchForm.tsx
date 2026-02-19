@@ -28,7 +28,7 @@ export function PitchForm() {
 	const yt_video_url = watch("pitch.yt_video_url");
 
 	const videoId = useMemo(() => {
-		console.log("Video url" + yt_video_url);
+		("Video url" + yt_video_url);
 		if (!yt_video_url) return null;
 		// Handle YouTube Shorts
 		if (yt_video_url.includes("/shorts/")) {

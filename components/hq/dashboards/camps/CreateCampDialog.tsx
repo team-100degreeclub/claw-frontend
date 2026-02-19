@@ -215,7 +215,7 @@ export function CreateCampDialog({ initialData, isOpen, onClose }: { initialData
 
 	React.useEffect(() => {
 		if (initialData) {
-			console.log("Initial data found");
+			("Initial data found");
 			form.reset({
 				campName: initialData.campName,
 				startDate: initialData.startDate ? new Date(initialData.startDate) : undefined,
@@ -256,7 +256,7 @@ export function CreateCampDialog({ initialData, isOpen, onClose }: { initialData
 		}
 		else {
 			isUpdateMode = false;
-			console.log("Initial data not found");
+			("Initial data not found");
 			form.reset(EMPTY_DEFAULTS);
 		}
 	}, [initialData?.id]);
@@ -412,7 +412,7 @@ export function CreateCampDialog({ initialData, isOpen, onClose }: { initialData
 	const handleSubmit = async (values: CampFormValues) => {
 		setIsLoading(true);
 		setError(null);
-		console.log("Handling submit", values);
+		("Handling submit", values);
 
 		// Prepare data for validation and API call
 		const transformedData = {
@@ -476,10 +476,10 @@ export function CreateCampDialog({ initialData, isOpen, onClose }: { initialData
 			paperwork: values.paperwork,
 			// paperwork_files: values.paperwork_files
 		};
-		console.log(transformedData);
+		(transformedData);
 
 		try {
-			console.log("Trying submit")
+			("Trying submit")
 			campSubmitSchema.parse(transformedData);
 		} catch (err) {
 			if (err instanceof z.ZodError) {
@@ -505,7 +505,7 @@ export function CreateCampDialog({ initialData, isOpen, onClose }: { initialData
 		// try {
 		// 	campCreateSchema.parse(transformedData);
 		// } catch (validationError: unknown) {
-		// 	console.log(validationError);
+		// 	(validationError);
 		// 	if (validationError instanceof z.ZodError) {
 		// 		if (validationError.issues.length > 0) {
 		// 			const firstError = validationError.issues[0];
@@ -567,7 +567,7 @@ export function CreateCampDialog({ initialData, isOpen, onClose }: { initialData
 
 		if (isUpdateMode && initialData?.id) {
 			finalFormData.delete("camp_data")
-			console.log("initialData", finalFormData);
+			("initialData", finalFormData);
 			try{
 				const res = await campService.updateCamp(initialData.id, finalFormData);
 				if (res) {
@@ -595,7 +595,7 @@ export function CreateCampDialog({ initialData, isOpen, onClose }: { initialData
 						description: "Please wait while we upload your pitch video.",
 					});
 					await handleFileUpload(values.pitchVideo, (createdCamp as any)["data"].id, (progress) => {
-						console.log(`Upload Progress: ${progress}%`);
+						(`Upload Progress: ${progress}%`);
 					});
 					toast.success("Video uploaded successfully!");
 				}
@@ -618,7 +618,7 @@ export function CreateCampDialog({ initialData, isOpen, onClose }: { initialData
 	};
 	// }
 	// const handleUpdateCamp = async (finalDraft: Partial<Camp>) => {
-	// 	console.log("Updating data: ", finalDraft);
+	// 	("Updating data: ", finalDraft);
 
 	// TODO: transform + send to backend
 	// await campService.updateCamp(initialData!.id!, finalDraft);

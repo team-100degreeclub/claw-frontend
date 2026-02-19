@@ -1,6 +1,6 @@
 "use client";
 
-import React from "react";
+import React, { useState } from "react";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Tabs, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import {
@@ -17,7 +17,7 @@ const formatToIndianCurrency = (amount: number): string => {
   return amount.toLocaleString('en-IN', {
     style: 'currency',
     currency: 'INR',
-    maximumFractionDigits: 0, // Assuming whole rupees for these displays
+    maximumFractionDigits: 2, // Assuming whole rupees for these displays
   });
 };
 
@@ -48,100 +48,114 @@ export default function PerformanceDashboard() {
       normCorp: (d.corporate / maxValues.corporate) * 100,
     };
   });
+  const bestPerformingForEachRange = {
+    week: "1 - 7 February",
+    month: "January 2023",
+    year: "2023",
+    lifetime: "2023"
+  }
+
+  const worstPerformingForEachRange = {
+    week: "1 - 7 December",
+    month: "November 2021",
+    year: "2021",
+    lifetime: "2021"
+  }
+  const [graphActiveTab, setGraphActiveTab] = React.useState("month");
 
   return (
     <div className="space-y-8 text-white pb-20 max-w-[1600px] mx-auto animate-in fade-in duration-500">
 
       {/* 1. TOP KPI SECTION: CORPORATE & CAMPS SUMMARY */}
       <InsightCard title="Summary">
-          <div className="space-y-2">
-            <div className="overflow-x-auto">
-              <table className="w-full text-left">
-                <thead className="text-[13px] text-zinc-500  font-bold border-b border-zinc-800">
-                  <tr>
-                    <th className="pb-2 w-[120px]"></th>
-                    <th className="pb-2 text-right">Gross</th>
-                    <th className="pb-2 text-right">Net</th>
-                    <th className="pb-2 text-right">Avg. Payout</th>
-                    <th className="pb-2 text-right">High</th>
-                    <th className="pb-2 text-right">Low</th>
-                    <th className="pb-2 text-right">Cancelled</th>
-                  </tr>
-                </thead>
-                <tbody className="text-xs divide-y divide-zinc-900">
-                  {/* <KPIRow type="CORPORATE" gross={14500000} expenses={8000000} net={6500000} />
+        <div className="space-y-2">
+          <div className="overflow-x-auto">
+            <table className="w-full text-left">
+              <thead className="text-[13px] text-zinc-500  font-bold border-b border-zinc-800">
+                <tr>
+                  <th className="pb-2 w-[120px]"></th>
+                  <th className="pb-2 text-right">Gross</th>
+                  <th className="pb-2 text-right">Net</th>
+                  <th className="pb-2 text-right">Avg. Payout</th>
+                  <th className="pb-2 text-right">High</th>
+                  <th className="pb-2 text-right">Low</th>
+                  <th className="pb-2 text-right">Cancelled</th>
+                </tr>
+              </thead>
+              <tbody className="text-xs divide-y divide-zinc-900">
+                {/* <KPIRow type="CORPORATE" gross={14500000} expenses={8000000} net={6500000} />
                   <KPIRow type="CAMPS" gross={11400000} expenses={5200000} net={6200000} /> */}
-                  <KPIRow type="Corporate" gross={14500000} net={6500000} avg={6500000} high={6500000} low={6500000} cancel={6500000} />
-                  <KPIRow type="Camps" gross={11400000} net={6200000} avg={6200000} high={6200000} low={6200000} cancel={6200000} />
-                </tbody>
-              </table>
-            </div>
-          </div>
-          {/* <p className="text-base font-black text-zinc-500 tracking-widest mt-4 -mb">Payout - Corporate</p> */}
-          <div className="overflow-x-auto mt-4">
-            <table className="w-full text-left">
-              <thead className="text-[13px] text-zinc-500 font-bold border-b border-zinc-800">
-                <tr>
-                  <th className="pb-2 w-1/4">Payout - Corporate</th>
-                  <th className="pb-2 w-1/4">Organization</th>
-                  <th className="pb-2 w-1/4">Host</th>
-                  <th className="pb-2 w-1/4">Time To Convert</th>
-                  <th className="pb-2 w-1/4 text-right">Amount</th>
-                </tr>
-              </thead>
-              <tbody className="text-sm divide-y divide-zinc-900 text-white">
-                <tr className="hover:bg-zinc-800/30 transition-colors">
-                  <td className="py-3">Highest Payout</td>
-                  <td className="py-3">Boeing, USA</td>
-                  <td className="py-3">Major Sandeep</td>
-                  <td className="py-3">12 days</td>
-                  <td className="py-3 text-green-400 text-right">{formatToIndianCurrency(19000)}</td>
-                </tr>
-                <tr className="hover:bg-zinc-800/30 transition-colors text-white">
-                  <td className="py-3">Lowest Payout</td>
-                  <td className="py-3">Zerodha, India</td>
-                  <td className="py-3">Sgt. Miller</td>
-                  <td className="py-3">10 days</td>
-                  <td className="py-3 text-green-400 text-right">{formatToIndianCurrency(2000)}</td>
-                </tr>
+                <KPIRow type="Corporate" gross={14500000} net={6500000} avg={6500000} high={6500000} low={6500000} cancel={6500000} />
+                <KPIRow type="Camps" gross={11400000} net={6200000} avg={6200000} high={6200000} low={6200000} cancel={6200000} />
               </tbody>
             </table>
           </div>
-          {/* <p className="text-base font-black text-zinc-500 tracking-widest mt-4 -mb">Payout - Camps</p> */}
-          <div className="overflow-x-auto mt-4">
-            <table className="w-full text-left">
-              <thead className="text-[13px] text-zinc-500 font-bold border-b border-zinc-800">
-                <tr>
-                  <th className="pb-2 w-1/4">Payout - Camps</th>
-                  <th className="pb-2 w-1/4">Camp Name</th>
-                  <th className="pb-2 w-1/4">Host</th>
-                  <th className="pb-2 w-1/4">Time To Convert</th>
-                  <th className="pb-2 w-1/4 text-right">Amount</th>
-                </tr>
-              </thead>
-              <tbody className="text-sm divide-y divide-zinc-900 text-white">
-                <tr className="hover:bg-zinc-800/30 transition-colors">
-                  <td className="py-3">Highest Payout</td>
-                  <td className="py-3">Endurance (CLAW)</td>
-                  <td className="py-3">Major Sandeep</td>
-                  <td className="py-3">18 days</td>
-                  <td className="py-3 text-green-400 text-right">{formatToIndianCurrency(19000)}</td>
-                </tr>
-                <tr className="hover:bg-zinc-800/30 transition-colors text-white">
-                  <td className="py-3">Lowest Payout</td>
-                  <td className="py-3">Dive of the Day</td>
-                  <td className="py-3">Sgt. Miller</td>
-                  <td className="py-3">17 days</td>
-                  <td className="py-3 text-green-400 text-right">{formatToIndianCurrency(2000)}</td>
-                </tr>
-              </tbody>
-            </table>
-          </div>
+        </div>
+        {/* <p className="text-base font-black text-zinc-500 tracking-widest mt-4 -mb">Payout - Corporate</p> */}
+        <div className="overflow-x-auto mt-4">
+          <table className="w-full text-left">
+            <thead className="text-[13px] text-zinc-500 font-bold border-b border-zinc-800">
+              <tr>
+                <th className="pb-2 w-1/4">Payout - Corporate</th>
+                <th className="pb-2 w-1/4">Organization</th>
+                <th className="pb-2 w-1/4">Host</th>
+                <th className="pb-2 w-1/4">Time To Convert</th>
+                <th className="pb-2 w-1/4 text-right">Amount</th>
+              </tr>
+            </thead>
+            <tbody className="text-sm divide-y divide-zinc-900 text-white">
+              <tr className="hover:bg-zinc-800/30 transition-colors">
+                <td className="py-3">Highest Payout</td>
+                <td className="py-3">Boeing, USA</td>
+                <td className="py-3">Major Sandeep</td>
+                <td className="py-3">12 days</td>
+                <td className="py-3 text-green-400 text-right">{formatToIndianCurrency(19000)}</td>
+              </tr>
+              <tr className="hover:bg-zinc-800/30 transition-colors text-white">
+                <td className="py-3">Lowest Payout</td>
+                <td className="py-3">Zerodha, India</td>
+                <td className="py-3">Sgt. Miller</td>
+                <td className="py-3">10 days</td>
+                <td className="py-3 text-green-400 text-right">{formatToIndianCurrency(2000)}</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+        {/* <p className="text-base font-black text-zinc-500 tracking-widest mt-4 -mb">Payout - Camps</p> */}
+        <div className="overflow-x-auto mt-4">
+          <table className="w-full text-left">
+            <thead className="text-[13px] text-zinc-500 font-bold border-b border-zinc-800">
+              <tr>
+                <th className="pb-2 w-1/4">Payout - Camps</th>
+                <th className="pb-2 w-1/4">Camp Name</th>
+                <th className="pb-2 w-1/4">Host</th>
+                <th className="pb-2 w-1/4">Time To Convert</th>
+                <th className="pb-2 w-1/4 text-right">Amount</th>
+              </tr>
+            </thead>
+            <tbody className="text-sm divide-y divide-zinc-900 text-white">
+              <tr className="hover:bg-zinc-800/30 transition-colors">
+                <td className="py-3">Highest Payout</td>
+                <td className="py-3">Endurance (CLAW)</td>
+                <td className="py-3">Major Sandeep</td>
+                <td className="py-3">18 days</td>
+                <td className="py-3 text-green-400 text-right">{formatToIndianCurrency(19000)}</td>
+              </tr>
+              <tr className="hover:bg-zinc-800/30 transition-colors text-white">
+                <td className="py-3">Lowest Payout</td>
+                <td className="py-3">Dive of the Day</td>
+                <td className="py-3">Sgt. Miller</td>
+                <td className="py-3">17 days</td>
+                <td className="py-3 text-green-400 text-right">{formatToIndianCurrency(2000)}</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
 
-          
-        </InsightCard>
 
-        {/* <InsightCard title="Team Insights" showFilter>
+      </InsightCard>
+
+      {/* <InsightCard title="Team Insights" showFilter>
           
         </InsightCard> */}
       {/* <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
@@ -175,7 +189,7 @@ export default function PerformanceDashboard() {
           </div>
           <div className="grid grid-cols-1 md:grid-cols-2 gap-10">
             <StatList title="Pay" items={[
-              { label: "Average", value: "120000"},
+              { label: "Average", value: "120000" },
               { label: "High", value: "1500000", desc: "Facebook / California" },
               { label: "Low", value: "10500", desc: "Zerodha / Bangalore" }
             ]} />
@@ -207,7 +221,7 @@ export default function PerformanceDashboard() {
                     <th className="pb-2 text-right">Net</th>
                     <th className="pb-2 text-right">Avg</th>
                     <th className="pb-2 text-right">High</th>
-                  <th className="pb-2 text-right">Low</th>
+                    <th className="pb-2 text-right">Low</th>
                   </tr>
                 </thead>
                 <tbody className="text-xs divide-y divide-zinc-900">
@@ -223,7 +237,7 @@ export default function PerformanceDashboard() {
 
         {/* 4. TEAM INSIGHTS */}
         <InsightCard title="Team Insights" showFilter>
-          <div className="grid grid-cols-3 gap-6 border-b border-zinc-800 pb-8 mb-8">
+          <div className="grid grid-cols-3 gap-6 pb-8 mb-8">
             <DataPoint label="Total Members" value="15" />
             <DataPoint label="Total Payout" value={450000} />
             <DataPoint label="Avg/Person" value={30000} highlight />
@@ -270,7 +284,8 @@ export default function PerformanceDashboard() {
 
         {/* 5. TRAVELLER INSIGHTS */}
         <InsightCard title="Traveller Insights" showFilter>
-          <div className="grid grid-cols-3 gap-6">
+          <div className="grid grid-cols-4 gap-6">
+            <DataPoint label="Total Travellers" value="12,000" />
             <DataPoint label="Unique Travellers" value="7,000" />
             <DataPoint label="Repeat Travellers" value="1,542" />
             <DataPoint label="Repeat Rate" value="22.1%" highlight />
@@ -287,7 +302,16 @@ export default function PerformanceDashboard() {
       {/* 6. TIME-BASED PERFORMANCE GRAPH */}
       <Card className="bg-zinc-900/40 border border-zinc-700 rounded-none p-8">
         <div className="flex flex-col md:flex-row justify-between items-start md:items-center mb-10 gap-4">
-          <h3 className="text-sm font-black text-white ">MoM Performance</h3>
+          <h3 className="text-sm font-black text-white ">Growth Graph</h3>
+          <Tabs defaultValue="month" className="bg-zinc-950 border border-zinc-800 p-1 rounded-sm">
+            <TabsList className="bg-transparent h-7 gap-1">
+              {["Week", "Month", "Year", "Lifetime"].map(t => (
+                <TabsTrigger key={t} value={t.toLowerCase()} onClick={() => setGraphActiveTab(t.toLowerCase())} className="text-[9px]  font-black px-2 h-5">
+                  {t}
+                </TabsTrigger>
+              ))}
+            </TabsList>
+          </Tabs>
           <div className="flex flex-wrap gap-4 text-[10px] font-black">
             <LegendItem color="bg-blue-500" label="Revenue" />
             <LegendItem color="bg-emerald-500" label="Travelers" />
@@ -353,16 +377,16 @@ export default function PerformanceDashboard() {
         </div>
         <div className="mt-8 grid grid-cols-1 md:grid-cols-2 gap-6">
           <div className="bg-emerald-500/5 border border-emerald-500/20 p-6 rounded-sm">
-            <p className="text-xs text-emerald-500  font-black mb-2">Best Performing Months</p>
+            <p className="text-xs text-emerald-500  font-black mb-2">Best Performing {graphActiveTab[0].toUpperCase() + graphActiveTab.slice(1)}</p>
             <div className="flex gap-4">
-              <span className="text-sm font-bold">June - August</span>
+              <span className="text-sm font-bold">{bestPerformingForEachRange[graphActiveTab == "week" ? "week" : graphActiveTab == "month" ? "month" : graphActiveTab == "year" ? "year" : "lifetime"]}</span>
               {/* <span className="text-xs text-zinc-500">Peak Expedition Window / High Corp Volume</span> */}
             </div>
           </div>
           <div className="bg-red-500/5 border border-red-500/20 p-6 rounded-sm">
-            <p className="text-xs text-red-400  font-black mb-2">Weakest Performing Months</p>
+            <p className="text-xs text-red-400  font-black mb-2">Weakest Performing {graphActiveTab[0].toUpperCase() + graphActiveTab.slice(1)}</p>
             <div className="flex gap-4">
-              <span className="text-sm font-bold">January - February</span>
+              <span className="text-sm font-bold">{worstPerformingForEachRange[graphActiveTab == "week" ? "week" : graphActiveTab == "month" ? "month" : graphActiveTab == "year" ? "year" : "lifetime"]}</span>
               {/* <span className="text-xs text-zinc-500">Monsoon Cycles / Q1 Budget Re-calibration</span> */}
             </div>
           </div>
@@ -390,7 +414,8 @@ export function KPIGroup({ title, metrics }: { title: string, metrics: { label: 
   );
 }
 
-export function InsightCard({ title, children, showFilter, className }: { title: string, children: React.ReactNode, showFilter?: boolean, className?: string }) {
+export function InsightCard({ title, children, showFilter, showFilterTravellerDashboard, className }: { title: string, children: React.ReactNode, showFilter?: boolean, showFilterTravellerDashboard?: boolean, className?: string }) {
+  const [graphActiveTab, setGraphActiveTab] = useState("spirit roads")
   return (
     <Card className={cn("bg-zinc-900/30 border border-zinc-700 rounded-sm p-8 flex flex-col", className)}>
       <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 mb-10">
@@ -409,6 +434,62 @@ export function InsightCard({ title, children, showFilter, className }: { title:
             </TabsList>
           </Tabs>
         )}
+
+        {showFilterTravellerDashboard && (
+          <div className="flex gap-4 justify-between align-end">
+            <Tabs defaultValue="month" className="bg-zinc-950 border border-zinc-800 p-1 rounded-sm">
+            <TabsList className="bg-transparent h-7 gap-1">
+              {["Week", "Month", "Year", "Lifetime"].map(t => (
+                <TabsTrigger key={t} value={t.toLowerCase()} className="text-[9px]  font-black px-2 h-5">
+                  {t}
+                </TabsTrigger>
+              ))}
+            </TabsList>
+          </Tabs>
+            <Tabs defaultValue="solo" className="bg-zinc-950 border border-zinc-800 p-1 rounded-sm">
+              <TabsList className="bg-transparent h-7 gap-1">
+                {["Solo", "Couple", "Group"].map(t => (
+                  <TabsTrigger key={t} value={t.toLowerCase()} className="text-[9px]  font-black px-2 h-5">
+                    {t}
+                  </TabsTrigger>
+                ))}
+              </TabsList>
+            </Tabs>
+            <Tabs defaultValue="all" className="bg-zinc-950 border border-zinc-800 p-1 rounded-sm">
+              <TabsList className="bg-transparent h-7 gap-1">
+                {["Weekend Camps", "All"].map(t => (
+                  <TabsTrigger key={t} value={t.toLowerCase()} className="text-[9px]  font-black px-2 h-5">
+                    {t}
+                  </TabsTrigger>
+                ))}
+              </TabsList>
+            </Tabs>
+            <Tabs defaultValue="spirit roads" className="bg-zinc-950 border border-zinc-800 p-1 rounded-sm">
+              <TabsList className="bg-transparent h-7 gap-1" defaultValue={graphActiveTab}>
+                {["Spirit Roads", "CLAW"].map(t => (
+                  <TabsTrigger key={t} value={t.toLowerCase()} onClick={() => {setGraphActiveTab(t.toLowerCase())}} className="text-[9px]  font-black px-2 h-5">
+                    {t}
+                  </TabsTrigger>
+                ))}
+              </TabsList>
+            </Tabs>
+            {graphActiveTab == "claw" && (
+              <Tabs defaultValue="all" className="bg-zinc-950 border border-zinc-800 p-1 rounded-sm">
+              <TabsList className="bg-transparent h-7 gap-1">
+                {["Land", "Air", "Water"].map(t => (
+                  <TabsTrigger key={t} value={t.toLowerCase()} className="text-[9px]  font-black px-2 h-5">
+                    {t}
+                  </TabsTrigger>
+                ))}
+              </TabsList>
+            </Tabs>
+            )}
+          </div>
+        )}
+
+        {
+
+        }
       </div>
       {children}
     </Card>
@@ -467,7 +548,7 @@ function KPIRow({ type, gross, net, avg, high, low, cancel }: { type: string; gr
       <td className="py-3 text-right font-black">{formatToIndianCurrency(avg)}</td>
       <td className="py-3 text-right font-black">{formatToIndianCurrency(high)}</td>
       <td className="py-3 text-right font-black">{formatToIndianCurrency(low)}</td>
-      <td className="py-3 text-right font-black">{cancel}</td>
+      <td className="py-3 text-right font-black">{formatToIndianCurrency(cancel)}</td>
     </tr>
   );
 }
@@ -498,7 +579,7 @@ export const CustomTooltip = ({ active, payload, label }: any) => {
               normCorp: "corporate"
             };
             const originalValue = entry.payload[keyMap[entry.dataKey]];
-            
+
             return (
               <div key={index} className="flex items-center justify-between gap-12">
                 <div className="flex items-center gap-2.5">
@@ -506,8 +587,8 @@ export const CustomTooltip = ({ active, payload, label }: any) => {
                   <span className="text-[11px] font-black text-zinc-400">{entry.name}</span>
                 </div>
                 <span className="text-xs font-black text-white">
-                  {entry.name === "Revenue" 
-                    ? `₹${originalValue.toLocaleString('en-IN', { maximumFractionDigits: 0 })}` 
+                  {entry.name === "Revenue"
+                    ? `₹${originalValue.toLocaleString('en-IN', { maximumFractionDigits: 0 })}`
                     : originalValue.toLocaleString('en-IN')
                   }
                 </span>

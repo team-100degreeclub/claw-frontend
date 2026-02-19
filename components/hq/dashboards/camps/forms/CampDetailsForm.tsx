@@ -58,7 +58,7 @@ export function CampDetailsForm({ isUpdateMode, isUpdatable }: CampDetailsFormPr
 
 	React.useEffect(() => {
 		if (isFree) setValue("cost", 0);
-		console.log(min_age, max_age);
+		(min_age, max_age);
 	}, [isFree, setValue]);
 
 	const disableBeforeDate = new Date();
@@ -74,7 +74,7 @@ export function CampDetailsForm({ isUpdateMode, isUpdatable }: CampDetailsFormPr
 	// 		// 	section,
 	// 		// 	payload
 	// 		// );
-	// 		console.log("Updating data: ", form.getValues());
+	// 		("Updating data: ", form.getValues());
 	// 		toast.success("Updated successfully");
 	// 	} catch (e) {
 	// 		toast.error("Update failed");

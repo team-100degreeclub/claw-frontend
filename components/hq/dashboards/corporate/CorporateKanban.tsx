@@ -41,7 +41,16 @@ import {
     PopoverContent,
     PopoverTrigger,
 } from "@/components/ui/popover";
+import {
+    Select,
+    SelectContent,
+    SelectItem,
+    SelectTrigger,
+    SelectValue,
+} from "@/components/ui/select";
+import { DateTimePicker } from "@/components/ui/date-time-picker";
 import AvailabilityCalendar from "./AvailabilityCalendar";
+import { format } from "date-fns";
 
 // Helper function to format numbers to Indian Rupee currency
 const formatToIndianCurrency = (amount: number): string => {
@@ -53,14 +62,21 @@ const formatToIndianCurrency = (amount: number): string => {
 };
 
 // --- Types ---
+interface SpeakerAllocation {
+    speakerId: string;
+    amount: number;
+}
+
 interface LeadData {
     id: string;
     column: string;
     inquiryDate: string;
     company: string;
     location: string;
-    schedule: string;
-    time: string;
+    startDate: string; // Changed from schedule
+    startTime: string; // Changed from time
+    endDate: string; // New field
+    endTime: string; // New field
     phone: string;
     email: string;
     message: string;
@@ -70,8 +86,10 @@ interface LeadData {
     fee: number;
     taxes: number;
     net: number;
-    assignSpeaker: string;
+    assignSpeaker: string[];
+    speakerAllocations: SpeakerAllocation[];
     docsLink: string;
+    status: "Live" | "Completed" | "Cancelled";
 }
 
 const SPEAKERS = [
@@ -88,36 +106,36 @@ const DUMMY_LEADS: Record<string, LeadData[]> = {
     Lead: [
         {
             id: "d1", column: "Lead", inquiryDate: "2026-02-10", company: "TechNova Solutions", location: "San Francisco, CA",
-            schedule: "2026-05-15", time: "10:00", phone: "555-0123", email: "contact@technova.io",
+            startDate: "2026-05-15", startTime: "10:00", endDate: "2026-05-15", endTime: "12:00", phone: "555-0123", email: "contact@technova.io",
             message: "Keynote on AI ethics and future of work.", requestSpeaker: "Dr. Sarah Chen",
             teamAvailable: "A-Team", gross: 15000, fee: 2250.00, taxes: 1200, net: 11550.00,
-            assignSpeaker: "Pending", docsLink: "https://drive.google.com/docs/1"
+            assignSpeaker: ["sarah-chen"], docsLink: "https://drive.google.com/docs/1", status: "Live", speakerAllocations: []
         },
         {
             id: "d2", column: "Lead", inquiryDate: "2026-02-12", company: "GreenGrid Energy", location: "Austin, TX",
-            schedule: "2026-06-20", time: "14:30", phone: "555-0987", email: "events@greengrid.com",
+            startDate: "2026-06-20", startTime: "14:30", endDate: "2026-06-20", endTime: "17:00", phone: "555-0987", email: "events@greengrid.com",
             message: "Sustainability summit closing session.", requestSpeaker: "Marcus Thorne",
             teamAvailable: "B-Team", gross: 8000, fee: 1200.00, taxes: 640, net: 6160.00,
-            assignSpeaker: "Unassigned", docsLink: ""
+            assignSpeaker: [], docsLink: "", status: "Live", speakerAllocations: []
         }
     ],
     Discussion: [
         {
             id: "d3", column: "Discussion", inquiryDate: "2026-01-25", company: "Global Finance Inc.", location: "New York, NY",
-            schedule: "2026-04-05", time: "09:00", phone: "555-4433", email: "hr@globalfinance.com",
+            startDate: "2026-04-05", startTime: "09:00", endDate: "2026-04-07", endTime: "13:00", phone: "555-4433", email: "hr@globalfinance.com",
             message: "Leadership workshop for C-suite executives.", requestSpeaker: "John Maxwell Style",
             teamAvailable: "Gold Tier", gross: 25000, fee: 3750.00, taxes: 2000, net: 19250.00,
-            assignSpeaker: "Robert P.", docsLink: "https://dropbox.com/s/proposal-v2"
+            assignSpeaker: ["robert-p"], docsLink: "https://dropbox.com/s/proposal-v2", status: "Live", speakerAllocations: []
         }
     ],
     // Assign: [],
     Deal: [
         {
             id: "d4", column: "Deal", inquiryDate: "2026-01-10", company: "Creative Minds Agency", location: "Remote",
-            schedule: "2026-02-25", time: "11:00", phone: "555-7788", email: "hello@creativeminds.com",
+            startDate: "2026-02-25", startTime: "11:00", endDate: "2026-02-30", endTime: "12:30", phone: "555-7788", email: "hello@creativeminds.com",
             message: "Monthly inspiration webinar.", requestSpeaker: "Emily Rivera",
-            teamAvailable: "Web-Team", gross: 5000, fee: 750.00, taxes: 400, net: 3850.00,
-            assignSpeaker: "Emily Rivera", docsLink: "https://zoom.us/webinar/123"
+            teamAvailable: "Web-Team", gross: 500000, fee: 750.00, taxes: 400, net: 3850.00,
+            assignSpeaker: ["emily-rivera", "jordan-lee"], docsLink: "https://zoom.us/webinar/123", status: "Completed", speakerAllocations: [{ speakerId: "emily-rivera", amount: 500 }, { speakerId: "jordan-lee", amount: 250 }]
         }
     ],
     // Completed: [],
@@ -239,26 +257,48 @@ export function CorporateKanban() {
 }
 
 // --- Sub-Component: Form ---
-function KanbanForm({ initialData, onSave, onCancel }: { initialData: LeadData | null, onSave: (data: any) => void, onCancel: () => void }) {
+function KanbanForm({ initialData, onSave, onCancel }: { initialData: LeadData | null, onSave: (data: LeadData) => void, onCancel: () => void }) {
     const [openSpeaker, setOpenSpeaker] = useState(false);
     const [isAvailSheetOpen, setIsAvailSheetOpen] = useState(false);
-    const [formData, setFormData] = useState({
-        inquiryDate: "", company: "", location: "", schedule: "", time: "",
+    const [formData, setFormData] = useState<LeadData>({
+        id: "", // Will be generated if new
+        column: initialData?.column || "Lead", // Default to "Lead" for new, or keep existing
+        inquiryDate: "", company: "", location: "",
+        startDate: "", startTime: "", endDate: "", endTime: "", // Updated for date range
         phone: "", email: "", message: "", requestSpeaker: "", teamAvailable: "",
-        gross: 0, fee: 0, taxes: 0, net: 0, assignSpeaker: "", docsLink: ""
+        gross: 0, fee: 0, taxes: 0, net: 0, assignSpeaker: [], speakerAllocations: [], docsLink: "",
+        status: "Live", // Default status
     });
 
     useEffect(() => {
-        if (initialData) setFormData({ ...initialData });
+        if (initialData) {
+            setFormData({ ...initialData });
+        }
     }, [initialData]);
+
+    // Effect to synchronize speakerAllocations with assignSpeaker
+    useEffect(() => {
+        setFormData(prev => {
+            const newSpeakerAllocations = prev.assignSpeaker.map(speakerId => {
+                // Keep existing allocation if speakerId already has one, otherwise create new
+                return prev.speakerAllocations.find(alloc => alloc.speakerId === speakerId) || { speakerId, amount: 0 };
+            });
+            // Filter out allocations for speakers who are no longer assigned
+            return {
+                ...prev,
+                speakerAllocations: newSpeakerAllocations.filter(alloc => prev.assignSpeaker.includes(alloc.speakerId))
+            };
+        });
+    }, [formData.assignSpeaker]);
 
     useEffect(() => {
         const grossNum = formData.gross;
         const taxNum = formData.taxes;
         const feeCalc = grossNum * 0.15;
-        const netCalc = grossNum - feeCalc - taxNum;
+        const totalSpeakerAllocations = formData.speakerAllocations.reduce((sum, alloc) => sum + alloc.amount, 0);
+        const netCalc = grossNum - feeCalc - taxNum - totalSpeakerAllocations; // Subtract speaker allocations
         setFormData(prev => ({ ...prev, fee: feeCalc, net: netCalc }));
-    }, [formData.gross, formData.taxes]);
+    }, [formData.gross, formData.taxes, formData.speakerAllocations]);
 
     return (
         <div className="flex flex-col h-full">
@@ -288,18 +328,40 @@ function KanbanForm({ initialData, onSave, onCancel }: { initialData: LeadData |
                             <Input value={formData.company} onChange={e => setFormData({ ...formData, company: e.target.value })} className="bg-zinc-900 border-zinc-800 h-11" />
                         </div>
                     </div>
-                    <div className="grid grid-cols-3 gap-6">
+                    <div className="grid grid-cols-2 gap-6">
                         <div className="space-y-2">
-                            <Label className="text-zinc-500 text-xs">Location</Label>
-                            <Input value={formData.location} onChange={e => setFormData({ ...formData, location: e.target.value })} className="bg-zinc-900 border-zinc-800 h-11" />
+                            <Label className="text-zinc-500 text-xs">Start Date & Time</Label>
+                            <DateTimePicker
+                                value={formData.startDate && formData.startTime ? new Date(`${formData.startDate}T${formData.startTime}`) : undefined}
+                                onChange={(date) => {
+                                    if (date) {
+                                        setFormData({
+                                            ...formData,
+                                            startDate: format(date, "yyyy-MM-dd"),
+                                            startTime: format(date, "HH:mm")
+                                        });
+                                    } else {
+                                        setFormData({ ...formData, startDate: "", startTime: "" });
+                                    }
+                                }}
+                            />
                         </div>
                         <div className="space-y-2">
-                            <Label className="text-zinc-500 text-xs">Event Date</Label>
-                            <Input type="date" value={formData.schedule} onChange={e => setFormData({ ...formData, schedule: e.target.value })} className="bg-zinc-900 border-zinc-800 h-11" />
-                        </div>
-                        <div className="space-y-2">
-                            <Label className="text-zinc-500 text-xs">Time</Label>
-                            <Input type="time" value={formData.time} onChange={e => setFormData({ ...formData, time: e.target.value })} className="bg-zinc-900 border-zinc-800 h-11" />
+                            <Label className="text-zinc-500 text-xs">End Date & Time</Label>
+                            <DateTimePicker
+                                value={formData.endDate && formData.endTime ? new Date(`${formData.endDate}T${formData.endTime}`) : undefined}
+                                onChange={(date) => {
+                                    if (date) {
+                                        setFormData({
+                                            ...formData,
+                                            endDate: format(date, "yyyy-MM-dd"),
+                                            endTime: format(date, "HH:mm")
+                                        });
+                                    } else {
+                                        setFormData({ ...formData, endDate: "", endTime: "" });
+                                    }
+                                }}
+                            />
                         </div>
                     </div>
                 </div>
@@ -329,7 +391,7 @@ function KanbanForm({ initialData, onSave, onCancel }: { initialData: LeadData |
                         <Label className="text-zinc-500 text-xs">Requested Speaker</Label>
                         <Input value={formData.requestSpeaker} onChange={e => setFormData({ ...formData, requestSpeaker: e.target.value })} className="bg-zinc-900 border-zinc-800 h-11" />
                     </div>
-                    <div className="space-y-2">
+                    {/* <div className="space-y-2">
                         <Label className="text-zinc-500 text-xs">Team Available</Label>
                         <div className="relative group">
                             <Input
@@ -341,7 +403,7 @@ function KanbanForm({ initialData, onSave, onCancel }: { initialData: LeadData |
                             />
                             <CalendarIcon className="absolute right-3 top-3 h-5 w-5 text-zinc-500 group-hover:text-zinc-300 pointer-events-none" />
                         </div>
-                    </div>
+                    </div> */}
                 </div>
 
                 {/* Nested Sheet for Calendar */}
@@ -364,7 +426,8 @@ function KanbanForm({ initialData, onSave, onCancel }: { initialData: LeadData |
                     <div className="grid grid-cols-2 gap-x-8 gap-y-6">
                         <div className="space-y-2">
                             <Label className="text-zinc-500 text-xs flex items-center gap-2">
-                                <DollarSign size={14} className="text-zinc-600" /> Gross Amount (₹)
+                                {/* <DollarSign size={14} className="text-zinc-600" />  */}
+                                Deal Size (₹)
                             </Label>
                             <Input
                                 type="number"
@@ -375,40 +438,51 @@ function KanbanForm({ initialData, onSave, onCancel }: { initialData: LeadData |
                         </div>
 
                         <div className="space-y-2">
-                            <Label className="text-zinc-500 text-xs flex items-center gap-2">
-                                <Users size={14} className="text-zinc-600" /> CLAW Fee (15%)
-                            </Label>
-                            <Input
-                                readOnly
-                                value={formatToIndianCurrency(formData.fee)}
-                                className="bg-zinc-900/50 border-zinc-800 h-11 text-zinc-500 cursor-not-allowed"
-                            />
-                        </div>
-
-                        <div className="space-y-2">
-                            <Label className="text-zinc-500 text-xs flex items-center gap-2">
-                                <DollarSign size={14} className="text-zinc-600" /> Taxes (₹)
-                            </Label>
-                            <Input
-                                type="number"
-                                value={formData.taxes}
-                                onChange={e => setFormData({ ...formData, taxes: parseFloat(e.target.value) || 0 })}
-                                className="bg-zinc-900 border-zinc-800 h-11"
-                            />
-                        </div>
-
-                        <div className="space-y-2">
                             <Label className="text-xs font-bold flex items-center gap-2">
-                                <UserCheck size={14} /> Net Income (₹)
+                                {/* <UserCheck size={14} />  */}
+                                Net Income
                             </Label>
                             <Input
-                                type="number"
+                                type="text"
                                 value={formatToIndianCurrency(formData.net)}
                                 disabled
                                 className="bg-zinc-900 border-zinc-800 h-11"
                             />
                         </div>
                     </div>
+
+                    {formData.speakerAllocations.length > 0 && (
+                        <div className="space-y-4 pt-6 border-t border-zinc-900">
+                            <div className="text-zinc-100 font-semibold flex items-center gap-2">
+                                {/* <Users size={16} />  */}
+                                Speaker Allocations
+                            </div>
+                            <div className="grid grid-cols-2 gap-6">
+                                {formData.speakerAllocations.map((allocation, index) => (
+                                    <div key={allocation.speakerId} className="space-y-2">
+                                        <Label className="text-zinc-500 text-xs">
+                                            {SPEAKERS.find(s => s.value === allocation.speakerId)?.label || allocation.speakerId}
+                                        </Label>
+                                        <Input
+                                            type="number"
+                                            value={allocation.amount}
+                                            onChange={(e) => {
+                                                const newAmount = parseFloat(e.target.value) || 0;
+                                                setFormData(prev => ({
+                                                    ...prev,
+                                                    speakerAllocations: prev.speakerAllocations.map((item, i) =>
+                                                        i === index ? { ...item, amount: newAmount } : item
+                                                    ),
+                                                }));
+                                            }}
+                                            className="bg-zinc-900 border-zinc-800 h-11"
+                                        />
+                                    </div>
+                                ))}
+                            </div>
+                        </div>
+                    )}
+                    
                 </div>
 
                 {/* Final Details */}
@@ -420,7 +494,7 @@ function KanbanForm({ initialData, onSave, onCancel }: { initialData: LeadData |
                             <UserCheck size={14} /> Assign Speaker
                         </Label>
 
-                        {/* --- COMBOBOX IMPLEMENTATION --- */}
+                        {/* --- MULTI-SELECT COMBOBOX FOR SPEAKERS --- */}
                         <Popover open={openSpeaker} onOpenChange={setOpenSpeaker}>
                             <PopoverTrigger asChild>
                                 <Button
@@ -429,9 +503,12 @@ function KanbanForm({ initialData, onSave, onCancel }: { initialData: LeadData |
                                     aria-expanded={openSpeaker}
                                     className="w-full justify-between bg-zinc-900 border-zinc-800 h-11 hover:bg-zinc-800 text-zinc-100 font-normal"
                                 >
-                                    {formData.assignSpeaker
-                                        ? SPEAKERS.find((s) => s.label === formData.assignSpeaker)?.label || formData.assignSpeaker
-                                        : "Select speaker..."}
+                                    {formData.assignSpeaker.length > 0
+                                        ? formData.assignSpeaker
+                                            .map((speakerValue) => SPEAKERS.find((s) => s.value === speakerValue)?.label)
+                                            .filter(Boolean) // Remove undefined labels
+                                            .join(", ")
+                                        : "Select speaker(s)..."}
                                     <ChevronsUpDown className="ml-2 h-4 w-4 shrink-0 opacity-50" />
                                 </Button>
                             </PopoverTrigger>
@@ -444,20 +521,22 @@ function KanbanForm({ initialData, onSave, onCancel }: { initialData: LeadData |
                                             {SPEAKERS.map((speaker) => (
                                                 <CommandItem
                                                     key={speaker.value}
-                                                    value={speaker.label}
+                                                    value={speaker.value} // Use value for internal logic
                                                     onSelect={(currentValue) => {
-                                                        setFormData({
-                                                            ...formData,
-                                                            assignSpeaker: currentValue === formData.assignSpeaker ? "" : currentValue,
-                                                        });
-                                                        setOpenSpeaker(false);
+                                                        const isSelected = formData.assignSpeaker.includes(currentValue);
+                                                        setFormData((prev) => ({
+                                                            ...prev,
+                                                            assignSpeaker: isSelected
+                                                                ? prev.assignSpeaker.filter((s) => s !== currentValue)
+                                                                : [...prev.assignSpeaker, currentValue],
+                                                        }));
                                                     }}
                                                     className="text-zinc-100 aria-selected:bg-zinc-800 aria-selected:text-white cursor-pointer"
                                                 >
                                                     <Check
                                                         className={cn(
                                                             "mr-2 h-4 w-4",
-                                                            formData.assignSpeaker === speaker.label ? "opacity-100" : "opacity-0"
+                                                            formData.assignSpeaker.includes(speaker.value) ? "opacity-100" : "opacity-0"
                                                         )}
                                                     />
                                                     {speaker.label}
@@ -469,6 +548,27 @@ function KanbanForm({ initialData, onSave, onCancel }: { initialData: LeadData |
                             </PopoverContent>
                         </Popover>
                     </div>
+                    {/* --- STATUS DROPDOWN --- */}
+                    {/* <div className="space-y-2">
+                        <Label className="text-zinc-500 text-xs mb-1 flex items-center gap-2">
+                            <Briefcase size={14} /> Status
+                        </Label>
+                        <Select
+                            value={formData.status}
+                            onValueChange={(value: "Live" | "Completed" | "Cancelled") =>
+                                setFormData((prev) => ({ ...prev, status: value }))
+                            }
+                        >
+                            <SelectTrigger className="w-full justify-between bg-zinc-900 border-zinc-800 h-11 hover:bg-zinc-800 text-zinc-100 font-normal">
+                                <SelectValue placeholder="Select status" />
+                            </SelectTrigger>
+                            <SelectContent className="bg-zinc-900 border-zinc-800 text-zinc-100">
+                                <SelectItem value="Live">Live</SelectItem>
+                                <SelectItem value="Completed">Completed</SelectItem>
+                                <SelectItem value="Cancelled">Cancelled</SelectItem>
+                            </SelectContent>
+                        </Select>
+                    </div> */}
                     <div className="space-y-2">
                         <Label className="text-zinc-500 text-xs">Documents Link</Label>
                         <Input value={formData.docsLink} onChange={e => setFormData({ ...formData, docsLink: e.target.value })} className="bg-zinc-900 border-zinc-800 h-11" placeholder="https://" />
@@ -520,31 +620,54 @@ function KanbanCard({ id, item, onClick }: any) {
             <div className="flex items-center gap-1.5 text-zinc-500 text-[11px] mb-4 pointer-events-none">
                 <MapPin size={10} /> {item?.location || "No location"}
             </div>
-                <div className="flex flex-col justify-between border-t border-zinc-900 pt-3">
-                    {/* <div className="flex justify-between"> */}
-                        {/* <p className="text-[9px] text-zinc-600 font-bold  mb-0.5">Net Deal</p>
-                        <span className="text-xs font-bold text-emerald-400">{formatToIndianCurrency(item?.net || 0)}</span>
-                        <span className="text-xs font-bold text-emerald-400">₹{parseInt(item?.net).toLocaleString("en-IN")}</span> */}
-                        <p className="text-xs text-zinc-300 font-bold mb-0.5">Event Date: {item?.schedule ? new Intl.DateTimeFormat('en-IN', { year: 'numeric', month: 'long', day: 'numeric' }).format(new Date(item.schedule)) : "No Date"}</p>
-                        {/* <span className="text-xs font-bold">{item?.schedule || "No Date"}</span> */}
-                    {/* </div> */}
-                    {/* <div className="tflex justify-between"> */}
-                        {/* <p className="text-[10px] text-zinc-400 font-medium">{item?.schedule || "No Date"}</p> */}
-                        <p className="text-xs text-zinc-300 font-bold mb-0.5">Lead Date: {item.inquiryDate ? new Intl.DateTimeFormat('en-IN', { year: 'numeric', month: 'long', day: 'numeric' }).format(new Date(item.inquiryDate)) : "No Date"}</p>
-                        {/* <span className="text-xs font-bold">{item.inquiryDate || "No Date"}</span> */}
-                    {/* </div> */}
-                    {item.column === "Deal" && 
-                        (
+            <div className="flex flex-col justify-between border-t border-zinc-900 pt-3">
+                <div className="flex justify-between">
+                    <span className="text-xs text-zinc-300 font-bold mb-0.5">Lead Date: </span>
+                    <span className="text-xs text-zinc-400">
+                        {item?.inquiryDate ? new Intl.DateTimeFormat('en-IN', { year: 'numeric', month: 'short', day: 'numeric' }).format(new Date(item.inquiryDate)) : "No Date"}
+                    </span>
+                </div>
+                <div className="flex justify-between">
+                    <span className="text-xs text-zinc-300 font-bold mb-0.5">Event Date: </span>
+                    <span className="text-xs text-zinc-400">
+                        {item?.startDate ? new Intl.DateTimeFormat('en-IN', { year: 'numeric', month: 'short', day: 'numeric' }).format(new Date(item.startDate)) : "No Date"}
+                        {item?.endDate && item.endDate !== item.startDate ? ` - ${new Intl.DateTimeFormat('en-IN', { year: 'numeric', month: 'short', day: 'numeric' }).format(new Date(item.endDate))}` : ""}
+                    </span>
+                </div>
+                <div className="flex justify-between mt-1">
+                    <span className="text-xs text-zinc-300 font-bold mb-0.5">Event Time: </span>
+                    <span className="text-xs text-zinc-400">
+                        {item?.startTime || "No Time"}
+                        {item?.endTime && item.endTime !== item.startTime ? ` - ${item.endTime}` : ""}
+                    </span>
+                </div>                    {item.column === "Deal" &&
+                    (
+                        <div>
                             <div>
-                                <div>
+                                <div className="flex justify-between mt-1">
                                     <span className="text-xs text-zinc-300 font-bold mb-0.5">Deal Size: </span>
                                     <span className="text-xs font-bold text-emerald-400">₹{parseInt(item?.net).toLocaleString("en-IN")}</span>
                                 </div>
-                                
                             </div>
-                        )
-                    }
-                </div>
+                            <div className="flex justify-between mt-1">
+                                <span className="text-xs text-zinc-300 font-bold mb-0.5">Assigned To: </span>
+                                <span className="text-xs text-zinc-400">
+                                    {item?.assignSpeaker && item.assignSpeaker.length > 0
+                                        ? item.assignSpeaker
+                                            .map((speakerValue: string) => SPEAKERS.find((s) => s.value === speakerValue)?.label)
+                                            .filter(Boolean)
+                                            .join(", ")
+                                        : "Unassigned"}
+                                </span>
+                            </div>
+                            <div className="flex justify-between mt-1">
+                                <span className="text-xs text-zinc-300 font-bold mb-0.5">Status: </span>
+                                <span className="text-xs text-zinc-400">{item?.status || "N/A"}</span>
+                            </div>
+                        </div>
+                    )
+                }
+            </div>
         </div>
     );
 }

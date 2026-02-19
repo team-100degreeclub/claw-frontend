@@ -8,7 +8,9 @@ import {
   User, 
   Phone, 
   Mail, 
-  Globe2 
+  Globe2, 
+  ChevronsUpDown,
+  Check
 } from "lucide-react";
 import { format } from "date-fns";
 import { cn } from "@/lib/utils";
@@ -19,6 +21,9 @@ import {
   PopoverContent,
   PopoverTrigger,
 } from "@/components/ui/popover";
+import { DateTimePicker } from "@/components/ui/date-time-picker"; // Import the new DateTimePicker
+import { Label } from "radix-ui";
+import { Command, CommandEmpty, CommandGroup, CommandInput, CommandItem, CommandList } from "@/components/ui/command";
 
 const PAST_EVENTS = [
   { company: "Microsoft", country: "United States" },
@@ -35,9 +40,29 @@ const PAST_EVENTS = [
   { company: "Air India", country: "India" },
 ];
 
+const SPEAKERS = [
+    { value: "sarah-chen", label: "Dr. Sarah Chen" },
+    { value: "marcus-thorne", label: "Marcus Thorne" },
+    { value: "robert-p", label: "Robert P." },
+    { value: "emily-rivera", label: "Emily Rivera" },
+    { value: "jordan-lee", label: "Jordan Lee" },
+    { value: "alex-morgan", label: "Alex Morgan" },
+];
+
+interface FormData {
+  assignSpeaker: string[];
+}
+
 export default function CorporateEvents() {
-  const [date, setDate] = React.useState<Date>();
-  const [time, setTime] = React.useState<string>("12:00");
+  const [startDate, setStartDate] = React.useState<Date>();
+  const [startTime, setStartTime] = React.useState<string>("12:00");
+  const [endDate, setEndDate] = React.useState<Date>();
+  const [endTime, setEndTime] = React.useState<string>("14:00");
+  const [preferredSpeaker, setPreferredSpeaker] = React.useState<string>("");
+  const [openSpeaker, setOpenSpeaker] = React.useState(false);
+  const [formData, setFormData] = React.useState<FormData>({
+          assignSpeaker: [],
+      });
 
   return (
     <div className="min-h-screen bg-zinc-950 text-zinc-100 font-sans">
@@ -100,42 +125,87 @@ export default function CorporateEvents() {
                   </div>
                 </div>
                 <div className="space-y-2">
-                  <label className="text-sm text-zinc-400 ml-1">Date & time</label>
-                  <Popover>
-                    <PopoverTrigger asChild>
-                      <Button
-                        variant={"outline"}
-                        className={cn(
-                          "w-full justify-start text-left font-normal bg-zinc-950 border border-zinc-800 text-zinc-400 pr-4",
-                          !date && "text-muted-foreground"
-                        )}
-                      >
-                        {/* <CalendarIcon className="absolute left-3 top-3 h-5 w-5 text-zinc-600" fill="white"/> */}
-                        {date ? (
-                          format(new Date(date.setHours(parseInt(time.split(":")[0]), parseInt(time.split(":")[1]))), "PPP p    ")
-                        ) : (
-                          <span>Pick a date</span>
-                        )}
-                      </Button>
-                    </PopoverTrigger>
-                    <PopoverContent className="w-auto p-0 bg-zinc-800 border border-zinc-700 text-zinc-100">
-                      <Calendar
-                        mode="single"
-                        selected={date}
-                        onSelect={setDate}
-                        initialFocus
-                      />
-                      <div className="p-3 border-t border-zinc-700">
-                        <input
-                          type="time"
-                          value={time}
-                          onChange={(e) => setTime(e.target.value)}
-                          className="w-full bg-zinc-900 border border-zinc-700 rounded-md py-1 px-2 text-zinc-100 focus:outline-none focus:border-zinc-500"
-                        />
-                      </div>
-                    </PopoverContent>
-                  </Popover>
+                    <label className="text-sm text-zinc-400 ml-1">Start Date & Time</label>
+                    <DateTimePicker
+                        value={startDate}
+                        onChange={(date) => {
+                            setStartDate(date);
+                            if (date) setStartTime(format(date, "HH:mm"));
+                        }}
+                    />
                 </div>
+                <div className="space-y-2">
+                    <label className="text-sm text-zinc-400 ml-1">End Date & Time</label>
+                    <DateTimePicker
+                        value={endDate}
+                        onChange={(date) => {
+                            setEndDate(date);
+                            if (date) setEndTime(format(date, "HH:mm"));
+                        }}
+                    />
+                </div>
+                <div className="space-y-2">
+                        {/* <Label className="text-zinc-500 text-xs">Assign Speaker</Label>
+            <Input value={formData.assignSpeaker} onChange={e => setFormData({...formData, assignSpeaker: e.target.value})} className="bg-zinc-900 border-zinc-800 h-11" /> */}
+                        <label className="text-zinc-500 text-xs mb-1 flex items-center gap-2">
+                            {/* <UserCheck size={14} />  */}
+                            Available Speakers
+                        </label>
+
+                        {/* --- MULTI-SELECT COMBOBOX FOR SPEAKERS --- */}
+                        <Popover open={openSpeaker} onOpenChange={setOpenSpeaker}>
+                            <PopoverTrigger asChild>
+                                <Button
+                                    variant="outline"
+                                    role="combobox"
+                                    aria-expanded={openSpeaker}
+                                    className="w-full justify-between bg-zinc-900 border-zinc-800 h-11 hover:bg-zinc-800 text-zinc-100 font-normal"
+                                >
+                                    {formData.assignSpeaker.length > 0
+                                        ? formData.assignSpeaker
+                                            .map((speakerValue) => SPEAKERS.find((s) => s.value === speakerValue)?.label)
+                                            .filter(Boolean) // Remove undefined labels
+                                            .join(", ")
+                                        : "Select speaker(s)..."}
+                                    <ChevronsUpDown className="ml-2 h-4 w-4 shrink-0 opacity-50" />
+                                </Button>
+                            </PopoverTrigger>
+                            <PopoverContent className="w-[var(--radix-popover-trigger-width)] p-0 bg-zinc-900 border-zinc-800">
+                                <Command className="bg-transparent">
+                                    <CommandInput placeholder="Search speakers..." className="h-9 text-zinc-100" />
+                                    <CommandList>
+                                        <CommandEmpty>No speaker found.</CommandEmpty>
+                                        <CommandGroup>
+                                            {SPEAKERS.map((speaker) => (
+                                                <CommandItem
+                                                    key={speaker.value}
+                                                    value={speaker.value} // Use value for internal logic
+                                                    onSelect={(currentValue) => {
+                                                        const isSelected = formData.assignSpeaker.includes(currentValue);
+                                                        setFormData((prev) => ({
+                                                            ...prev,
+                                                            assignSpeaker: isSelected
+                                                                ? prev.assignSpeaker.filter((s) => s !== currentValue)
+                                                                : [...prev.assignSpeaker, currentValue],
+                                                        }));
+                                                    }}
+                                                    className="text-zinc-100 aria-selected:bg-zinc-800 aria-selected:text-white cursor-pointer"
+                                                >
+                                                    <Check
+                                                        className={cn(
+                                                            "mr-2 h-4 w-4",
+                                                            formData.assignSpeaker.includes(speaker.value) ? "opacity-100" : "opacity-0"
+                                                        )}
+                                                    />
+                                                    {speaker.label}
+                                                </CommandItem>
+                                            ))}
+                                        </CommandGroup>
+                                    </CommandList>
+                                </Command>
+                            </PopoverContent>
+                        </Popover>
+                    </div>
               </div>
 
               <div className="pt-4 border-t border-zinc-800">

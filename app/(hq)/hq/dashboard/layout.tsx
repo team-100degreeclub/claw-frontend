@@ -44,7 +44,7 @@ export default function DashboardLayout({ children }: { children: React.ReactNod
   const router = useRouter();
 
   const pathSegments = pathname.split('/').filter(Boolean); // e.g., ["hq", "dashboard", "workstation", "insights"]
-  console.log(pathSegments);
+  (pathSegments);
   // --- Derive activePrimaryLabel ---
   let activePrimaryLabel = "Board Room"; // Default
   if (pathSegments.length >= 3 && pathSegments[0] === "hq" && pathSegments[1] === "dashboard") {
@@ -193,7 +193,7 @@ export default function DashboardLayout({ children }: { children: React.ReactNod
         <aside
           className={cn(
             "relative flex flex-col border-r border-zinc-800 bg-zinc-900/30 backdrop-blur-xl transition-all duration-300 ease-in-out z-20",
-            secondaryCollapsed ? "w-12" : "w-48"
+            secondaryCollapsed ? "w-12" : activePrimaryLabel === "Team" ? "w-64" : "w-48"
           )}
         >
           {!secondaryCollapsed ? (
@@ -242,7 +242,7 @@ export default function DashboardLayout({ children }: { children: React.ReactNod
           )}
 
           {/* SECONDARY COLLAPSE TOGGLE */}
-          <Button
+          {/* <Button
             variant="ghost"
             size="icon"
             className="absolute -right-3 top-20 h-6 w-6 rounded-full border border-zinc-700 bg-zinc-900 hover:bg-zinc-800 z-40"
@@ -253,7 +253,7 @@ export default function DashboardLayout({ children }: { children: React.ReactNod
             ) : (
               <ChevronLeft size={12} />
             )}
-          </Button>
+          </Button> */}
         </aside>
       )}
 

@@ -205,7 +205,7 @@ export default function ProfileForm() {
 
 
     return (
-        <div className="min-h-screen px-8 bg-zinc-950 text-zinc-100">
+        <div className="min-h-screen px-8 text-zinc-100">
             <div className="max-w-5xl mx-auto py-12">
                 {/* Header Section */}
                 <div className="mb-8">
@@ -214,7 +214,7 @@ export default function ProfileForm() {
                 </div>
 
                 {/* Main Card */}
-                <Card className="border-transparent bg-zinc-900/40 shadow-2xl overflow-hidden" >
+                <Card className="bg-zinc-900/40 shadow-2xl overflow-hidden" >
                     <CardContent className="p-8">
                         <Form {...form}>
                             <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-10">

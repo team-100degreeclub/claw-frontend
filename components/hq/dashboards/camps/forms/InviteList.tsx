@@ -10,7 +10,7 @@ interface InviteListProps {
 }
 
 export function InviteList({ invitees, onRemove }: InviteListProps) {
-	console.log(invitees)
+	(invitees)
 	return (
 		<div className="flex flex-col gap-4 mt-8 mb-4 w-full">
 			{invitees.map((invitee, index) => (

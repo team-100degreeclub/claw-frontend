@@ -23,7 +23,7 @@ export function LeadInsights() {
 
 export function MetricItem({ label, value, color = "text-white", highlight, text, desc }: any) {
   return (
-    <div className="space-y-1">
+    <div className="space-y-1 w-fit">
       <p className="text-xs font-black text-zinc-500">{label}</p>
       <p className={`text-2xl font-black tracking-tighter ${highlight ? 'text-green-400' : color}`}>
         {text ? value : parseFloat(value).toLocaleString("en-IN", { maximumFractionDigits: 0, minimumFractionDigits: 0 , style: "currency", currency: "INR" })}

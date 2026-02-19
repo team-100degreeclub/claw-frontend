@@ -34,7 +34,7 @@ export function CollaboratorInvite({
 		name: "collaborators",
 	});
 
-	console.log(partners);
+	(partners);
 
 	// ─────────────────────────────────────────────
 	// Invite Partner
@@ -119,7 +119,7 @@ export function CollaboratorInvite({
 	const handleRemove = async (index: number, collabId?: string | null) => {
 		try {
 			if (isUpdateMode && collabId) {
-				console.log(partners)
+				(partners)
 				await partnerService.removePartnerInvite(collabId);
 			}
 			remove(index);

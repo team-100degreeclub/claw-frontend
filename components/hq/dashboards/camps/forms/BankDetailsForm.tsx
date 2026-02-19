@@ -21,7 +21,7 @@ export function BankDetailsForm() {
 
   const { control, setValue, getValues } =
     useFormContext<CampFormValues>();
-  console.log(getValues())
+  (getValues())
   /**
    * Local-only confirm field (not persisted)
    */
