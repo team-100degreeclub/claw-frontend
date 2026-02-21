@@ -104,7 +104,7 @@ export function CompleteCampSection({
       )}
 
       {/* Google Photos URL */}
-      <div className="space-y-2">
+      <div className="space-y-2 flex flex-col gap-2">
         <label className="text-sm font-bold text-zinc-400">
           Google Photos Album (optional)
         </label>
@@ -119,7 +119,7 @@ export function CompleteCampSection({
       </div>
 
       {/* Video Upload */}
-      <div className="space-y-2">
+      <div className="space-y-2 flex flex-col gap-2">
         <label className="text-sm font-bold text-zinc-400">
           Thank You Video
         </label>
@@ -177,7 +177,7 @@ export function CompleteCampSection({
       )}
 
       {/* Letter */}
-      <div className="space-y-2">
+      <div className="space-y-2 flex flex-col gap-2">
         <label className="text-sm font-bold text-zinc-400">
           Letter
         </label>

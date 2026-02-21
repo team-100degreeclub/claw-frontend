@@ -137,7 +137,7 @@ export function CollaboratorInvite({
         <h3 className="text-xl font-bold text-white tracking-tight">
             Invite Collaborators
         </h3>
-        <p className="text-sm text-zinc-500 leading-relaxed">
+        <p className="text-sm text-white leading-relaxed">
             You can collaborate by inviting other camp hosts to co-host your camp. If they’re not in the C.L.A.W Host database, we’ll send them an invite on your behalf.
         </p>
     </div>

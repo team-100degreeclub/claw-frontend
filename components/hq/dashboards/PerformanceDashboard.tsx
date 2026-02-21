@@ -62,6 +62,92 @@ export default function PerformanceDashboard() {
     lifetime: "2021"
   }
   const [graphActiveTab, setGraphActiveTab] = React.useState("month");
+  const [corporateFilter, setCorporateFilter] = useState("month");
+
+  const corporateData = {
+    week: {
+        leads: "50",
+        converted: "10",
+        canceled: "1",
+        convRate: "20.0%",
+        pay: {
+            average: "100000",
+            high: "200000",
+            descHigh: "Apple / Cupertino",
+            low: "5000",
+            descLow: "Some Startup / Bangalore"
+        },
+        timeToConvert: {
+            average: "3 Days",
+            high: "7 Days",
+            descHigh: "Netflix / Los Gatos",
+            low: "1 Day",
+            descLow: "Meta / Menlo Park"
+        }
+    },
+    month: {
+        leads: "450",
+        converted: "120",
+        canceled: "2",
+        convRate: "26.7%",
+        pay: {
+            average: "120000",
+            high: "1500000",
+            descHigh: "Facebook / California",
+            low: "10500",
+            descLow: "Zerodha / Bangalore"
+        },
+        timeToConvert: {
+            average: "12 Days",
+            high: "90 Days",
+            descHigh: "Google / New York",
+            low: "24 Hours",
+            descLow: "Boeing / San Francisco"
+        }
+    },
+    year: {
+        leads: "5000",
+        converted: "1300",
+        canceled: "50",
+        convRate: "26.0%",
+        pay: {
+            average: "150000",
+            high: "2500000",
+            descHigh: "SpaceX / Hawthorne",
+            low: "8000",
+            descLow: "Local Firm / Delhi"
+        },
+        timeToConvert: {
+            average: "25 Days",
+            high: "120 Days",
+            descHigh: "Amazon / Seattle",
+            low: "12 Hours",
+            descLow: "Flipkart / Bangalore"
+        }
+    },
+    lifetime: {
+        leads: "15000",
+        converted: "4000",
+        canceled: "200",
+        convRate: "26.6%",
+        pay: {
+            average: "160000",
+            high: "5000000",
+            descHigh: "Microsoft / Redmond",
+            low: "5000",
+            descLow: "Small Biz / Mumbai"
+        },
+        timeToConvert: {
+            average: "30 Days",
+            high: "180 Days",
+            descHigh: "Oracle / Austin",
+            low: "6 Hours",
+            descLow: "Cred / Bangalore"
+        }
+    }
+  };
+
+  const currentCorporateData = corporateData[corporateFilter as keyof typeof corporateData];
 
   return (
     <div className="space-y-8 text-white pb-20 max-w-[1600px] mx-auto animate-in fade-in duration-500">
@@ -180,23 +266,28 @@ export default function PerformanceDashboard() {
 
       <div className="grid grid-cols-1 xl:grid-cols-1 gap-8">
         {/* 2. CORPORATE INSIGHTS */}
-        <InsightCard title="Corporate Insights" showFilter>
+        <InsightCard 
+          title="Corporate Insights" 
+          showFilter
+          currentFilter={corporateFilter}
+          onFilterChange={(value) => setCorporateFilter(value)}
+        >
           <div className="grid grid-cols-2 sm:grid-cols-4 gap-6 border-b border-zinc-800 pb-8 mb-8">
-            <DataPoint label="Leads" value="450" />
-            <DataPoint label="Converted" value="120" />
-            <DataPoint label="Canceled" value="2" />
-            <DataPoint label="Conv. Rate" value="26.7%" highlight />
+            <DataPoint label="Leads" value={currentCorporateData.leads} />
+            <DataPoint label="Converted" value={currentCorporateData.converted} />
+            <DataPoint label="Canceled" value={currentCorporateData.canceled} />
+            <DataPoint label="Conv. Rate" value={currentCorporateData.convRate} highlight />
           </div>
           <div className="grid grid-cols-1 md:grid-cols-2 gap-10">
             <StatList title="Pay" items={[
-              { label: "Average", value: "120000" },
-              { label: "High", value: "1500000", desc: "Facebook / California" },
-              { label: "Low", value: "10500", desc: "Zerodha / Bangalore" }
+              { label: "Average", value: currentCorporateData.pay.average },
+              { label: "High", value: currentCorporateData.pay.high, desc: currentCorporateData.pay.descHigh },
+              { label: "Low", value: currentCorporateData.pay.low, desc: currentCorporateData.pay.descLow }
             ]} />
             <StatList title="Time to Convert" items={[
-              { label: "Average", value: "12 Days" },
-              { label: "High", value: "90 Days", desc: "Google / New York" },
-              { label: "Low", value: "24 Hours", desc: "Boeing / San Francisco" }
+              { label: "Average", value: currentCorporateData.timeToConvert.average },
+              { label: "High", value: currentCorporateData.timeToConvert.high, desc: currentCorporateData.timeToConvert.descHigh },
+              { label: "Low", value: currentCorporateData.timeToConvert.low, desc: currentCorporateData.timeToConvert.descLow }
             ]} />
           </div>
         </InsightCard>
@@ -414,7 +505,7 @@ export function KPIGroup({ title, metrics }: { title: string, metrics: { label: 
   );
 }
 
-export function InsightCard({ title, children, showFilter, showFilterTravellerDashboard, className }: { title: string, children: React.ReactNode, showFilter?: boolean, showFilterTravellerDashboard?: boolean, className?: string }) {
+export function InsightCard({ title, children, showFilter, showFilterTravellerDashboard, className, onFilterChange, currentFilter }: { title: string, children: React.ReactNode, showFilter?: boolean, showFilterTravellerDashboard?: boolean, className?: string, onFilterChange?: (value: string) => void, currentFilter?: string }) {
   const [graphActiveTab, setGraphActiveTab] = useState("spirit roads")
   return (
     <Card className={cn("bg-zinc-900/30 border border-zinc-700 rounded-sm p-8 flex flex-col", className)}>
@@ -424,9 +515,9 @@ export function InsightCard({ title, children, showFilter, showFilterTravellerDa
           <h3 className="text-lg font-black text-white ">{title}</h3>
         </div>
         {showFilter && (
-          <Tabs defaultValue="month" className="bg-zinc-950 border border-zinc-800 p-1 rounded-sm">
+          <Tabs value={currentFilter} onValueChange={onFilterChange} defaultValue="month" className="bg-zinc-950 border border-zinc-800 p-1 rounded-sm">
             <TabsList className="bg-transparent h-7 gap-1">
-              {["Week", "Month", "Year", "Lifetime"].map(t => (
+              {["Week", "Month", "Quarter", "Year", "Lifetime"].map(t => (
                 <TabsTrigger key={t} value={t.toLowerCase()} className="text-[9px]  font-black px-2 h-5">
                   {t}
                 </TabsTrigger>

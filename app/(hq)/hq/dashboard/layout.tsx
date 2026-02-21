@@ -145,7 +145,7 @@ export default function DashboardLayout({ children }: { children: React.ReactNod
               { label: "Board Room", icon: LayoutDashboard },
               { label: "Workstation", icon: LampDesk },
               { label: "Team", icon: Users },
-              { label: "Updates", icon: Bell },
+              // { label: "Updates", icon: Bell },
             ].map((item) => (
               <Button
                 key={item.label}

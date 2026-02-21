@@ -21,7 +21,7 @@ const ageData = [
 // Total Travellers,
 // Gender Ratio,
 // Age Bucket,
-// Avg. Spending,
+// μ Spending,
 // Revenue,
 // Growth Rate - Revenue,
 // Growth Rate - Spending,
@@ -89,7 +89,7 @@ export default function TravellerDashboard() {
                                 <TableHead className="text-right">Age Bucket</TableHead>
                                 <TableHead className="text-right">Revenue</TableHead>
                                 <TableHead className="text-right">Net</TableHead>
-                                <TableHead className="text-right">Avg. Spending</TableHead>
+                                <TableHead className="text-right">μ Spending</TableHead>
                                 {/* <TableHead className="text-right">Growth Rate - Revenue</TableHead> */}
                                 {/* <TableHead className="text-right">Growth Rate - Spending</TableHead> */}
                                 {/* <TableHead className="text-right">Traffic</TableHead> */}

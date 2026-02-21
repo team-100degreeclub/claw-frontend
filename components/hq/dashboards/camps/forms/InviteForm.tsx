@@ -58,7 +58,7 @@ export function InviteForm({ onInvite }: InviteFormProps) {
                     <FormControl>
                         <Input 
                             type="email" 
-                            placeholder="Enter collaborator's email" 
+                            placeholder="You can find fellow hosts on the C.L.A.W Team database" 
                             className="h-11 bg-zinc-900 border-zinc-800 text-zinc-100 placeholder:text-zinc-600 focus:border-white focus:ring-white transition-all rounded-lg"
                             {...field} 
                         />

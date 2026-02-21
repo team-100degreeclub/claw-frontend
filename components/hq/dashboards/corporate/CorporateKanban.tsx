@@ -67,7 +67,7 @@ interface SpeakerAllocation {
     amount: number;
 }
 
-interface LeadData {
+export interface LeadData {
     id: string;
     column: string;
     inquiryDate: string;
@@ -257,7 +257,7 @@ export function CorporateKanban() {
 }
 
 // --- Sub-Component: Form ---
-function KanbanForm({ initialData, onSave, onCancel }: { initialData: LeadData | null, onSave: (data: LeadData) => void, onCancel: () => void }) {
+export function KanbanForm({ initialData, onSave, onCancel, speakerView, speakerId }: { initialData: LeadData | null, onSave: (data: LeadData) => void, onCancel: () => void, speakerView?: boolean, speakerId?: string }) {
     const [openSpeaker, setOpenSpeaker] = useState(false);
     const [isAvailSheetOpen, setIsAvailSheetOpen] = useState(false);
     const [formData, setFormData] = useState<LeadData>({
@@ -311,6 +311,13 @@ function KanbanForm({ initialData, onSave, onCancel }: { initialData: LeadData |
                     <SheetTitle className="text-3xl text-white font-bold">
                         {initialData ? formData.company : "New Lead Inquiry"}
                     </SheetTitle>
+                    {speakerView && formData.speakerAllocations.length > 0 && formData.speakerAllocations.some(allocation => allocation.speakerId === speakerId) && (
+                        <div className="space-y-2">
+                            <p className="text-white text-sm">
+                                Net Pay: <span className="text-green-400">{formData.speakerAllocations.find(allocation => allocation.speakerId === speakerId)?.amount.toLocaleString("en-IN", { style: "currency", currency: "INR" }) || 0}</span>
+                            </p>
+                        </div>
+                    )}
                 </SheetHeader>
             </div>
 
@@ -363,6 +370,10 @@ function KanbanForm({ initialData, onSave, onCancel }: { initialData: LeadData |
                                 }}
                             />
                         </div>
+                        <div className="space-y-2">
+                            <Label className="text-zinc-500 text-xs">Location</Label>
+                            <Input value={formData.location} onChange={e => setFormData({ ...formData, location: e.target.value })} className="bg-zinc-900 border-zinc-800 h-11" />
+                        </div>
                     </div>
                 </div>
 
@@ -386,12 +397,14 @@ function KanbanForm({ initialData, onSave, onCancel }: { initialData: LeadData |
                 </div>
 
                 {/* Staffing */}
-                <div className="grid grid-cols-2 gap-6 pt-6 border-t border-zinc-900">
-                    <div className="space-y-2">
-                        <Label className="text-zinc-500 text-xs">Requested Speaker</Label>
-                        <Input value={formData.requestSpeaker} onChange={e => setFormData({ ...formData, requestSpeaker: e.target.value })} className="bg-zinc-900 border-zinc-800 h-11" />
-                    </div>
-                    {/* <div className="space-y-2">
+                {
+                    !speakerView && (
+                        <div className="grid grid-cols-2 gap-6 pt-6 border-t border-zinc-900">
+                            <div className="space-y-2">
+                                <Label className="text-zinc-500 text-xs">Requested Speaker</Label>
+                                <Input value={formData.requestSpeaker} onChange={e => setFormData({ ...formData, requestSpeaker: e.target.value })} className="bg-zinc-900 border-zinc-800 h-11" />
+                            </div>
+                            {/* <div className="space-y-2">
                         <Label className="text-zinc-500 text-xs">Team Available</Label>
                         <div className="relative group">
                             <Input
@@ -404,7 +417,8 @@ function KanbanForm({ initialData, onSave, onCancel }: { initialData: LeadData |
                             <CalendarIcon className="absolute right-3 top-3 h-5 w-5 text-zinc-500 group-hover:text-zinc-300 pointer-events-none" />
                         </div>
                     </div> */}
-                </div>
+                        </div>
+                    )}
 
                 {/* Nested Sheet for Calendar */}
                 <Sheet open={isAvailSheetOpen} onOpenChange={setIsAvailSheetOpen}>
@@ -417,73 +431,79 @@ function KanbanForm({ initialData, onSave, onCancel }: { initialData: LeadData |
                 </Sheet>
 
                 {/* Deal */}
-                <div className="space-y-6">
-                    <div className="flex items-center justify-between border-l-2 border-zinc-100 pl-4">
-                        <div className="text-zinc-100 font-semibold">Deal</div>
-                        {/* <span className="text-[10px] text-zinc-500 font-mono tracking-tighter uppercase">Automated 15% Management Fee</span> */}
-                    </div>
-
-                    <div className="grid grid-cols-2 gap-x-8 gap-y-6">
-                        <div className="space-y-2">
-                            <Label className="text-zinc-500 text-xs flex items-center gap-2">
-                                {/* <DollarSign size={14} className="text-zinc-600" />  */}
-                                Deal Size (₹)
-                            </Label>
-                            <Input
-                                type="number"
-                                value={formData.gross}
-                                onChange={e => setFormData({ ...formData, gross: parseFloat(e.target.value) || 0 })}
-                                className="bg-zinc-900 border-zinc-800 h-11 focus:border-emerald-500 transition-colors text-lg"
-                            />
-                        </div>
-
-                        <div className="space-y-2">
-                            <Label className="text-xs font-bold flex items-center gap-2">
-                                {/* <UserCheck size={14} />  */}
-                                Net Income
-                            </Label>
-                            <Input
-                                type="text"
-                                value={formatToIndianCurrency(formData.net)}
-                                disabled
-                                className="bg-zinc-900 border-zinc-800 h-11"
-                            />
-                        </div>
-                    </div>
-
-                    {formData.speakerAllocations.length > 0 && (
-                        <div className="space-y-4 pt-6 border-t border-zinc-900">
-                            <div className="text-zinc-100 font-semibold flex items-center gap-2">
-                                {/* <Users size={16} />  */}
-                                Speaker Allocations
+                {
+                    !speakerView && (
+                        <div className="space-y-6">
+                            <div className="flex items-center justify-between border-l-2 border-zinc-100 pl-4">
+                                <div className="text-zinc-100 font-semibold">Deal</div>
+                                {/* <span className="text-[10px] text-zinc-500 font-mono tracking-tighter uppercase">Automated 15% Management Fee</span> */}
                             </div>
-                            <div className="grid grid-cols-2 gap-6">
-                                {formData.speakerAllocations.map((allocation, index) => (
-                                    <div key={allocation.speakerId} className="space-y-2">
-                                        <Label className="text-zinc-500 text-xs">
-                                            {SPEAKERS.find(s => s.value === allocation.speakerId)?.label || allocation.speakerId}
-                                        </Label>
-                                        <Input
-                                            type="number"
-                                            value={allocation.amount}
-                                            onChange={(e) => {
-                                                const newAmount = parseFloat(e.target.value) || 0;
-                                                setFormData(prev => ({
-                                                    ...prev,
-                                                    speakerAllocations: prev.speakerAllocations.map((item, i) =>
-                                                        i === index ? { ...item, amount: newAmount } : item
-                                                    ),
-                                                }));
-                                            }}
-                                            className="bg-zinc-900 border-zinc-800 h-11"
-                                        />
+                            <div className="grid grid-cols-2 gap-x-8 gap-y-6">
+                                <div className="space-y-2">
+                                    <Label className="text-zinc-500 text-xs flex items-center gap-2">
+                                        {/* <DollarSign size={14} className="text-zinc-600" />  */}
+                                        Deal Size (₹)
+                                    </Label>
+                                    <Input
+                                        type="number"
+                                        value={formData.gross}
+                                        onChange={e => setFormData({ ...formData, gross: parseFloat(e.target.value) || 0 })}
+                                        className="bg-zinc-900 border-zinc-800 h-11 focus:border-emerald-500 transition-colors text-lg"
+                                    />
+                                </div>
+
+                                <div className="space-y-2">
+                                    <Label className="text-xs font-bold flex items-center gap-2">
+                                        {/* <UserCheck size={14} />  */}
+                                        Net Income
+                                    </Label>
+                                    <Input
+                                        type="text"
+                                        value={formatToIndianCurrency(formData.net)}
+                                        disabled
+                                        className="bg-zinc-900 border-zinc-800 h-11"
+                                    />
+                                </div>
+                            </div>
+
+
+                            {formData.speakerAllocations.length > 0 && (
+                                <div className="space-y-4 pt-6 border-t border-zinc-900">
+                                    <div className="text-zinc-100 font-semibold flex items-center gap-2">
+                                        {/* <Users size={16} />  */}
+                                        Speaker Allocations
                                     </div>
-                                ))}
-                            </div>
+                                    <div className="grid grid-cols-2 gap-6">
+                                        {formData.speakerAllocations.map((allocation, index) => (
+                                            <div key={allocation.speakerId} className="space-y-2">
+                                                <Label className="text-zinc-500 text-xs">
+                                                    {SPEAKERS.find(s => s.value === allocation.speakerId)?.label || allocation.speakerId}
+                                                </Label>
+                                                <Input
+                                                    type="number"
+                                                    value={allocation.amount}
+                                                    onChange={(e) => {
+                                                        const newAmount = parseFloat(e.target.value) || 0;
+                                                        setFormData(prev => ({
+                                                            ...prev,
+                                                            speakerAllocations: prev.speakerAllocations.map((item, i) =>
+                                                                i === index ? { ...item, amount: newAmount } : item
+                                                            ),
+                                                        }));
+                                                    }}
+                                                    className="bg-zinc-900 border-zinc-800 h-11"
+                                                />
+                                            </div>
+                                        ))}
+
+
+                                    </div>
+                                </div>
+                            )}
+
                         </div>
-                    )}
-                    
-                </div>
+                    )
+                }
 
                 {/* Final Details */}
                 <div className="grid grid-cols-2 gap-6 pt-6 border-t border-zinc-900">
@@ -491,7 +511,7 @@ function KanbanForm({ initialData, onSave, onCancel }: { initialData: LeadData |
                         {/* <Label className="text-zinc-500 text-xs">Assign Speaker</Label>
             <Input value={formData.assignSpeaker} onChange={e => setFormData({...formData, assignSpeaker: e.target.value})} className="bg-zinc-900 border-zinc-800 h-11" /> */}
                         <Label className="text-zinc-500 text-xs mb-1 flex items-center gap-2">
-                            <UserCheck size={14} /> Assign Speaker
+                            <UserCheck size={14} /> {speakerView ? "Panel" : "Assign Speaker"}
                         </Label>
 
                         {/* --- MULTI-SELECT COMBOBOX FOR SPEAKERS --- */}
@@ -576,14 +596,17 @@ function KanbanForm({ initialData, onSave, onCancel }: { initialData: LeadData |
                 </div>
             </div>
 
-            <div className="p-8 border-t border-zinc-900 bg-zinc-950 sticky bottom-0 z-10">
-                <SheetFooter className="sm:flex-row flex-row gap-4">
-                    <Button variant="default" onClick={onCancel} className="flex-1 h-12 bg-zinc-800 hover:bg-zinc-800/80 text-zinc-500">Cancel</Button>
-                    <Button onClick={() => onSave(formData)} className="flex-1 bg-white text-black hover:bg-zinc-300 h-12 font-bold text-md">
-                        {initialData ? "Apply Changes" : "Add"}
-                    </Button>
-                </SheetFooter>
-            </div>
+            {
+                !speakerView && (
+                    <div className="p-8 border-t border-zinc-900 bg-zinc-950 sticky bottom-0 z-10">
+                        <SheetFooter className="sm:flex-row flex-row gap-4">
+                            <Button variant="default" onClick={onCancel} className="flex-1 h-12 bg-zinc-800 hover:bg-zinc-800/80 text-zinc-500">Cancel</Button>
+                            <Button onClick={() => onSave(formData)} className="flex-1 bg-white text-black hover:bg-zinc-300 h-12 font-bold text-md">
+                                {initialData ? "Apply Changes" : "Add"}
+                            </Button>
+                        </SheetFooter>
+                    </div>
+                )}
         </div>
     );
 }

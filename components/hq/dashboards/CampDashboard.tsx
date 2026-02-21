@@ -47,58 +47,80 @@ export default function CampDashboard() {
                     <TableHeader className="border-b border-zinc-800">
                         <TableRow className="hover:bg-transparent">
                             <TableHead className="w-[150px]"></TableHead>
-                            <TableHead className="text-right text-xs font-bold text-zinc-400">Spirit Roads</TableHead>
+                            {/* <TableHead className="text-right text-xs font-bold text-zinc-400">Spirit Roads</TableHead>
                             <TableHead className="text-right text-xs font-bold text-zinc-400">Land</TableHead>
                             <TableHead className="text-right text-xs font-bold text-zinc-400">Air</TableHead>
-                            <TableHead className="text-right text-xs font-bold text-zinc-400">Water</TableHead>
+                            <TableHead className="text-right text-xs font-bold text-zinc-400">Water</TableHead> */}
+                            <TableHead className="text-right text-xs font-bold text-zinc-400 w-1/7">&#x2211; Camps</TableHead>
+                            <TableHead className="text-right text-xs font-bold text-zinc-400 w-1/7">&#x2211; Tickets</TableHead>
+                            <TableHead className="text-right text-xs font-bold text-zinc-400 w-1/7">μ Tickets</TableHead>
+                            <TableHead className="text-right text-xs font-bold text-zinc-400 w-1/7">μ Ticket Size</TableHead>
+                            <TableHead className="text-right text-xs font-bold text-zinc-400 w-1/7">Gross</TableHead>
+                            <TableHead className="text-right text-xs font-bold text-zinc-400 w-1/7">Refund</TableHead>
+                            <TableHead className="text-right text-xs font-bold text-zinc-400 w-1/7">Net</TableHead>
                         </TableRow>
                     </TableHeader>
                     <TableBody>
-                        <SummaryRow label="Gross" values={["$700K", "$400K", "$500K", "$750K"]} />
+                        {/* <SummaryRow label="Gross" values={["$700K", "$400K", "$500K", "$750K"]} />
                         <SummaryRow label="Refund" values={["$20K", "$15K", "$30K", "$10K"]} color="text-red-400" />
-                        <SummaryRow label="Net" values={["$20K", "$85K", "$30K", "$80K"]} color="text-emerald-500" highlight />
+                        <SummaryRow label="Net" values={["$20K", "$85K", "$30K", "$80K"]} color="text-emerald-500" highlight /> */}
+                        <SummaryRow label="Spirit Roads" values={[30, 430, 10, "₹12,000", "₹2,80,000", "₹3,50,000", "₹5,00,000"]} />
+                        <SummaryRow label="Adventure - Land" values={[18, 300, 5, "₹15,999", "₹1,05,000", "₹2,10,000", "₹3,00,000"]} />
+                        <SummaryRow label="Adventure - Air" values={[12, 238, 8, "₹12,899", "₹5,70,000", "₹2,10,000", "₹4,00,000"]} />
+                        <SummaryRow label="Adventure - Water" values={[13, 430, 10, "₹14,799", "₹5,70,000", "₹3,50,000", "₹6,00,000"]} />
                     </TableBody>
                 </Table>
             </Card>
 
-            <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
+            <div className="grid grid-cols-1 lg:grid-cols-1 gap-8">
 
                 {/* 2 & 3. TRAVELER INSIGHTS & AVERAGES */}
                 <InsightCard title="Traveller Insights" showFilter>
-                    <div className="grid grid-cols-3 gap-6 mb-10 border-b border-zinc-800 pb-8">
-                        <DataPoint label="Travelers Visited" value="15,000" />
-                        <DataPoint label="Unique Travelers" value="12,000" />
-                        <DataPoint label="Repeat Travelers" value="3,000" highlight />
+                    <div className="grid grid-cols-3 gap-6">
+                        <DataPoint label="Visited" value="15,000" />
+                        <DataPoint label="Unique" value="12,000" />
+                        <DataPoint label="Repeat" value="3,000" highlight />
                     </div>
-                    <div className="space-y-4">
-                        {/* <p className="text-[10px]  font-black text-zinc-500 tracking-widest">Average Data</p> */}
+                    {/* <div className="space-y-4">
+                        <p className="text-[10px]  font-black text-zinc-500 tracking-widest">Average Data</p>
                         <div className="grid grid-cols-2 gap-4">
                             <MetricItem label="Avg Tickets Sold Per Camp" value="45" text />
                             <MetricItem label="Avg Slots Filled Per Camp" value="40" text />
                             <MetricItem label="Avg Traveler Visits Per Camp" value="30" text />
                             <MetricItem label="Avg Slots Sold Per Camp" value="40" text />
                         </div>
-                    </div>
+                    </div> */}
                 </InsightCard>
 
                 {/* 4. CAMPS CATEGORY STATUS TABLE */}
-                <InsightCard title="Camps Category Breakdown">
+                <InsightCard title="Camps Category Breakdown" showFilter>
                     <Table>
                         <TableHeader className="border-zinc-800">
                             <TableRow className="text-sm font-bold text-zinc-500">
-                                <TableHead>Category</TableHead>
+                                {/* <TableHead>Category</TableHead>
                                 <TableHead>Spirit</TableHead>
                                 <TableHead>Land</TableHead>
                                 <TableHead>Air</TableHead>
-                                <TableHead>Water</TableHead>
+                                <TableHead>Water</TableHead> */}
+                                <TableHead className="w-1/6 text-right"></TableHead>
+                                <TableHead className="w-1/6 text-right">Houseful</TableHead>
+                                <TableHead className="w-1/6 text-right">Live</TableHead>
+                                <TableHead className="w-1/6 text-right">Pre-Registration</TableHead>
+                                <TableHead className="w-1/6 text-right">Refund</TableHead>
+                                <TableHead className="w-1/6 text-right">Completed</TableHead>
+                                {/* <TableHead className="w-1/6 text-right">Fast Filler</TableHead> */}
                             </TableRow>
                         </TableHeader>
                         <TableBody className="text-sm font-bold">
-                            <CategoryRow label="Houseful" values={["30", "20", "80", "5"]} />
+                            {/* <CategoryRow label="Houseful" values={["30", "20", "80", "5"]} />
                             <CategoryRow label="Live" values={["30", "30", "100", "12"]} />
                             <CategoryRow label="Pre-Registration" values={["100", "50", "10", "12"]} />
                             <CategoryRow label="Completed" values={["12", "15", "5", "8"]} />
-                            <CategoryRow label="Fast Filler" values={["Yes", "No", "Yes", "Yes"]} />
+                            <CategoryRow label="Fast Filler" values={["Yes", "No", "Yes", "Yes"]} /> */}
+                            <SummaryRow label="Spirit Roads" values={["30%", "20", "80", "2", "5"]} />
+                            <SummaryRow label="Adventure - Land" values={["30%", "30", "100", "4", "12"]} />
+                            <SummaryRow label="Adventure - Air" values={["80%", "50", "10", "5", "12"]} />
+                            <SummaryRow label="Adventure - Water" values={["68%", "15", "5", "5", "8"]} />
                         </TableBody>
                     </Table>
                 </InsightCard>
@@ -109,15 +131,26 @@ export default function CampDashboard() {
                 <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-6 mb-10">
                     <div className="flex items-center gap-3">
                         <div className="w-1 h-6 bg-cyan-500 inline-block" />
-                        <h3 className="text-base font-black text-white inline-block">Camp Lifecycle Insights</h3>
+                        <h3 className="text-base font-black text-white inline-block">Live Camps</h3>
                     </div>
                     <div className="flex flex-wrap gap-4">
+                        <Tabs value={""} defaultValue="week" className="bg-zinc-950 border border-zinc-800 p-1 rounded-sm">
+                            <TabsList className="bg-transparent h-7 gap-1">
+                                {["Week", "Month", "Year", "Lifetime"].map(t => (
+                                    <TabsTrigger key={t} value={t.toLowerCase()} className="text-[9px]  font-black px-2 h-5">
+                                        {t}
+                                    </TabsTrigger>
+                                ))}
+                            </TabsList>
+                        </Tabs>
                         <Select defaultValue="all">
                             <SelectTrigger className="w-[180px] bg-zinc-950 border-zinc-800 text-[10px]  font-bold">
                                 <SelectValue placeholder="Status Filter" />
                             </SelectTrigger>
                             <SelectContent className="bg-zinc-900 border-zinc-700 text-white">
                                 <SelectItem value="all">All Camps</SelectItem>
+                                <SelectItem value="all">Live</SelectItem>
+                                <SelectItem value="all">Completed</SelectItem>
                                 <SelectItem value="housefull">Housefull Camps</SelectItem>
                                 <SelectItem value="low-sale">{"< 10% Tickets Sold"}</SelectItem>
                             </SelectContent>
@@ -136,29 +169,40 @@ export default function CampDashboard() {
                 <Table>
                     <TableHeader className="bg-zinc-900/50">
                         <TableRow className="border-zinc-800 text-sm  font-black text-zinc-500">
-                            <TableHead>Camp Name / Location</TableHead>
-                            <TableHead>Type</TableHead>
-                            <TableHead>Ticket</TableHead>
-                            <TableHead>Slots</TableHead>
-                            <TableHead>Collaboration</TableHead>
-                            <TableHead className="text-right">Status</TableHead>
+                            <TableHead className="w-1/5 text-left">Camp Name / Location</TableHead>
+                            <TableHead className="w-1/5 text-right">Category</TableHead>
+                            <TableHead className="w-1/5 text-right">Host</TableHead>
+                            <TableHead className="w-1/5 text-right">Ticket Price</TableHead>
+                            <TableHead className="w-1/5 text-right">Slots</TableHead>
                         </TableRow>
                     </TableHeader>
                     <TableBody className="text-sm">
-                        <DetailTableRow
-                            name="Sunrise Trric" loc="Himalayas" type="Expedition"
-                            ticket="₹16,499" slot="100" collab="Yes" status="Completed" />
-                        <DetailTableRow
-                            name="Ocean Dive" loc="Maldives" type="Water"
-                            ticket="₹12,999" slot="80" collab="No" status="Live" />
+                        <SummaryRow
+                            label="Sunrise Trric / Kovalam, Tamil Nadu"
+                            values={[
+                                "Adventure - Land",
+                                "Rahul Mishra",
+                                "₹16,499",
+                                "100",
+                            ]}
+                        />
+                        <SummaryRow
+                            label="Ocean Dive / Andaman Sea, Tamil Nadu"
+                            values={[
+                                "Adventure - Water",
+                                "Siddharth Mishra",
+                                "₹12,999",
+                                "80",
+                            ]}
+                        />
                     </TableBody>
                 </Table>
             </Card>
 
-            <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
+            <div className="grid grid-cols-1 lg:grid-cols-1 gap-8">
                 {/* 6. REFUND MONITOR */}
                 <InsightCard title="Refund Status">
-                    <div className="space-y-6">
+                    {/* <div className="space-y-6">
                         <div>
                             <p className="text-[10px]  font-black text-emerald-500 mb-2 tracking-widest">Completed</p>
                             <div className="bg-zinc-950 p-4 border border-zinc-800 flex justify-between items-center">
@@ -176,26 +220,60 @@ export default function CampDashboard() {
                                 <span className="text-sm font-black">{(80000).toLocaleString("en-IN", { style: "currency", currency: "INR" })}</span>
                             </div>
                         </div>
-                    </div>
+                    </div> */}
+                    <Table>
+                        <TableHeader className="bg-zinc-900/50">
+                            <TableRow className="border-zinc-800 text-sm  font-black text-zinc-500">
+                                <TableHead className="w-1/4 px-2">Camp Name</TableHead>
+                                <TableHead className="w-1/4">Refund Amount</TableHead>
+                                <TableHead className="w-1/4">Settlement Date</TableHead>
+                                <TableHead className="w-1/4">Status</TableHead>
+                            </TableRow>
+                        </TableHeader>
+                        <TableBody className="text-sm">
+                            <TableRow className="border-zinc-800">
+                                <TableCell>Himalayan Endurance</TableCell>
+                                <TableCell>{(55000).toLocaleString("en-IN", { style: "currency", currency: "INR" })}</TableCell>
+                                <TableCell>-</TableCell>
+                                <TableCell>Completed</TableCell>
+                            </TableRow>
+                            <TableRow className="border-zinc-800">
+                                <TableCell>Dinner With Me - Honest Stories</TableCell>
+                                <TableCell>{(80000).toLocaleString("en-IN", { style: "currency", currency: "INR" })}</TableCell>
+                                <TableCell>Expected: By Friday</TableCell>
+                                <TableCell>Pending</TableCell>
+                            </TableRow>
+                        </TableBody>
+                    </Table>
                 </InsightCard>
 
                 {/* 7. HOST / TEAM */}
-                <InsightCard title="Host - Team Insights">
+                {/* <InsightCard title="Host - Team Insights">
                     <div className="grid grid-cols-1 gap-4">
                         <MetricItem label="Fastest Filler" value="Major Sandeep" text />
                         <MetricItem label="Active Dead" value="Sector 7 Ops" text />
                         <MetricItem label="Primary Location" value="Himalayan Base" text />
                     </div>
-                </InsightCard>
+                </InsightCard> */}
             </div>
 
             {/* 8. COMPARATIVE GROWTH GRAPH */}
             <Card className="bg-zinc-900/40 border border-zinc-700 rounded-none p-8">
+
                 <div className="flex flex-col md:flex-row justify-between items-start md:items-center mb-10 gap-4">
                     <div className="flex items-center gap-3">
                         <div className="w-1 h-6 bg-cyan-500 inline-block" />
-                        <h3 className="text-base font-black text-white inline-block">MoM Performance</h3>
+                        <h3 className="text-base font-black text-white inline-block">Performance</h3>
                     </div>
+                    <Tabs value={""} defaultValue="week" className="bg-zinc-950 border border-zinc-800 p-1 rounded-sm">
+                        <TabsList className="bg-transparent h-7 gap-1">
+                            {["Week", "Month", "Year", "Lifetime"].map(t => (
+                                <TabsTrigger key={t} value={t.toLowerCase()} className="text-[9px]  font-black px-2 h-5">
+                                    {t}
+                                </TabsTrigger>
+                            ))}
+                        </TabsList>
+                    </Tabs>
                     <div className="flex flex-wrap gap-4 text-[10px] font-black">
                         {/* <LegendItem color="bg-blue-500" label="Revenue" />
                         <LegendItem color="bg-emerald-500" label="Travelers" />
@@ -233,7 +311,7 @@ function SummaryRow({ label, values, color = "text-white", highlight }: any) {
         <TableRow className="border-zinc-800/50 hover:bg-zinc-800/20">
             <TableCell className="text-xs  font-black text-zinc-500 py-4">{label}</TableCell>
             {values.map((v: string, i: number) => (
-                <TableCell key={i} className={`text-right text-sm font-black ${highlight ? color : 'text-zinc-300'}`}>
+                <TableCell key={i} className={`text-right text-sm ${highlight ? color : 'text-zinc-300'} ${i === values.length - 1 && highlight ? 'text-green-400' : ''}`}>
                     {v}
                 </TableCell>
             ))}

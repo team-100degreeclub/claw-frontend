@@ -36,7 +36,7 @@ export default async function DynamicDashboardPage({
   if (category === "team") {
     return (
       <div className="animate-in fade-in slide-in-from-right-4 duration-500">
-        <HostInsightsView />
+        <HostInsightsView teamView={true}/>
       </div>
     );
   }
@@ -46,6 +46,9 @@ export default async function DynamicDashboardPage({
 
   return (
     <div className="animate-in fade-in slide-in-from-right-4 duration-500">
+      {
+        // (SelectedView === HostInsightsView && category.includes("team")) ? <HostInsightsView teamView={false} /> : <SelectedView />
+      }
       <SelectedView />
     </div>
   );
