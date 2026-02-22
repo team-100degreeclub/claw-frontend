@@ -76,7 +76,7 @@ export function BankDetailsForm() {
           <FormControl>
             <Input 
               {...field} 
-              className="h-11 bg-zinc-900 border-zinc-800 text-white uppercase placeholder:text-zinc-700 focus:border-white focus:ring-white transition-all rounded-lg font-mono tracking-wider" 
+              className="h-11 bg-zinc-900 border-zinc-800 text-white uppercase placeholder:text-zinc-700 focus:border-white focus:ring-white transition-all rounded-lg" 
               placeholder="SBIN0001234"
             />
           </FormControl>

@@ -630,7 +630,7 @@ function CampTableRow({ type, sold, gross, net, avg, high, low }: { type: string
   );
 }
 
-function KPIRow({ type, gross, net, avg, high, low, cancel }: { type: string; gross: number; net: number, avg: number; high: number; low: number; cancel: number }) {
+export function KPIRow({ type, gross, net, avg, high, low, cancel }: { type: string; gross: number; net: number, avg: number; high: number; low: number; cancel: number }) {
   return (
     <tr className="hover:bg-zinc-800/30 transition-colors">
       <td className="py-3 font-bold text-zinc-300">{type}</td>

@@ -393,7 +393,7 @@ const CustomTooltip = ({ active, payload, label }: any) => {
                                 </div>
 
                                 {/* Raw Value Display */}
-                                <span className="text-xs font-black text-white font-mono">
+                                <span className="text-xs font-black text-white">
                                     {/* Formats currency if the value is Gross/Net/Ticket, otherwise standard number */}
                                     {entry.name.toLowerCase().includes('gross') || entry.name.toLowerCase().includes('net')
                                         ? `₹${rawValue.toLocaleString('en-IN')}`

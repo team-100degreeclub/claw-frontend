@@ -58,7 +58,6 @@ export function CampDetailsForm({ isUpdateMode, isUpdatable }: CampDetailsFormPr
 
 	React.useEffect(() => {
 		if (isFree) setValue("cost", 0);
-		(min_age, max_age);
 	}, [isFree, setValue]);
 
 	const disableBeforeDate = new Date();
@@ -220,7 +219,7 @@ export function CampDetailsForm({ isUpdateMode, isUpdatable }: CampDetailsFormPr
                                         step={1}
                                         className="py-4"
                                     />
-                                    <div className="flex justify-between text-xs text-zinc-500 font-mono mt-1">
+                                    <div className="flex justify-between text-xs text-zinc-500 mt-1">
                                         <span>MIN: {min_age || age[0]}</span>
                                         <span>MAX: {max_age || age[1]}</span>
                                     </div>

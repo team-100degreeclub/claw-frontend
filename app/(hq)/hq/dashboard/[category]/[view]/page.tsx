@@ -8,6 +8,11 @@ import InsigniaDashboard from "@/components/hq/dashboards/InsigniaDashboard";
 import HostInsightsView from "@/components/hq/dashboards/HostInsightsDashboard";
 import CorporateDashboard from "@/components/hq/dashboards/CorporateDashboard";
 import HostCampsDashboard from "@/components/hq/dashboards/HostCampsDashboard";
+import JoiningRequestsDashboard from "@/components/hq/dashboards/JoiningRequestsDashboard";
+import Support from "@/components/profile/Support";
+import TermsAndPrivacyDialog from "@/components/profile/TermsAndPrivacyDialog";
+import ProfileForm from "@/components/hq/ProfileForm";
+import Contract from "@/components/profile/Contract";
 
 
 // This is a mapping of slugs to actual UI components
@@ -19,10 +24,15 @@ const VIEW_COMPONENTS: Record<string, React.ComponentType> = {
   "business_camp": CampDashboard,
   "business_traveller": TravellerDashboard,
   "business_insignia": InsigniaDashboard,
+  "business_internship": JoiningRequestsDashboard,
   "workstation_insights": HostInsightsView,
   "workstation_corporate": CorporateDashboard,
   "workstation_camps": HostCampsDashboard,
   "team": HostInsightsView,
+  "profile_profile-data": ProfileForm,
+  "profile_support": Support,
+  "profile_privacy-policy" : TermsAndPrivacyDialog,
+  "profile_contract": Contract
   // Add more as you build them
 };
 
@@ -32,6 +42,8 @@ export default async function DynamicDashboardPage({
   params: Promise<{ category: string; view: string }> 
 }) {
   const { category, view } = await params;
+
+  console.log(category, view);  
 
   if (category === "team") {
     return (

@@ -252,7 +252,9 @@ function JoinerRow({ name, level, status, progress, badges }: any) {
   );
 }
 
-export const HDTooltip = ({ active, payload, label }: any) => {
+export const HDTooltip = ({ active, payload, label, currencyCols }: any) => {
+  console.log(currencyCols)
+  console.log(payload)
   if (active && payload && payload.length) {
     const displayLabel = label || payload[0].name;
 
@@ -289,15 +291,15 @@ export const HDTooltip = ({ active, payload, label }: any) => {
                     className="w-1.5 h-1.5 rounded-full shadow-[0_0_8px_currentColor] transition-transform group-hover:scale-125" 
                     style={{ color: entry.color, backgroundColor: entry.color }} 
                   />
-                  <span className="text-[11px] font-black text-zinc-400  tracking-tight">
+                  <span className="text-sm text-zinc-400">
                     {entry.name[0].toUpperCase() + entry.name.slice(1)}
                   </span>
                 </div>
 
                 {/* Tactical Value Readout */}
-                <span className="text-xs font-black text-white font-mono">
+                <span className="text-xs text-white  ">
                   {typeof displayValue === 'number' 
-                    ? entry.name == "revenue" ? displayValue.toLocaleString('en-IN', { style: 'currency', currency: 'INR', minimumFractionDigits: 0 }) : displayValue.toLocaleString('en-IN') 
+                    ? (entry.name == "revenue" || currencyCols.includes(entry.dataKey))? displayValue.toLocaleString('en-IN', { style: 'currency', currency: 'INR', minimumFractionDigits: 0 }) : displayValue.toLocaleString('en-IN') 
                     : displayValue
                   }
                 </span>

@@ -55,11 +55,11 @@ declare global {
 }
 
 interface Host {
-    name: string;
-    role: string;
-    img: string;
-    bio: string;
-    specialization: string[];
+   collaboration_id: string;
+    first_name?: string;
+    last_name?: string;
+    bio?: string;
+    profile_image_url?: string;
 }
 
 interface Camp {
@@ -106,26 +106,26 @@ export default function CampViewPage() {
         isFree: false,
         hosts: [
             {
-                name: "Major Vivek Jacob",
-                role: "Ex-Para SF",
-                img: "/vivek_jacob.jpg",
+                collaboration_id: "Major-Vivek-Jacob",
+                first_name: "Major Vivek",
+                last_name: "Jacob",
                 bio: "The mastermind behind CLAW Global. A specialist in high-altitude combat and rescue operations with decades of experience in the world's harshest terrains.",
-                specialization: ["Indian Army Special Forces", "Founder, C.L.A.W"],
+                profile_image_url: "/vivek_jacob.jpg",
             },
             {
-                name: "Capt. Sameer S.",
-                role: "Combat Diver",
-                img: "/gaurav_bali.jpg",
-                bio: "Maritime extraction specialist and master of underwater tactical operations. Leading the Water Domain missions with surgical precision.",
-                specialization: ["MARCOS", "Member, C.L.A.W"],
+                collaboration_id: "Capt-Sameer-S",
+                first_name: "Capt",
+                last_name: "Sameer S.",
+                bio: "Maritime extraction specialist and master of underwater tactical operations. Leading the Water Domainmissions with surgical precision.",
+                profile_image_url: "/gaurav_bali.jpg",
             },
             {
-                name: "Lt. Col. Rhea D.",
-                role: "Survival Instructor",
-                img: "/gaurav_bali_2.jpg",
-                bio: "Mental resilience expert and SERE (Survival, Evasion, Resistance, and Escape) instructor. Her missions focus on the psychological threshold of the human spirit.",
-                specialization: ["NSG", "Member, C.L.A.W"],
-            },
+                collaboration_id: "Lt-Col-Rhea-D",
+                first_name: "Lt. Col.",
+                last_name: "Rhea D.",
+                bio: "Mental resilience expert and SERE (Survival, Evasion, Resistance, and Escape) instructor. Hermissions focus on the psychological threshold of the human spirit.",
+                profile_image_url: "/gaurav_bali_2.jpg",
+            }
         ],
         brief: `Experience high-altitude hiking.
 Develop mental resilience in the world's harshest terrains.
@@ -153,19 +153,19 @@ Safety: Follow all instructions, emergency protocols.`,
         isFree: false,
         hosts: [
             {
-                name: "Dr. Anya Sharma",
-                role: "Mindfulness Coach",
-                img: "/vivek_jacob.jpg",
+                collaboration_id: "Dr.-Anya-Sharma",
+                first_name: "Dr. Anya",
+                last_name: "Sharma",
                 bio: "A renowned expert in cognitive behavioral therapy and mindfulness, Dr. Sharma helps individuals unlock their potential through guided conversations and meditation.",
-                specialization: ["Mindfulness", "CBT", "Leadership Coaching"],
+                profile_image_url: "/vivek_jacob.jpg",
             },
             {
-                name: "Professor K.L. Singh",
-                role: "Philosopher",
-                img: "/gaurav_bali.jpg",
+                collaboration_id: "Professor-K.L.-Singh",
+                first_name: "Professor K.L.",
+                last_name: "Singh",
                 bio: "Professor Singh specializes in ancient philosophies and their modern applications, fostering deep intellectual discussions and critical thinking.",
-                specialization: ["Eastern Philosophy", "Ethics", "Critical Thinking"],
-            },
+                profile_image_url: "/gaurav_bali.jpg",
+            }
         ],
         brief: `I am hosting a simple vegetarian dinner at my home.
 We will sit together, share our food, and have conversations about my service. 
@@ -399,17 +399,14 @@ Oh.. please do not ask how to join the Army..`,
                         </TabsTrigger>
                     </TabsList>
 
-                    <TabsContent value="hosts" className="grid grid-cols-1 md:grid-cols-3 gap-8">
+                    <TabsContent value="hosts" className="">
+                        <div className="flex flex-col gap-4 animate-in fade-in slide-in-from-bottom-2">
                         {selectedCamp.hosts.map((host, index) => (
                             <HostCard
-                                key={index} // Ideally use a unique host ID if available
-                                name={host.name}
-                                role={host.role}
-                                img={host.img}
-                                bio={host.bio}
-                                specialization={host.specialization}
+                                host={host}
                             />
                         ))}
+                        </div>
                     </TabsContent>
 
                     <TabsContent value="brief" className="prose prose-invert">

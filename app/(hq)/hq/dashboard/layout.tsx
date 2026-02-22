@@ -18,7 +18,7 @@ const secondaryMenus: Record<string, { category: string; items: string[] }[]> = 
   "Board Room": [
     {
       category: "Business",
-      items: ["Performance", "Books", "Corporate Leads", "Camp", "Traveller", "Insignia", "Joining Request"],
+      items: ["Performance", "Books", "Corporate Leads", "Camp", "Traveller", "Insignia", "Internship"],
     },
     {
       category: "Operations",
@@ -31,6 +31,12 @@ const secondaryMenus: Record<string, { category: string; items: string[] }[]> = 
       items: ["Insights", "Corporate", "Camps"],
     },
   ],
+  "Profile": [
+    {
+      category: "Profile",
+      items: ["Profile Data", "Support", "Privacy Policy", "Contract"],
+    },
+  ]
 };
 
 export default function DashboardLayout({ children }: { children: React.ReactNode }) {
@@ -94,6 +100,8 @@ export default function DashboardLayout({ children }: { children: React.ReactNod
       activeSecondaryLabel = secondaryMenus["Board Room"][0].items[0]; // "Performance"
     } else if (activePrimaryLabel === "Workstation" && secondaryMenus["Workstation"] && secondaryMenus["Workstation"][0]) {
       activeSecondaryLabel = secondaryMenus["Workstation"][0].items[0]; // "Insights"
+    } else if (activePrimaryLabel === "Profile" && secondaryMenus["Profile"] && secondaryMenus["Profile"][0]) {
+      activeSecondaryLabel = secondaryMenus["Profile"][0].items[0]; // "Profile data"
     }
   }
 
@@ -106,12 +114,8 @@ export default function DashboardLayout({ children }: { children: React.ReactNod
       router.push("/hq/dashboard/workstation/insights"); // Default for Workstation
     } else if (label === "Team") {
       router.push("/hq/dashboard/team/self"); // Assuming this is a direct path without secondary menus
-    } else if (label === "Updates") {
-      router.push("/hq/dashboard/updates"); // Assuming this is a direct path without secondary menus
     } else if (label === "Library") {
       router.push("/hq/dashboard/library"); // Assuming this is a direct path without secondary menus
-    } else if (label === "Support") {
-      router.push("/hq/dashboard/support"); // Assuming this is a direct path without secondary menus
     } else if (label === "Profile") {
       router.push("/hq/dashboard/profile"); // Assuming this is a direct path without secondary menus
     }
@@ -119,7 +123,7 @@ export default function DashboardLayout({ children }: { children: React.ReactNod
 
   const hasSecondary =
     (!!secondaryMenus[activePrimaryLabel] || activePrimaryLabel === "Team") &&
-    !["Library", "Support", "Profile", "Updates", "Notepad"].includes(activePrimaryLabel);
+    !["Library", "Notepad"].includes(activePrimaryLabel);
 
   const handleSecondaryClick = (category: string, item: string) => {
     // Format item name for URL (e.g., "Corporate Leads" -> "corporate-leads")
@@ -163,7 +167,7 @@ export default function DashboardLayout({ children }: { children: React.ReactNod
             {[
               { label: "Notepad", icon: NotebookPen },
               { label: "Library", icon: Library },
-              { label: "Support", icon: LifeBuoy },
+              // { label: "Support", icon: LifeBuoy },
               { label: "Profile", icon: UserCircle },
             ].map((item) => (
               <Button
@@ -179,13 +183,13 @@ export default function DashboardLayout({ children }: { children: React.ReactNod
           </div>
         </div>
 
-        <Button
+        {/* <Button
           variant="ghost" size="icon"
           className="absolute -right-3 top-20 h-6 w-6 rounded-full border border-zinc-800 bg-zinc-950"
           onClick={() => setPrimaryCollapsed(!primaryCollapsed)}
         >
           {primaryCollapsed ? <ChevronRight size={12} /> : <ChevronLeft size={12} />}
-        </Button>
+        </Button> */}
       </aside>
 
       {/* SECONDARY SIDEBAR */}
@@ -216,7 +220,7 @@ export default function DashboardLayout({ children }: { children: React.ReactNod
                               handleSecondaryClick(group.category, item)
                             }
                             className={cn(
-                              "w-full text-left px-3 py-2 text-xs font-bold  tracking-tight rounded-sm transition-all",
+                              "w-full text-left px-3 py-2 text-xs font-bold  tracking-tight rounded-sm transition-all hover:cursor-pointer",
                               activeSecondaryLabel === item &&
                                 group.category.toLowerCase() ===
                                 currentCategorySegment

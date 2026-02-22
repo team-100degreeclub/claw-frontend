@@ -412,7 +412,6 @@ export function CreateCampDialog({ initialData, isOpen, onClose }: { initialData
 	const handleSubmit = async (values: CampFormValues) => {
 		setIsLoading(true);
 		setError(null);
-		("Handling submit", values);
 
 		// Prepare data for validation and API call
 		const transformedData = {
@@ -566,8 +565,8 @@ export function CreateCampDialog({ initialData, isOpen, onClose }: { initialData
 		// }
 
 		if (isUpdateMode && initialData?.id) {
-			finalFormData.delete("camp_data")
-			("initialData", finalFormData);
+			// finalFormData.delete("camp_data")
+			// ("initialData", finalFormData);
 			try{
 				const res = await campService.updateCamp(initialData.id, finalFormData);
 				if (res) {

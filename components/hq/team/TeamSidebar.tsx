@@ -9,7 +9,7 @@ import { cn } from "@/lib/utils";
 // Mock Host Data
 export const HOST_DATA = [
   { id: "arjun-mehta", name: "Major Arjun Mehta", rank: "Major", location: "Ladakh", nationality: "Indian", status: "Available", phone: "1234567890", joined: new Date("2020-01-01") },
-  { id: "karan-singh", name: "Capt. Karan Singh", rank: "Captain", location: "Andaman", nationality: "Indian", status: "Busy", phone: "9876543210", joined: new Date("2020-06-01") },
+  { id: "karan-singh", name: "Capt. Karan Singh", rank: "Captain", location: "Andaman", nationality: "Indian", status: "On a Holiday", phone: "9876543210", joined: new Date("2020-06-01") },
   { id: "sarah-jenkins", name: "Lt. Col. Sarah Jenkins", rank: "Lt. Colonel", location: "New York", nationality: "American", status: "Available", phone: "01234567890", joined: new Date("2020-09-01") },
 ];
 
@@ -56,8 +56,8 @@ export function TeamSidebar() {
                 </div>
               </div>
               <div className="pt-2 border-t border-zinc-900 space-y-1">
-                <p className="text-[9px] text-zinc-500  font-bold">Location: <span className="text-zinc-300">{host.location}</span></p>
-                <p className="text-[9px] text-zinc-500  font-bold">Status: <span className={host.status === 'Available' ? "text-emerald-500" : "text-amber-500"}>{host.status}</span></p>
+                {/* <p className="text-[9px] text-zinc-500  font-bold">Location: <span className="text-zinc-300">{host.location}</span></p> */}
+                <p className="text-xs text-zinc-500  font-bold"><span className={host.status === 'Available' ? "text-emerald-500" : "text-amber-500"}>{host.status}</span></p>
               </div>
             </button>
           ))}

@@ -31,16 +31,19 @@ export default function HostInsightsView({ teamView = false }: { teamView?: bool
             Welcome {host.rank} {host.name.split(' ').slice(1).join(' ')}
           </h1>
 
-          <p className="text-xs text-zinc-500 font-bold mt-3">
+          {/* <p className="text-xs text-zinc-500 font-bold mt-3">
             CLAW Collaboration ID: <span className="text-zinc-300">#SF-{host.id.split('-')[0].toUpperCase()}</span>
           </p>
+          <p className="text-xs text-zinc-500 font-bold">
+            On CLAW Global Since <span className="text-zinc-300">{host.joined.toLocaleDateString('en-IN', { year: 'numeric', month: 'long' })}</span>
+          </p> */}
         </div>
         <div className="flex flex-col items-end align-end">
           <div className="flex items-center gap-4 p-3 rounded-md w-fit">
             <div className="text-right">
               {/* <p className="text-[10px]  font-black text-zinc-500">Current Status</p> */}
               <p className={"text-xs font-bold"}>
-                Status: <span className={`text-xs font-bold ${isAvailable ? 'text-emerald-500' : 'text-amber-500'}`}>{isAvailable ? 'Available' : 'On Holiday / Busy'}</span>
+                Status: <span className={`text-xs font-bold ${isAvailable ? 'text-emerald-500' : 'text-amber-500'}`}>{isAvailable ? 'Available' : 'On a Holiday'}</span>
               </p>
             </div>
             <Switch
@@ -49,9 +52,7 @@ export default function HostInsightsView({ teamView = false }: { teamView?: bool
               className="data-[state=checked]:bg-emerald-600"
             />
           </div>
-          <p className="text-xs text-zinc-500 font-bold">
-            On CLAW Global Since <span className="text-zinc-300">{host.joined.toLocaleDateString('en-IN', { year: 'numeric', month: 'long' })}</span>
-          </p>
+          
 
         </div>
       </div>
@@ -66,21 +67,25 @@ export default function HostInsightsView({ teamView = false }: { teamView?: bool
 
       <div className="flex flex-row justify-between">
         <ProfileDetail label="Nationality" value={host.nationality} />
-        <ProfileDetail label="Contact" value={`${host.id}@claw.mission, +91 ${host.phone}`} />
-        <ProfileDetail label="Present Location" value={host.location} />
+        <ProfileDetail label="Email" value={`${host.id}@claw.mission`} />
+        <ProfileDetail label="Phone" value={`+91 ${host.phone}`} />
+        <ProfileDetail label="Right Now At" value={host.location} />
+        <ProfileDetail label="Collab ID" value={"SF-2323"} />
+        <ProfileDetail label="On CLAW Since" value={"May 2023"} />
       </div>
       {/* <div className="grid grid-cols-1 lg:grid-cols-1 gap-8 pt-4"> */}
-
+      
+      <InsightCard title="Service Record">
       <div >
         {/* Section Header */}
-        <div className="flex items-center justify-between mb-8">
+        {/* <div className="flex items-center justify-between mb-8">
           <h2 className="text-sm font-black text-zinc-500 mb-2 tracking-widest">
             Service Record
           </h2>
-          {/* <div className="h-px flex-1 bg-zinc-900 ml-4" /> */}
-        </div>
+          <div className="h-px flex-1 bg-zinc-900 ml-4" />
+        </div> */}
 
-        <div className="space-y-0">
+        <div className="space-y-0 flex gap-5">
           {/* Entry 1 */}
           <div className="relative pl-8 pb-10 border-l border-zinc-800 group">
             {/* Timeline Node - White/Black contrast */}
@@ -89,11 +94,11 @@ export default function HostInsightsView({ teamView = false }: { teamView?: bool
             <div className="flex flex-col gap-2 -mt-1">
               {/* Date Range as a primary anchor */}
               <div className="flex items-center gap-2">
-                <span className="text-[10px] font-mono font-bold text-white bg-zinc-800 px-2 py-0.5 rounded-sm">
+                <span className="text-xs text-white bg-zinc-800 px-2 py-0.5 rounded-sm">
                   1999 — 2025
                 </span>
                 <div className="h-[1px] w-4 bg-zinc-800" />
-                <span className="text-[10px] font-black text-zinc-500">
+                <span className="text-xs font-black text-zinc-400">
                   12 yrs
                 </span>
               </div>
@@ -117,20 +122,20 @@ export default function HostInsightsView({ teamView = false }: { teamView?: bool
 
             <div className="flex flex-col gap-2 -mt-1">
               <div className="flex items-center gap-2">
-                <span className="text-[10px] font-mono font-bold text-white bg-zinc-800 px-2 py-0.5 rounded-sm">
+                <span className="text-xs text-white bg-zinc-800 px-2 py-0.5 rounded-sm">
                   1992 — 1999
                 </span>
                 <div className="h-[1px] w-4 bg-zinc-900" />
-                <span className="text-[10px] font-black text-zinc-600">
+                <span className="text-xs font-black text-zinc-400">
                   8 yrs
                 </span>
               </div>
 
               <div className="flex flex-col">
-                <span className="text-sm font-black text-zinc-400 tracking-tight">
+                <span className="text-sm font-black text-white tracking-tight">
                   Lieutenant
                 </span>
-                <span className="text-xs font-bold text-zinc-600 tracking-wide">
+                <span className="text-xs font-bold text-zinc-500 tracking-wide">
                   9 Para SF
                   {/* <span className="text-zinc-800 mx-1">/</span> SPECIAL OPERATIONS */}
                 </span>
@@ -139,6 +144,7 @@ export default function HostInsightsView({ teamView = false }: { teamView?: bool
           </div>
         </div>
       </div>
+      </InsightCard>
 
       {/* Host Vision / Bio */}
       {/* </div> */}
@@ -193,17 +199,22 @@ export default function HostInsightsView({ teamView = false }: { teamView?: bool
           </div>
         </InsightCard>
       }
-      <InsightCard title="Camp Audience" className="xl:col-span-2">
+      {/* <InsightCard title="Camp Audience" className="xl:col-span-2">
         <InsightTable
           title="Camp Audience"
-          headers={["Age Group", "Gender", "Location"]}
+          headers={["Age", "Gender Ratio", "Location"]}
           data={[
-            ["25-34", "Male", "Mumbai, India"],
-            ["35-44", "Female", "Bangalore, India"],
+            ["25", "M:F:T:O 4:1:3:0", "Mumbai, India"],
+            // ["35", "M:F:T:O 4:2:1:0", "Bangalore, India"],
           ]}
           classname="border-0"
         />
-      </InsightCard>
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+          <MetricBox label="Age" value="25" />
+          <MetricBox label="Gender Ratio" value="Male : Female : Transgender : Others" sub={"4 : 1 : 3 : 0"} classForValue="text-xl" />
+          <MetricBox label="Location" value="Mumbai, India" />
+        </div>
+      </InsightCard> */}
 
       {/* 3. PERFORMANCE TABLES (CORP & CAMPS) */}
       <div className="grid grid-cols-1 xl:grid-cols-1 gap-8">
@@ -430,7 +441,7 @@ export default function HostInsightsView({ teamView = false }: { teamView?: bool
                   tickLine={false}
                   tickFormatter={(v) => v.toLocaleString("en-IN", { style: "currency", currency: "INR" })}
                 />
-                <Tooltip content={<HDTooltip />} />
+                <Tooltip content={<HDTooltip currencyCols={["corporate", "spiritRoads", "land", "air", "water"]}/>} />
 
                 {/* Individual Category Lines */}
                 <Line name="Corporate" type="monotone" dataKey="corporate" stroke="#06b6d4" strokeWidth={3} dot={false} />
@@ -451,14 +462,14 @@ export default function HostInsightsView({ teamView = false }: { teamView?: bool
 
 // --- SUB-COMPONENTS ---
 
-function MetricBox({ label, value, sub, highlight }: any) {
+function MetricBox({ label, value, sub, highlight, classForValue }: any) {
   return (
     <Card className="bg-zinc-900 border-zinc-800 p-6 rounded-none">
       <p className="text-sm font-black text-zinc-500 tracking-widest">{label}</p>
-      <h3 className={`text-3xl font-black mt-2 tracking-tighter ${highlight ? 'text-green-400' : 'text-white'}`}>
+      <h3 className={`text-3xl font-black mt-2 tracking-tighter ${highlight ? 'text-green-400' : 'text-white'} ${classForValue}`}>
         {value}
       </h3>
-      {sub && <p className="text-xs text-zinc-600 font-bold mt-1 ">{sub}</p>}
+      {sub && <p className="text-xl font-black">{sub}</p>}
     </Card>
   );
 }
@@ -500,12 +511,12 @@ function InsightTable({ title, headers, data, classname }: { title: string, head
       <Table>
         <TableHeader>
           <TableRow className={cn("text-sm font-bold text-zinc-500 hover:bg-transparent", `w-1/${headers.length}`)}>
-            {headers.map((h: string) => <TableHead key={h}>{h}</TableHead>)}
+            {headers.map((h: string, i: number) => <TableHead key={h} className={`${i != 0 && "text-right"}`}>{h}</TableHead>)}
           </TableRow>
         </TableHeader>
         <TableBody className="text-sm text-zinc-300">
           {data.map((row: any[], index: number) => <TableRow key={`${row[0]}-${index}`}>
-            {Array.isArray(row) ? row.map((cell: string, index: number) => <TableCell key={index} className="text-sm">{cell}</TableCell>) : <TableCell key={0} className="text-sm">{row}</TableCell>}
+            {Array.isArray(row) ? row.map((cell: string, index: number) => <TableCell key={index} className={`text-sm ${headers[index] == "Net" && "text-green-500"} ${index != 0 && "text-right"} w-1/${row.length}`}>{cell}</TableCell>) : <TableCell key={0} className="text-sm">{row}</TableCell>}
           </TableRow>)}
         </TableBody>
       </Table>

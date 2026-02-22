@@ -19,7 +19,7 @@ export default function Leaderboard() {
       <div className="flex bg-zinc-100 dark:bg-zinc-900 p-1 rounded-full border border-transparent dark:border-zinc-800 flex flex-row w-fit">
         {/* <ToggleButton active={selectedTab === "operationBlueFreedom"} onClick={() => setSelectedTab("operationBlueFreedom")} label="Operation Blue Freedom" /> */}
         <ToggleButton active={selectedTab === "stories"} onClick={() => setSelectedTab("stories")} label="Stories" />
-        <ToggleButton active={selectedTab === "insignia"} onClick={() => setSelectedTab("insignia")} label="Insignia" className="w-full" />
+        <ToggleButton active={selectedTab === "insignia"} onClick={() => setSelectedTab("insignia")} label="Op. Blue Freedom" className="w-full" />
         <ToggleButton active={selectedTab === "past_camps"} onClick={() => setSelectedTab("past_camps")} label="Past Camps" className="w-full" />
       </div>
       </div>
@@ -45,7 +45,7 @@ function ToggleButton({ active, onClick, label }: any) {
     <button
       onClick={onClick}
       className={cn(
-        "px-6 py-1.5 rounded-full text-xs font-black transition-all",
+        "px-5 py-1.5 rounded-full font-bold text-xs transition-all",
         active
           ? "bg-white dark:bg-zinc-800 text-black dark:text-green-500 shadow-sm"
           : "text-zinc-500 hover:text-zinc-800 dark:hover:text-zinc-300"

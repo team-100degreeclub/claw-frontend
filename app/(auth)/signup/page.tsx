@@ -22,6 +22,7 @@ import {
 } from "@/components/ui/popover";
 import { Calendar } from "@/components/ui/calendar";
 import { format } from "date-fns";
+import { useRouter } from "next/navigation";
 
 export default function SignUpPage() {
   const [step, setStep] = React.useState<"data" | "otp">("data");
@@ -37,6 +38,7 @@ export default function SignUpPage() {
   });
   const [otp, setOtp] = React.useState<string[]>(Array(6).fill(""));
   const inputRefs = React.useRef<Array<HTMLInputElement | null>>([]);
+  const router = useRouter();
 
   const handleDataSubmit = (e: React.FormEvent) => {
     e.preventDefault();
@@ -81,212 +83,185 @@ export default function SignUpPage() {
   };
 
   return (
-    <div className="flex min-h-[calc(100vh-80px)] w-full bg-[#09090b]">
-      {/* Left Column: Tactical Branding (Reused from Login) */}
-      <div className="hidden lg:flex w-[40%] flex-col justify-between p-12 relative overflow-hidden border-r border-zinc-900">
+    <div className="flex min-h-screen w-full bg-black text-zinc-300 selection:bg-white-500/30">
+      {/* Left Column: Inspiring Visuals (Consistent with Login) */}
+      <div className="hidden lg:flex w-[45%] flex-col justify-between p-16 relative overflow-hidden border-r border-zinc-900">
         <img 
-          src="https://images.unsplash.com/photo-1525373417962-166eb127dd6a?q=80&w=2670&auto=format&fit=crop" 
-          alt="Tactical Mountain Mission" 
-          className="absolute inset-0 h-full w-full object-cover grayscale opacity-30"
+          src="https://images.unsplash.com/photo-1464822759023-fed622ff2c3b?q=80&w=2670&auto=format&fit=crop" 
+          alt="Mountain landscape" 
+          className="absolute inset-0 h-full w-full object-cover grayscale opacity-30 transition-opacity"
         />
         <div className="absolute inset-0 bg-gradient-to-t from-black via-black/60 to-transparent z-10" />
         
-        <div className="relative z-20 flex items-center gap-3">
-          {/* <div className="p-2.5 bg-red-600 rounded-lg shadow-[0_0_15px_rgba(220,38,38,0.4)]">
-            <Target className="h-6 w-6 text-white" />
-          </div> */}
+        <div className="relative z-20 flex items-center gap-4">
           <img
             src="https://pbs.twimg.com/profile_images/1221190646850965504/MyqCrr0y_400x400.jpg"
             alt="C.L.A.W. Logo"
-            className="h-10 w-10 rounded-full"
+            className="h-12 w-12 rounded-full border border-zinc-800"
           />
-          <span className="text-3xl font-bold text-white">C.L.A.W.</span>
+          <span className="text-2xl font-bold text-white ">C.L.A.W.</span>
         </div>
 
         <div className="relative z-20">
-          <span className="text-xl font-bold text-green-600 mb-2 block ">Conquer Your</span>
-          <h2 className="text-5xl font-black   tracking-tighter text-white leading-none">
-            Inner <br /> Terrain
+          {/* <div className="flex items-center gap-2 text-blue-500 mb-4">
+            <Compass className="w-5 h-5" />
+            <span className="text-xs font-bold ">Join the community</span>
+          </div> */}
+          <h2 className="text-5xl font-black er text-white leading-[0.9] ">
+            Start Your <br /> Next <span className="text-blue-600">Chapter</span>
           </h2>
-          <p className="mt-4 text-zinc-400 text-sm font-medium leading-relaxed max-w-sm">
-            Join the elite circle of Special Forces veterans. Access your mission dossier, track your L.A.W. badges, and prepare for deployment.
+          <p className="mt-6 text-zinc-500 text-sm leading-relaxed font-medium">
+            Join us on the mission where we empower individuals to navigate the complexities of life.
           </p>
         </div>
       </div>
 
       {/* Right Column: Sign Up Form */}
-      <div className="flex-1 flex items-center justify-center p-8 relative overflow-y-auto">
+      <div className="flex-1 flex items-center justify-center p-8 bg-black overflow-y-auto">
         <div className="w-full max-w-[500px] py-12">
           <AnimatePresence mode="wait">
             {step === "data" ? (
               <motion.div
                 key="data-form"
-                initial={{ opacity: 0, x: -20 }}
-                animate={{ opacity: 1, x: 0 }}
-                exit={{ opacity: 0, x: 20 }}
-                className="space-y-8"
+                initial={{ opacity: 0, y: 10 }}
+                animate={{ opacity: 1, y: 0 }}
+                exit={{ opacity: 0, y: -10 }}
+                className="space-y-10"
               >
-                <div className="text-left space-y-2">
-                  <h1 className="text-3xl font-black text-white">Sign Up</h1>
-                  <p className="text-zinc-500 text-xs font-bold  tracking-widest">Complete your profile to proceed</p>
+                <div className="space-y-2">
+                  <h1 className="text-3xl font-bold text-white ">Create Account</h1>
+                  <p className="text-sm text-zinc-500">Please provide your details to get started.</p>
                 </div>
 
-                <form onSubmit={handleDataSubmit} className="grid grid-cols-2 gap-4">
+                <form className="grid grid-cols-2 gap-x-6 gap-y-5">
                   <div className="space-y-2">
-                    <label className="text-[10px] font-black  text-zinc-500 ml-1">First Name</label>
+                    <label className="text-xs font-bold text-zinc-600">First Name</label>
                     <Input 
-                      placeholder="John" 
-                      className="auth-input" 
-                      required 
-                      value={formData.firstName}
-                      onChange={(e) => setFormData({...formData, firstName: e.target.value})}
+                      placeholder="e.g. John" 
+                      className="bg-zinc-950 border-zinc-800 rounded-sm h-12 text-sm focus:border-blue-600 transition-all" 
                     />
                   </div>
                   <div className="space-y-2">
-                    <label className="text-[10px] font-black  text-zinc-500 ml-1">Last Name</label>
+                    <label className="text-xs font-bold text-zinc-600">Last Name</label>
                     <Input 
-                      placeholder="Doe" 
-                      className="auth-input" 
-                      required 
-                      value={formData.lastName}
-                      onChange={(e) => setFormData({...formData, lastName: e.target.value})}
+                      placeholder="e.g. Doe" 
+                      className="bg-zinc-950 border-zinc-800 rounded-sm h-12 text-sm focus:border-white-600 transition-all" 
                     />
                   </div>
                   <div className="col-span-2 space-y-2">
-                    <label className="text-[10px] font-black  text-zinc-500 ml-1">Email Address</label>
+                    <label className="text-xs font-bold text-zinc-600">Email Address</label>
                     <Input 
                       type="email" 
-                      placeholder="traveller@example.com" 
-                      className="auth-input" 
-                      required 
-                      value={formData.email}
-                      onChange={(e) => setFormData({...formData, email: e.target.value})}
+                      placeholder="name@example.com" 
+                      className="bg-zinc-950 border-zinc-800 rounded-sm h-12 text-sm focus:border-white-600 transition-all" 
                     />
                   </div>
+                  
                   <div className="space-y-2">
-                    <label className="text-[10px] font-black  text-zinc-500 ml-1">Date of Birth</label>
+                    <label className="text-xs font-bold text-zinc-600">Date of Birth</label>
                     <Popover>
                       <PopoverTrigger asChild>
                         <Button
                           variant={"outline"}
-                          className={`w-full justify-start text-left font-normal auth-input ${
-                            !formData.dob && "text-muted-foreground"
-                          }`}
+                          className="w-full justify-start text-left font-normal bg-zinc-950 border-zinc-800 rounded-sm h-12 text-zinc-400"
                         >
-                          <CalendarIcon className="mr-2 h-4 w-4" />
+                          <CalendarIcon className="mr-2 h-4 w-4 text-white-600" />
                           {formData.dob ? format(formData.dob, "PPP") : <span>Pick a date</span>}
                         </Button>
                       </PopoverTrigger>
-                      <PopoverContent className="w-auto p-0">
+                      <PopoverContent className="w-auto p-0 bg-zinc-950 border-zinc-800">
                         <Calendar
                           mode="single"
                           selected={formData.dob}
                           onSelect={(date) => setFormData({...formData, dob: date})}
-                          initialFocus
-                          captionLayout="dropdown"
-                          fromYear={1900}
-                          toYear={new Date().getFullYear()}
+                          className="text-zinc-300"
                         />
                       </PopoverContent>
                     </Popover>
                   </div>
+
                   <div className="space-y-2">
-                    <label className="text-[10px] font-black h-full text-zinc-500 ml-1">Gender</label>
-                    <Select
-                      value={formData.gender}
-                      onValueChange={(value) => setFormData({...formData, gender: value})}
-                      required
-                    >
-                      <SelectTrigger className="auth-input w-full appearance-none">
+                    <label className="text-xs font-bold text-zinc-600 w-full">Gender</label>
+                    <Select>
+                      <SelectTrigger className="bg-zinc-950 border-zinc-800 rounded-sm text-sm text-zinc-400 w-full m-0 min-h-12">
                         <SelectValue placeholder="Select" />
                       </SelectTrigger>
-                      <SelectContent>
+                      <SelectContent className="bg-zinc-950 border-zinc-800 text-zinc-300 rounded-sm">
                         <SelectItem value="male">Male</SelectItem>
                         <SelectItem value="female">Female</SelectItem>
-                        <SelectItem value="female">Transgender</SelectItem>
                         <SelectItem value="other">Other</SelectItem>
                       </SelectContent>
                     </Select>
                   </div>
-                  
+
                   <div className="col-span-2 space-y-2">
-                    <label className="text-[10px] font-black  text-zinc-500 ml-1">Country</label>
+                    <label className="text-xs font-bold text-zinc-600">Country</label>
                     <Input 
                       placeholder="India" 
-                      className="auth-input" 
-                      required 
-                      value={formData.country}
-                      onChange={(e) => setFormData({...formData, country: e.target.value})}
+                      className="bg-zinc-950 border-zinc-800 rounded-sm h-12 text-sm" 
                     />
                   </div>
-                  <div className="col-span-2 grid grid-cols-2 gap-4">
+
+                  <div className="col-span-2 grid grid-cols-2 gap-6">
                     <div className="space-y-2">
-                      <label className="text-[10px] font-black  text-zinc-500 ml-1">State</label>
-                      <Input 
-                        placeholder="Maharashtra" 
-                        className="auth-input" 
-                        required 
-                        value={formData.state}
-                        onChange={(e) => setFormData({...formData, state: e.target.value})}
-                      />
+                      <label className="text-xs font-bold text-zinc-600">State</label>
+                      <Input placeholder="Maharashtra" className="bg-zinc-950 border-zinc-800 rounded-sm h-12 text-sm" />
                     </div>
                     <div className="space-y-2">
-                      <label className="text-[10px] font-black  text-zinc-500 ml-1">City</label>
-                      <Input 
-                        placeholder="Mumbai" 
-                        className="auth-input" 
-                        required 
-                        value={formData.city}
-                        onChange={(e) => setFormData({...formData, city: e.target.value})}
-                      />
+                      <label className="text-xs font-bold text-zinc-600">City</label>
+                      <Input placeholder="Mumbai" className="bg-zinc-950 border-zinc-800 rounded-sm h-12 text-sm" />
                     </div>
                   </div>
 
-                  <Button className="col-span-2 w-full h-14 bg-white text-black hover:bg-white/90 group text-lg shadow-lg shadow-green-600/20 hover:cursor-pointer mt-2">
+                  <Button 
+                    type="button" 
+                    onClick={() => setStep("otp")}
+                    className="col-span-2 w-full h-14 bg-white text-black hover:bg-zinc-200 rounded-sm text-sm font-bold transition-all"
+                  >
                     Continue
-                    <ChevronRight className="ml-2 h-5 w-5 transition-transform group-hover:translate-x-1" />
+                    <ChevronRight className="ml-2 h-4 w-4" />
                   </Button>
                 </form>
 
-                <div className="text-center text-sm text-zinc-400">
-                  Already have an account?{" "}
-                  <button type="button" className="text-white font-black hover:underline hover:cursor-pointer tracking-widest">Sign In</button>
+                <div className="text-center">
+                  <p className="text-xs text-zinc-600 font-medium">
+                    Already have an account?{" "}
+                    <button type="button" className="text-blue-500 font-bold hover:text-blue-400 hover:cursor-pointer" onClick={() => router.push("/login")}>Log In</button>
+                  </p>
                 </div>
               </motion.div>
             ) : (
               <motion.div
                 key="otp-step"
-                initial={{ opacity: 0, x: 20 }}
-                animate={{ opacity: 1, x: 0 }}
-                exit={{ opacity: 0, x: -20 }}
-                className="space-y-8"
+                initial={{ opacity: 0, y: 10 }}
+                animate={{ opacity: 1, y: 0 }}
+                className="space-y-10"
               >
-                <div className="text-left space-y-2">
-                  <h1 className="text-3xl font-black text-white mb-12">Verify Your Email</h1>
-                  <p className="text-sm text-center text-zinc-500 block">We've sent an email with your code to {formData.email}</p>
+                <div className="space-y-2">
+                  <h1 className="text-3xl font-bold text-white ">Verify Email</h1>
+                  <p className="text-sm text-zinc-500 leading-relaxed">
+                    We've sent a verification code to <br />
+                    <span className="text-white font-bold">{formData.email || "your email"}</span>
+                  </p>
                 </div>
 
-                <div className="space-y-6">
+                <div className="space-y-8">
                   <div className="flex gap-2 justify-between">
                     {[0, 1, 2, 3, 4, 5].map((index) => (
                       <input
                         key={index}
                         type="text"
                         maxLength={1}
-                        className="w-full h-14 bg-zinc-900 border border-zinc-800 rounded-lg text-center text-xl font-black text-white focus:border-red-600 outline-none transition-all"
-                        value={otp[index]}
-                        onChange={(e) => handleChange(e, index)}
-                        onKeyDown={(e) => handleKeyDown(e, index)}
-                        ref={(el) => { inputRefs.current[index] = el; }}
+                        className="w-full h-14 bg-zinc-950 border border-zinc-800 rounded-sm text-center text-xl font-bold text-white focus:border-white-600 outline-none transition-all"
                       />
                     ))}
                   </div>
-                  <Button className="col-span-2 w-full h-14 bg-white text-black hover:bg-white/90 group text-lg shadow-lg shadow-green-600/20 hover:cursor-pointer mt-2">
-                    Sign Up
+                  <Button className="w-full h-14 bg-white text-black hover:bg-zinc-200 rounded-sm text-xs font-bold   transition-all">
+                    Complete Registration
                   </Button>
                   <button 
                     onClick={() => setStep("data")}
-                    className="text-sm text-zinc-400 hover:text-white transition-colors hover:cursor-pointer w-full"
+                    className="w-full text-center text-xs text-zinc-600 hover:text-white transition-colors py-2 font-bold "
                   >
                     ← Edit your information
                   </button>

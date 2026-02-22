@@ -8,7 +8,7 @@ const geistSans = Geist({ variable: "--font-geist-sans", subsets: ["latin"] });
 const geistMono = Geist_Mono({ variable: "--font-geist-mono", subsets: ["latin"] });
 
 export const metadata: Metadata = {
-  title: "Business Insights Platform",
+  title: "C.L.A.W",
   description: "C.L.A.W. HQ - Stakeholder Dashboard",
 };
 
