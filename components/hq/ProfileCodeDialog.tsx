@@ -5,7 +5,7 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { ScrollArea } from "@/components/ui/scroll-area"; // npx shadcn-ui@latest add scroll-area
 
-const labelStyles = "text-[10px] uppercase tracking-wider font-semibold text-zinc-400";
+const labelStyles = "text-[10px]  r font-semibold text-zinc-400";
 const inputStyles = "bg-zinc-800 border-zinc-700 text-white focus-visible:ring-zinc-600 rounded-sm";
 
 export default function ProfileCodeDialog() {
@@ -30,7 +30,7 @@ export default function ProfileCodeDialog() {
         return (
             <form onSubmit={handleVerifyCode} className="py-12 flex flex-col items-center gap-6">
                 <div className="text-center space-y-2">
-                    {/* <h2 className="text-xl font-bold uppercase tracking-tight">Access Restricted</h2> */}
+                    {/* <h2 className="text-xl font-bold  ">Access Restricted</h2> */}
                     <p className="text-zinc-400 text-base">Please enter your unique profile code to proceed.</p>
                 </div>
                 <div className="w-full max-w-xs space-y-4">
@@ -62,7 +62,7 @@ export default function ProfileCodeDialog() {
                         alt="C.L.A.W. Logo"
                         className="rounded-full"
                     /></div>
-                    <h2 className="text-2xl font-bold uppercase tracking-tighter mb-3">C.L.A.W. Agreement</h2>
+                    <h2 className="text-2xl font-bold   mb-3">C.L.A.W. Agreement</h2>
                     <div className="text-sm text-zinc-400 leading-relaxed text-left">
                         By clicking I Agree, you're confirming that you've read and understood all the terms and conditions.
                         This will be considered a binding agreement with C.L.A.W.
@@ -72,7 +72,7 @@ export default function ProfileCodeDialog() {
                 {/* Scrollable Contract Box */}
                 <div className="relative border border-zinc-700 rounded-sm bg-zinc-950">
                     <ScrollArea className="h-64 p-6 text-xs text-zinc-300 leading-relaxed">
-                        <p className="mb-4 font-bold text-white uppercase tracking-widest text-[10px]">Confidentiality & Non-Disclosure</p>
+                        <p className="mb-4 font-bold text-white   text-[10px]">Confidentiality & Non-Disclosure</p>
                         <p className="mb-4">1. DEFINITION OF CONFIDENTIAL INFORMATION. Confidential Information means any non-public information, data, or know-how revealed by C.L.A.W. including but not limited to operational tactics, member identities, and business insights.</p>
                         <p className="mb-4">2. NON-DISCLOSURE OBLIGATIONS. Recipient agrees that at all times and notwithstanding any termination or expiration of this Agreement, they will hold in strict confidence and not disclose to any third party Confidential Information.</p>
                         <p className="mb-4">3. USAGE RESTRICTIONS. The access granted to the HQ portal is strictly for authorized personnel. Sharing login credentials or profile codes is grounds for immediate termination of access and potential legal action.</p>
@@ -84,7 +84,7 @@ export default function ProfileCodeDialog() {
                 {/* File Upload Section */}
                 <div className="space-y-4">
                     <div className="space-y-1">
-                        <h3 className="text-sm font-bold uppercase tracking-wide">Upload Verification Documents</h3>
+                        <h3 className="text-sm font-bold  ">Upload Verification Documents</h3>
                         <p className="text-[13px] text-zinc-500">To complete your application, please upload at least one official ID for verification (Aadhaar Card or Passport).</p>
                     </div>
 
@@ -100,7 +100,7 @@ export default function ProfileCodeDialog() {
                 </div>
 
                 <div className="pt-4 border-t border-zinc-800">
-                    <Button type="submit" className="w-full mt-2 h-12 bg-white text-zinc-900 hover:bg-zinc-200 font-bold uppercase text-xs tracking-widest">
+                    <Button type="submit" className="w-full mt-2 h-12 bg-white text-zinc-900 hover:bg-zinc-200 font-bold text-sm">
                         I Accept and Submit
                     </Button>
                 </div>

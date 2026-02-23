@@ -13,13 +13,25 @@ interface Member {
 
 // --- Data ---
 const DATA = {
-  "Ops Blue Freedom": {
+  "About CLAW": {
     type: "text",
-    title: "Operation Blue Freedom",
+    title: "About CLAW",
     subtitle: "A Global Movement for Human Ability",
-    description: `Founded in 2019 by Major Vivek Jacob and a team of Special Forces veterans, Operation Blue Freedom is a social impact initiative dedicated to rehabilitating people with disabilities through adaptive adventure sports. 
-    
-    The mission seeks to shift the global perception from pity and charity to dignity and ability. By training individuals with diverse disabilities in elite survival and adventure skills, the team aims to prove that the human spirit is not limited by physical constraints.`,
+    description: [
+      "Hi there,",
+
+// CLAW, which stands for Conquer Land Air Water, was founded by Major Vivek Jacob, who served in 9 Para SF of the Indian Army Special Forces. CLAW is a team of Special Forces veterans who have seen destruction at its core and at its peak and have chosen to build a better world by building stronger individuals.
+
+// CLAW is not a regular camp. It is a space for awakening. A space where you reconnect with the strength, clarity, and energy that already exists within you.
+
+// Most people doubt themselves long before they are truly tested. At CLAW, through real experiences across land, air, water, and mind, you begin to understand what you are actually capable of. You learn how your mind responds to fear. You learn to steady your breath, focus your energy, and move forward with awareness. You start recognising the consciousness break the limits you placed on yourself and gradually move beyond them.
+
+// The goal is simple. We want you to win, not because we think you can, but because you can. No questions.
+
+// Come experience this journey. Discover your inner strength. Conquer from within and the world.
+
+// Team CLAW
+    ],  
     records: [
       { id: "01", category: "Land", feat: "Largest team of people with disabilities to scale Siachen Glacier (15,632 ft)." },
       { id: "02", category: "Water", feat: "World record for the largest collective of PwDs participating in open-sea scuba diving." },
@@ -33,7 +45,7 @@ const DATA = {
   "Core Team": [
     { id: "CT-01", name: "Anjali Sharma", role: "Operations Director", img: "https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?q=80&w=1288&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D" },
   ],
-  "Interns": [
+  "Super Interns": [
     { id: "IN-01", name: "Rahul V.", role: "Fullstack Developer", img: "https://images.unsplash.com/photo-1599566150163-29194dcaad36?q=80&w=1287&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D" },
     { id: "IN-02", name: "Mohit K.", role: "Social Media Manager", img: "https://images.unsplash.com/photo-1500648767791-00dcc994a43e?q=80&w=1287&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D" },
     { id: "IN-03", name: "Vishal M.", role: "Graphic Designer", img: "https://images.unsplash.com/photo-1560250097-0b93528c311a?q=80&w=1287&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D" },
@@ -42,7 +54,7 @@ const DATA = {
 };
 
 export default function OperationBlueFreedomPage() {
-  const [activeTab, setActiveTab] = useState<keyof typeof DATA>("Ops Blue Freedom");
+  const [activeTab, setActiveTab] = useState<keyof typeof DATA>("About CLAW");
 
   return (
     <div className="h-full w-full bg-black text-zinc-300 flex overflow-hidden selection:bg-blue-900">
@@ -63,26 +75,26 @@ export default function OperationBlueFreedomPage() {
       {/* Content Area */}
       <main className="flex-1 overflow-x-auto no-scrollbar">
         <div className="h-full flex items-center px-16 min-w-max">
-          {activeTab === "Ops Blue Freedom" ? (
+          {activeTab === "About CLAW" ? (
             <div className="flex gap-24 items-start max-w-5xl">
               {/* Mission Statement */}
               <div className=" space-y-8">
                 <div>
                   {/* <h1 className="text-white text-5xl font-black leading-none mb-2">
-                    {DATA["Ops Blue Freedom"].title}
+                    {DATA["About CLAW"].title}
                   </h1> */}
                   {/* <p className="text-blue-600 text-sm font-bold  ">
-                    {DATA["Ops Blue Freedom"].subtitle}
+                    {DATA["About CLAW"].subtitle}
                   </p> */}
                 </div>
                 <p className="text-lg leading-relaxed font-medium">
-                  {DATA["Ops Blue Freedom"].description}
+                  {DATA["About CLAW"].description}
                 </p>
               </div>
 
               {/* Records List */}
               {/* <div className="flex gap-12">
-                {DATA["Ops Blue Freedom"].records.map((record) => (
+                {DATA["About CLAW"].records.map((record) => (
                   <div key={record.id} className="w-64 border-l border-zinc-800 pl-8 py-2">
                     <span className="text-[10px] text-zinc-700 font-mono block mb-4">{record.id}</span>
                     <h3 className="text-white text-xs font-black   mb-3">{record.category}</h3>

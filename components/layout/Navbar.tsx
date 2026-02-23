@@ -37,18 +37,25 @@ export default function Navbar() {
         {/* Right Actions */}
         <div className="flex items-center gap-4">
           <Button
-            variant="default"
+            variant="ghost"
             onClick={() => router.push("/corporate-events")}
-            className="flex items-center border-0 bg-zinc-600/30 hover:bg-zinc-600/40 hover:cursor-pointer gap-2 text-sm font-bold tracking-widest text-zinc-300 transition-colors hover:text-white px-4"
+            className="flex items-center border-0 bg-none hover:bg-zinc-600/40 hover:cursor-pointer gap-2 text-sm font-bold tracking-widest text-zinc-300 transition-colors hover:text-white px-4"
           >
             Invite Us
           </Button>
           <Button
-            variant="default"
+            variant="ghost"
             onClick={() => router.push("/operation-blue-freedom")}
-            className="flex items-center border-0 bg-blue-600/60 hover:bg-blue-600/80 hover:cursor-pointer gap-2 text-sm font-bold tracking-widest text-zinc-300 transition-colors hover:text-white px-4"
+            className="flex items-center border-0 hover:bg-zinc-600/40 hover:cursor-pointer gap-2 text-sm font-bold tracking-widest text-zinc-300 transition-colors hover:text-white px-4"
           >
-            Insignia
+            Internships
+          </Button>
+          <Button
+            variant="ghost"
+            onClick={() => router.push("/operation-blue-freedom")}
+            className="flex items-center border-0 hover:bg-zinc-600/40 hover:cursor-pointer gap-2 text-sm font-bold tracking-widest text-zinc-300 transition-colors hover:text-white px-4"
+          >
+            About Us
           </Button>
           {/* <Button
           variant="default"

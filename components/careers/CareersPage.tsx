@@ -11,22 +11,25 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
-import { Search } from "lucide-react";
+import {
+  Dialog,
+  DialogContent,
+  DialogHeader,
+  DialogTitle,
+  DialogDescription,
+  DialogFooter,
+} from "@/components/ui/dialog";
+import { Search, MapPin, Briefcase, ArrowRight } from "lucide-react";
 
 export default function CareersPage() {
   const [searchTerm, setSearchTerm] = useState("");
   const [department, setDepartment] = useState("All");
   const [location, setLocation] = useState("All");
-  const [visibleJobs, setVisibleJobs] = useState(6);
+  // const [visibleJobs, setVisibleJobs] = useState(6);
+  const [selectedJob, setSelectedJob] = useState<any>(null);
 
-  const departments = [
-    "All",
-    ...Array.from(new Set(MOCK_CAREERS.map((job) => job.department))),
-  ];
-  const locations = [
-    "All",
-    ...Array.from(new Set(MOCK_CAREERS.map((job) => job.location))),
-  ];
+  const departments = ["All", ...Array.from(new Set(MOCK_CAREERS.map((job) => job.department)))];
+  const locations = ["All", ...Array.from(new Set(MOCK_CAREERS.map((job) => job.location)))];
 
   const filteredCareers = MOCK_CAREERS.filter((job) => {
     return (
@@ -37,112 +40,152 @@ export default function CareersPage() {
     );
   });
 
-  const loadMoreJobs = () => {
-    setVisibleJobs((prev) => prev + 6);
-  };
-
   return (
-    <div className="bg-black text-white min-h-screen">
-      <div
-        className="h-[60vh] bg-cover bg-center flex items-center justify-center relative"
-        style={{
-          backgroundImage:
-            "url(https://images.unsplash.com/photo-1517960413843-0aee8e2b3285?q=80&w=2670&auto=format&fit=crop)",
-        }}
-      >
-        <div className="absolute inset-0 bg-gradient-to-t from-black via-black/80 to-transparent"></div>
-        <div className="text-center z-10">
-          <h1 className="text-6xl font-black tracking-tighter absolute bottom-0 right-0 w-full">
-            Find Your Next Job @CLAW Global
+    <div className="bg-black text-white min-h-screen pb-20">
+      {/* Hero Section */}
+      <div className="h-[40vh] bg-cover bg-center flex items-end relative" style={{ backgroundImage: "url(https://images.unsplash.com/photo-1517960413843-0aee8e2b3285?q=80&w=2670&auto=format&fit=crop)" }}>
+        <div className="absolute inset-0 bg-gradient-to-t from-black via-black/40 to-transparent"></div>
+        <div className="container mx-auto px-4 z-10 mb-10">
+          <h1 className="text-5xl md:text-7xl font-black tracking-tighter ">
+            Internships @CLAW
           </h1>
         </div>
       </div>
 
-      <div className="container mx-auto px-4 py-16">
-        <div className="bg-zinc-900 p-8 rounded-lg mb-12">
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-6 items-end">
-            <div className="md:col-span-1">
-              <label className="text-sm font-bold text-zinc-400 mb-2 block">
-                Search
-              </label>
-              <Input
-                type="text"
-                placeholder="By keyword"
-                className="bg-zinc-800 border-zinc-700 h-12"
-                onChange={(e) => setSearchTerm(e.target.value)}
-              />
-            </div>
-            <div>
-              <label className="text-sm font-bold text-zinc-400 mb-2 block">
-                Department
-              </label>
-              <Select onValueChange={setDepartment} defaultValue="All">
-                <SelectTrigger className="bg-zinc-800 border-zinc-700 h-12">
-                  <SelectValue placeholder="Department" />
-                </SelectTrigger>
-                <SelectContent className="bg-zinc-800 text-white">
-                  {departments.map((dept) => (
-                    <SelectItem key={dept} value={dept}>
-                      {dept}
-                    </SelectItem>
-                  ))}
-                </SelectContent>
-              </Select>
-            </div>
-            <div>
-              <label className="text-sm font-bold text-zinc-400 mb-2 block">
-                Location
-              </label>
-              <Select onValueChange={setLocation} defaultValue="All">
-                <SelectTrigger className="bg-zinc-800 border-zinc-700 h-12">
-                  <SelectValue placeholder="Location" />
-                </SelectTrigger>
-                <SelectContent className="bg-zinc-800 text-white">
-                  {locations.map((loc) => (
-                    <SelectItem key={loc} value={loc}>
-                      {loc}
-                    </SelectItem>
-                  ))}
-                </SelectContent>
-              </Select>
-            </div>
+      <div className="container mx-auto px-4 mt-12">
+        {/* Filter Bar */}
+        {/* <div className="bg-zinc-900/50 border border-zinc-800 p-6 rounded-sm mb-8">
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+            <Input
+              placeholder="Search roles..."
+              className="bg-zinc-950 border-zinc-800 h-12"
+              onChange={(e) => setSearchTerm(e.target.value)}
+            />
+            <Select onValueChange={setDepartment} defaultValue="All">
+              <SelectTrigger className="bg-zinc-950 border-zinc-800 h-12 text-zinc-400">
+                <SelectValue placeholder="Department" />
+              </SelectTrigger>
+              <SelectContent className="bg-zinc-900 border-zinc-800 text-white">
+                {departments.map((d) => <SelectItem key={d} value={d}>{d}</SelectItem>)}
+              </SelectContent>
+            </Select>
+            <Select onValueChange={setLocation} defaultValue="All">
+              <SelectTrigger className="bg-zinc-950 border-zinc-800 h-12 text-zinc-400">
+                <SelectValue placeholder="Location" />
+              </SelectTrigger>
+              <SelectContent className="bg-zinc-900 border-zinc-800 text-white">
+                {locations.map((l) => <SelectItem key={l} value={l}>{l}</SelectItem>)}
+              </SelectContent>
+            </Select>
           </div>
-        </div>
+        </div> */}
 
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-          {filteredCareers.slice(0, visibleJobs).map((job) => (
+        {/* Table Header (Hidden on Mobile) */}
+        {/* <div className="hidden md:grid grid-cols-12 px-8 py-4 text-xs font-black  tracking-widest text-zinc-500 border-b border-zinc-800">
+          <div className="col-span-5">Role</div>
+          <div className="col-span-3">Department</div>
+          <div className="col-span-3">Location</div>
+          <div className="col-span-1 text-right">Action</div>
+        </div> */}
+
+        {/* Table Content */}
+        <div className="flex flex-col gap-2 mt-4">
+          {filteredCareers.map((job) => (
             <div
               key={job.id}
-              className="p-8 bg-zinc-900 rounded-lg transform hover:scale-105 transition-transform duration-300"
+              onClick={() => setSelectedJob(job)}
+              className="grid grid-cols-1 md:grid-cols-12 items-center px-8 py-6 bg-zinc-900/30 hover:bg-zinc-800/50 border border-zinc-800 rounded-sm transition-all cursor-pointer group"
             >
-              <h3 className="text-xl font-bold mb-2">{job.title}</h3>
-              <p className="text-zinc-400 mb-4">
-                {job.department} ・ {job.location}
-              </p>
-              <Button variant="secondary" className="w-full">
-                View Details
-              </Button>
+              <div className="col-span-5 mb-2 md:mb-0">
+                <h3 className="text-lg font-bold group-hover:text-cyan-400 transition-colors">{job.title}</h3>
+              </div>
+              <div className="col-span-3 flex items-center gap-2 text-zinc-400 text-sm mb-1 md:mb-0">
+                <Briefcase className="w-4 h-4 text-zinc-600" />
+                {job.department}
+              </div>
+              <div className="col-span-3 flex items-center gap-2 text-zinc-400 text-sm">
+                <MapPin className="w-4 h-4 text-zinc-600" />
+                {job.location}
+              </div>
+              <div className="col-span-1 hidden md:flex justify-end">
+                <ArrowRight className="w-5 h-5 text-zinc-700 group-hover:text-white group-hover:translate-x-1 transition-all" />
+              </div>
+              <div className="md:hidden mt-4">
+                <Button variant="secondary" className="w-full text-xs h-8">View Details</Button>
+              </div>
             </div>
           ))}
         </div>
 
-        {visibleJobs < filteredCareers.length && (
-          <div className="text-center mt-12">
-            <Button onClick={loadMoreJobs}>Load More</Button>
+        {/* Empty State */}
+        {filteredCareers.length === 0 && (
+          <div className="text-center py-20 bg-zinc-900/20 border border-dashed border-zinc-800 rounded-sm">
+            <p className="text-zinc-500 font-bold  tracking-tighter">No roles found matching your criteria.</p>
           </div>
         )}
 
-        {filteredCareers.length === 0 && (
-          <div className="text-center py-20">
-            <p className="text-zinc-500 font-bold tracking-widest text-lg">
-              No jobs found
-            </p>
-            <p className="text-zinc-600 text-sm mt-2">
-              Try adjusting your search filters.
-            </p>
+        {/* Load More */}
+        {/* {visibleJobs < filteredCareers.length && (
+          <div className="text-center mt-12">
+            <Button 
+              variant="outline" 
+              onClick={() => setVisibleJobs(prev => prev + 6)}
+              className="border-zinc-700 hover:bg-zinc-800"
+            >
+              Load More Positions
+            </Button>
           </div>
-        )}
+        )} */}
       </div>
+
+      {/* Job Detail Modal */}
+      <Dialog open={!!selectedJob} onOpenChange={() => setSelectedJob(null)}>
+        <DialogContent className="bg-zinc-950 border-zinc-800 text-white max-w-2xl">
+          {selectedJob && (
+            <>
+              <DialogHeader>
+                <div className="flex items-center gap-2 text-zinc-500 text-xs font-black  mb-2">
+                  <span>{selectedJob.department}</span>
+                  <span className="text-zinc-700">•</span>
+                  <span>{selectedJob.location}</span>
+                </div>
+                <DialogTitle className="text-3xl font-black tracking-tighter ">
+                  {selectedJob.title}
+                </DialogTitle>
+                <div className="pt-4">
+                  <DialogDescription className="text-zinc-400 leading-relaxed text-base">
+                    {selectedJob.description}
+                  </DialogDescription>
+                </div>
+              </DialogHeader>
+              
+              <div className="space-y-6 my-4">
+                <div>
+                  <h4 className="text-sm font-black  text-white mb-2">Key Responsibilities</h4>
+                  <ul className="list-disc list-inside text-sm text-zinc-400 space-y-1">
+                    <li>Contribute to core projects at CLAW Global.</li>
+                    <li>Collaborate with cross-functional teams.</li>
+                    <li>Maintain high standards of excellence.</li>
+                  </ul>
+                </div>
+              </div>
+
+              <DialogFooter className="sm:justify-between gap-4">
+                <Button className="bg-blue-500 hover:bg-blue-600 text-white font-bold w-full sm:w-auto px-8">
+                  Apply Now
+                </Button>
+                {/* <Button 
+                  variant="ghost" 
+                  onClick={() => setSelectedJob(null)}
+                  className="text-zinc-500 hover:text-white w-full sm:w-auto px-8"
+                >
+                  Close
+                </Button> */}
+              </DialogFooter>
+            </>
+          )}
+        </DialogContent>
+      </Dialog>
     </div>
   );
 }
