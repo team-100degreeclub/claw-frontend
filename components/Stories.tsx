@@ -107,32 +107,32 @@ export default function Stories() {
       <ScrollArea className="flex-1 mt-2">
         <div className="p-4 space-y-6">
           {STORIES.map((story) => (
-            <div 
-              key={story.id} 
+            <div
+              key={story.id}
               className={`group relative overflow-hidden transition-all border-l-2 pl-4 ${story.brandColor || 'border-zinc-800'} hover:border-white hover:cursor-pointer`}
             >
               {/* Image Preview (Small/Compact) */}
-                            <div className="relative aspect-video w-full mb-3 overflow-hidden rounded-xl bg-zinc-900 border border-white/5">
-                              {story.videoUrl ? (
-                                <iframe
-                                  src={story.videoUrl}
-                                  title={story.title}
-                                  className="h-full w-full opacity-80 group-hover:opacity-100 transition-opacity"
-                                  allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-                                  allowFullScreen
-                                />
-                              ) : (
-                                <img
-                                  src={story.image}
-                                  alt={story.title}
-                                  className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110"
-                                />
-                              )}
-                              <div className="absolute inset-0 bg-gradient-to-t from-black to-transparent" />
-                              <Badge className="absolute bottom-2 left-2 text-[8px] bg-black/80 text-white border-none rounded-none tracking-widest font-bold">
-                                {story.type}
-                              </Badge>
-                            </div>
+              <div className="relative aspect-video w-full mb-3 overflow-hidden rounded-xl bg-zinc-900 border border-white/5">
+                {story.videoUrl ? (
+                  <iframe
+                    src={story.videoUrl}
+                    title={story.title}
+                    className="h-full w-full opacity-80 group-hover:opacity-100 transition-opacity"
+                    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                    allowFullScreen
+                  />
+                ) : (
+                  <img
+                    src={story.image}
+                    alt={story.title}
+                    className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110"
+                  />
+                )}
+                {/* <div className="absolute inset-0 bg-gradient-to-t from-black to-transparent" /> */}
+                <Badge className="absolute bottom-2 left-2 text-[8px] bg-black/80 text-white border-none rounded-none tracking-widest font-bold">
+                  {story.type}
+                </Badge>
+              </div>
               {/* Text Content */}
               <div className="space-y-1">
                 <div className="flex items-center justify-between">
@@ -146,11 +146,11 @@ export default function Stories() {
                     </div>
                   )} */}
                 </div>
-                
+
                 <h3 className="text-sm font-bold text-white leading-snug group-hover:text-zinc-300 transition-colors">
                   {story.title}
                 </h3>
-                
+
                 {/* <p className="text-xs text-white/80 line-clamp-2 leading-relaxed">
                   {story.excerpt}
                 </p> */}

@@ -32,7 +32,17 @@ export default function PlatformContract() {
               </h1>
             </div>
             <div className="text-right space-y-1">
-              <p className="text-sm">Contract ID: CLAW-2026-001</p>
+              <div className="grid grid-cols-2 gap-4">
+                <p className="text-right">Contract ID:</p>
+                <p className="text-left">CLAW-2026-001</p>
+              </div>
+              
+              <div className="grid grid-cols-2 gap-4">
+                <p className="text-right">Date: </p>
+                <p className="text-left">12 Jun, 2025</p>
+                </div>
+              {/* <p className="text-sm">Contract ID: CLAW-2026-001</p>
+              <p className="text-sm">Date: 12 Jun, 2025</p> */}
               {/* <p className="text-sm text-zinc-600">Status: Awaiting Consent</p> */}
             </div>
           </div>

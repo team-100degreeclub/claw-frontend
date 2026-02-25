@@ -12,6 +12,8 @@ import campService from "@/lib/services/campService";
 import { PartnerProfileResponse, CampFormValues } from "@/lib/types/api";
 import { toast } from "sonner";
 import { IncompleteProfileDialog } from "./IncompleteProfileDialog";
+import { formatCompactNumber } from "../PerformanceDashboard";
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 
 // Updated type to reflect new columns
 interface ExtendedCampView {
@@ -34,26 +36,26 @@ const dummyCamps: ExtendedCampView[] = [
         camp_name: "Summit Peaks",
         location: "Himalayas, IN",
         category: "Land",
-        partners: [{ first_name: "John", last_name: "Doe", email: "john@ex.com" }],
+        partners: [{ first_name: "John", last_name: "Doe", email: "john@ex.com", profile_image_url: "https://github.com/shadcn.png" }],
         slots: 20,
-        ticket_price: 500,
+        ticket_price: 20000,
         tickets_sold: 15,
         status: "Approved",
-        gross: 7500,
-        net: 6000,
+        gross: 300000,
+        net: 240000,
     },
     {
         id: "camp2",
         camp_name: "River Rush",
         location: "Rishikesh, IN",
         category: "Water",
-        partners: [{ first_name: "Jane", last_name: "Smith", email: "jane@ex.com" }],
+        partners: [{ first_name: "Jane", last_name: "Smith", email: "jane@ex.com", profile_image_url: "https://images.unsplash.com/photo-1654110455429-cf322b40a906?q=80&w=3178&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D" }, { first_name: "John", last_name: "Doe", email: "john@ex.com", profile_image_url: "https://github.com/shadcn.png" }],
         slots: 15,
-        ticket_price: 300,
+        ticket_price: 30100,
         tickets_sold: 10,
         status: "Pending",
-        gross: 3000,
-        net: 2400,
+        gross: 301000,
+        net: 250000,
     }
 ];
 
@@ -113,42 +115,49 @@ export function CampTable({ profile }: CampTableProps) {
 
     return (
         <div className="space-y-6 bg-black p-6 min-h-screen">
-            <header className="flex flex-row justify-between items-center">
+            <header className="flex flex-col md:flex-row justify-between items-end md:items-center gap-6 mb-8">
+                {/* Title Section */}
                 <div className="space-y-1">
                     <h2 className="text-2xl font-bold text-white tracking-tight">Camps</h2>
                 </div>
-                <div className="flex flex-row align-center justify-center items-center gap-2">
-                    <div className="flex flex-wrap gap-4 mb-6">
-                        {/* Month/Year Filter */}
-                        <div className="flex flex-col gap-1">
-                            <label className="text-xs text-white pl-1 mb-1">Timeline</label>
-                            <select
-                                onChange={(e) => setDateFilter(e.target.value)}
-                                className="bg-zinc-900 border border-zinc-800 text-white text-xs rounded-lg px-3 py-2 outline-none focus:ring-1 focus:ring-white transition-all w-40"
-                            >
-                                <option value="all">Lifetime</option>
-                                <option value="2024-01">This Month</option>
-                                <option value="2023-12">This Year</option>
-                            </select>
-                        </div>
 
-                        {/* Status Filter */}
-                        <div className="flex flex-col gap-1">
-                            <label className="text-xs text-white pl-1 mb-1">Status</label>
-                            <select
-                                onChange={(e) => setStatusFilter(e.target.value)}
-                                className="bg-zinc-900 border border-zinc-800 text-white text-xs rounded-lg px-3 py-2 outline-none focus:ring-1 focus:ring-white transition-all w-40"
-                            >
-                                <option value="all">All</option>
-                                <option value="Approved">Live</option>
-                                <option value="Pending">Completed</option>
-                                <option value="Cancelled">Cancelled</option>
-                            </select>
-                        </div>
+                {/* Controls Section */}
+                <div className="flex flex-wrap items-end gap-4">
+                    {/* Timeline Filter */}
+                    <div className="flex flex-col gap-1.5">
+                        <label className="text-sm font-medium text-zinc-500 pl-1">Timeline</label>
+                        <Select defaultValue="all" onValueChange={(value) => setDateFilter(value)}>
+                            <SelectTrigger className="w-44 h-[42px] bg-zinc-900 border-zinc-800 text-zinc-300 rounded-xl focus:ring-zinc-700 transition-all">
+                                <SelectValue placeholder="Select timeline" />
+                            </SelectTrigger>
+                            <SelectContent className="bg-zinc-900 border-zinc-800 text-zinc-300 rounded-xl shadow-2xl">
+                                <SelectItem value="all">Lifetime</SelectItem>
+                                <SelectItem value="2024-01">This Month</SelectItem>
+                                <SelectItem value="2023-12">This Year</SelectItem>
+                            </SelectContent>
+                        </Select>
                     </div>
+
+                    {/* Status Filter */}
+                    <div className="flex flex-col gap-1.5">
+                        <label className="text-sm font-medium text-zinc-500 pl-1">Status</label>
+                        <Select defaultValue="all" onValueChange={(value) => setStatusFilter(value)}>
+                            <SelectTrigger className="w-44 h-[42px] bg-zinc-900 border-zinc-800 text-zinc-300 rounded-xl focus:ring-zinc-700 transition-all">
+                                <SelectValue placeholder="Select status" />
+                            </SelectTrigger>
+                            <SelectContent className="bg-zinc-900 border-zinc-800 text-zinc-300 rounded-xl shadow-2xl">
+                                <SelectItem value="all">All Status</SelectItem>
+                                <SelectItem value="Approved">Live</SelectItem>
+                                <SelectItem value="Pending">Completed</SelectItem>
+                                <SelectItem value="Cancelled">Cancelled</SelectItem>
+                            </SelectContent>
+                        </Select>
+                    </div>
+
+                    {/* Action Button */}
                     <Button
                         onClick={handleCreateCampClick}
-                        className="bg-blue-800 hover:bg-blue-800/80 text-white rounded-lg h-10 px-6 font-bold text-xs tracking-widest transition-all"
+                        className="bg-blue-600 hover:bg-blue-500 text-white rounded-xl h-[42px] px-6 font-semibold text-sm transition-all shadow-lg shadow-blue-900/20"
                     >
                         Create Camp
                     </Button>
@@ -156,29 +165,28 @@ export function CampTable({ profile }: CampTableProps) {
             </header>
 
 
-            <Card className="bg-zinc-950 border-zinc-900 shadow-xl rounded-xl overflow-hidden">
-                <CardContent className="p-0">
-                    {camps.length === 0 ? (
-                        <div className="flex flex-col items-center justify-center py-24 text-center">
-                            <Layers className="w-10 h-10 text-zinc-800 mb-4" />
-                            <h3 className="text-sm font-bold text-white  tracking-widest">No Records Found</h3>
-                        </div>
-                    ) : (
-                        <div className="overflow-x-auto">
-                            <Table>
+            <div className="bg-transparent border-0 overflow-hidden">
+                {/* <CardContent className="p-0"> */}
+                {camps.length === 0 ? (
+                    <div className="flex flex-col items-center justify-center py-24 text-center">
+                        <Layers className="w-10 h-10 text-zinc-800 mb-4" />
+                        <h3 className="text-sm font-bold text-white tracking-widest">No Camps Found</h3>
+                    </div>
+                ) : (
+                    <div className="overflow-x-auto">
+                        <div className="overflow-hidden rounded-[24px] border border-zinc-800 bg-zinc-950/50 shadow-2xl">
+                            <Table className="w-full border-collapse">
                                 <TableHeader className="bg-zinc-900/50">
-                                    <TableRow className="hover:bg-transparent border-zinc-900">
-                                        <TableHead className="text-[13px] w-1/9 text-white py-4 pl-6 ">Camp Name</TableHead>
-                                        <TableHead className="text-[13px] w-1/9 text-white py-4 ">Location</TableHead>
-                                        <TableHead className="text-[13px] w-1/9 text-white py-4 ">Category</TableHead>
-                                        <TableHead className="text-[13px] w-1/9 text-white py-4 ">Collaboration</TableHead>
-                                        <TableHead className="text-[13px] w-1/9 text-white py-4 ">Slots</TableHead>
-                                        <TableHead className="text-[13px] w-1/9 text-white py-4 ">Price</TableHead>
-                                        <TableHead className="text-[13px] w-1/9 text-white py-4 ">Sold</TableHead>
-                                        <TableHead className="text-[13px] w-1/9 text-white py-4 ">Approval</TableHead>
-                                        <TableHead className="text-[13px] w-1/9 text-white py-4  text-center">Tickets</TableHead>
-                                        {/* <TableHead className="text-[13px] w-1/11 text-white py-4 ">Gross</TableHead>
-                                        <TableHead className="text-[13px] w-1/11 text-white py-4 pr-6 ">Net</TableHead> */}
+                                    <TableRow className="border-b border-zinc-800 hover:bg-transparent">
+                                        <TableHead className="py-5 pl-8 text-base font-semibold text-white">Camp Name</TableHead>
+                                        <TableHead className="py-5 text-base font-semibold text-white">Location</TableHead>
+                                        <TableHead className="py-5 text-base font-semibold text-white">Category</TableHead>
+                                        <TableHead className="py-5 text-base font-semibold text-white">Collaboration</TableHead>
+                                        <TableHead className="py-5 text-base font-semibold text-white text-right">Slots</TableHead>
+                                        <TableHead className="py-5 text-base font-semibold text-white text-right">Price</TableHead>
+                                        <TableHead className="py-5 text-base font-semibold text-white text-right">Sold</TableHead>
+                                        <TableHead className="py-5 text-base font-semibold text-white text-center">Approval</TableHead>
+                                        <TableHead className="py-5 pr-8 text-base font-semibold text-white text-center">Tickets</TableHead>
                                     </TableRow>
                                 </TableHeader>
 
@@ -186,68 +194,80 @@ export function CampTable({ profile }: CampTableProps) {
                                     {filteredCamps.map((camp) => (
                                         <TableRow
                                             key={camp.id}
-                                            className="group border-zinc-900 hover:bg-zinc-900/40 hover:cursor-pointer transition-colors"
+                                            className="group border-b border-zinc-900 hover:bg-zinc-800/40 hover:cursor-pointer transition-all duration-200"
                                             onClick={handleCreateCampClick}
                                         >
-                                            <TableCell className="py-5 pl-6 text-white">{camp.camp_name}</TableCell>
-                                            <TableCell className="text-white text-sm">{camp.location}</TableCell>
-                                            <TableCell className="text-white text-sm">{camp.category}</TableCell>
+                                            {/* Camp Name */}
+                                            <TableCell className="py-5 pl-8 text-sm font-medium text-zinc-300 group-hover:text-white transition-colors">
+                                                {camp.camp_name}
+                                            </TableCell>
+
+                                            {/* Location & Category */}
+                                            <TableCell className="py-5 text-sm font-medium text-zinc-300">{camp.location}</TableCell>
+                                            <TableCell className="py-5 text-sm font-medium text-zinc-300">{camp.category}</TableCell>
 
                                             {/* Collaboration (Partners) */}
-                                            <TableCell>
+                                            <TableCell className="py-5">
                                                 <div className="flex -space-x-2">
                                                     {camp.partners.map((partner, i) => (
                                                         <HoverCard key={i}>
                                                             <HoverCardTrigger asChild>
-                                                                <Avatar className="h-7 w-7 border-2 border-zinc-950">
-                                                                    <AvatarFallback className="text-[10px] bg-zinc-800 text-white font-bold">
+                                                                <Avatar className="h-8 w-8 border-2 border-zinc-950 transition-transform group-hover:scale-110">
+                                                                    <AvatarImage src={partner.profile_image_url} />
+                                                                    <AvatarFallback className="text-[10px] bg-zinc-800 text-white font-semibold">
                                                                         {partner.first_name?.[0]}{partner.last_name?.[0]}
                                                                     </AvatarFallback>
                                                                 </Avatar>
                                                             </HoverCardTrigger>
-                                                            <HoverCardContent className="bg-zinc-950 border-zinc-800 text-white">
-                                                                <p className="text-xs font-bold">{partner.first_name} {partner.last_name}</p>
+                                                            <HoverCardContent className="bg-zinc-900 border-zinc-800 text-zinc-300 rounded-xl">
+                                                                <p className="text-sm font-medium">{partner.first_name} {partner.last_name}</p>
                                                             </HoverCardContent>
                                                         </HoverCard>
                                                     ))}
                                                 </div>
                                             </TableCell>
 
-                                            <TableCell className="text-white text-sm">{camp.slots}</TableCell>
-                                            <TableCell className="text-white text-sm">${camp.ticket_price}</TableCell>
-                                            <TableCell className="text-white text-sm">{camp.tickets_sold}</TableCell>
+                                            {/* Numerical Data */}
+                                            <TableCell className="py-5 text-sm text-right tabular-nums text-zinc-300">{camp.slots}</TableCell>
+                                            <TableCell className="py-5 text-sm text-right tabular-nums text-zinc-300">{formatCompactNumber(camp.ticket_price)}</TableCell>
+                                            <TableCell className="py-5 text-sm text-right tabular-nums text-zinc-300">{formatCompactNumber(camp.tickets_sold).slice(1)}</TableCell>
 
-                                            {/* Approval */}
-                                            <TableCell>
-                                                <span className={`text-[11px] font-bold px-2 py-1 rounded ${camp.status === 'Approved' ? 'text-white' :
-                                                    camp.status === 'Rejected' ? 'text-white' : 'border-amber-500 text-white'
-                                                    }`}>
-                                                    {camp.status}
-                                                </span>
+                                            {/* Approval Status Badge */}
+                                            <TableCell className="py-5 text-center">
+                                                #{camp.status.toLocaleLowerCase()}
+                                                {/* <span className={`inline-flex items-center px-2.5 py-0.5 rounded-md text-[11px] font-bold border transition-colors ${camp.status === 'Approved'
+                                                            ? 'bg-emerald-500/10 text-emerald-400 border-emerald-500/20' :
+                                                            camp.status === 'Rejected'
+                                                                ? 'bg-rose-500/10 text-rose-400 border-rose-500/20' :
+                                                                'bg-amber-500/10 text-amber-400 border-amber-500/20'
+                                                        }`}>
+                                                        {camp.status}
+                                                    </span> */}
                                             </TableCell>
 
-                                            {/* Download Data */}
-                                            <TableCell className="">
+                                            {/* Download Data Action */}
+                                            <TableCell className="py-5 pr-8 text-center">
                                                 <Button
-                                                    variant="ghost"
+                                                    variant="outline"
                                                     size="icon"
-                                                    onClick={() => handleDownloadTravellerData(camp.id)}
-                                                    className="h-8 w-8 text-white hover:bg-zinc-800"
+                                                    onClick={(e) => {
+                                                        e.stopPropagation(); // Prevent row click
+                                                        handleDownloadTravellerData(camp.id);
+                                                    }}
+                                                    className="h-10 w-10 text-white bg-zinc-600 hover:bg-white rounded-full transition-all"
                                                 >
                                                     <Download className="h-4 w-4" />
                                                 </Button>
                                             </TableCell>
-
-                                            {/* <TableCell className="text-white text-sm">₹{camp.gross.toLocaleString("en-IN", { currency: "INR" })}</TableCell>
-                                            <TableCell className="text-white text-sm pr-6">₹{camp.net.toLocaleString("en-IN", { currency: "INR" })}</TableCell> */}
                                         </TableRow>
                                     ))}
                                 </TableBody>
                             </Table>
                         </div>
-                    )}
-                </CardContent>
-            </Card>
+                    </div>
+                )}
+                {/* </CardContent> */}
+            </div>
 
             <CreateCampDialog isOpen={isCreateCampOpen} onClose={() => { setCreateCampOpen(false); fetchCamps(); }} initialData={selectedCamp} />
             <IncompleteProfileDialog isOpen={isProfileIncomplete} onClose={() => setProfileIncomplete(false)} />

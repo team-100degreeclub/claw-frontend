@@ -2,7 +2,7 @@
 
 import { useRouter } from "next/navigation";
 import { Badge } from "@/components/ui/badge";
-import { Calendar, IndianRupee, MapPin, CheckCircle2, Ticket, Clock, FileWarning, CheckCircle } from "lucide-react";
+import { Calendar, IndianRupee, MapPin, CheckCircle2, Ticket, Clock, FileWarning, CheckCircle, Grid } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { Camp } from "@/types/camp";
 
@@ -65,11 +65,11 @@ export function CampCard({ camp, documentStatus, onCardClick }: { camp: Camp; do
           className="h-full w-full object-cover transition-transform duration-700 group-hover:scale-105"
         />
         {/* Environment/Focus Badge - Overlaid like Red Bull partner logos */}
-        <div className="absolute bottom-3 left-3">
+        {/* <div className="absolute bottom-3 left-3">
           <Badge className="bg-white/90 dark:bg-black/80 text-black dark:text-white border-none font-black text-[9px] tracking-widest px-2 py-1 backdrop-blur-sm">
             {camp.environment.toString() === "Conversation" ? "Conversation" : camp.environment + "/" + camp.specialization}
           </Badge>
-        </div>
+        </div> */}
       </div>
       
       {/* 2. Mission Content Section */}
@@ -87,6 +87,10 @@ export function CampCard({ camp, documentStatus, onCardClick }: { camp: Camp; do
             <div className="flex items-center gap-2 text-[13px] font-bold text-zinc-600 dark:text-zinc-400">
               <MapPin className="w-3.5 h-3.5" /> 
               {camp.location}
+            </div>
+            <div className="flex items-center gap-2 text-[13px] font-bold text-zinc-600 dark:text-zinc-400">
+              <Grid className="w-3.5 h-3.5" /> 
+              {camp.environment.toString() === "Conversation" ? "Conversation" : camp.environment + "/" + camp.specialization}
             </div>
           </div>
         </div>

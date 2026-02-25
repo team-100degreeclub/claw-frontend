@@ -217,7 +217,7 @@ function ToggleButton({ active, onClick, label }: any) {
     <button
       onClick={onClick}
       className={cn(
-        "px-6 py-1.5 rounded-full text-[10px] font-black tracking-widest transition-all",
+        "px-6 py-1.5 rounded-full text-sm transition-all",
         active
           ? "bg-white dark:bg-zinc-800 text-black dark:text-green-500 shadow-sm"
           : "text-zinc-500 hover:text-zinc-800 dark:hover:text-zinc-300"

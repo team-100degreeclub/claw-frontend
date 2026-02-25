@@ -124,3 +124,30 @@
     @apply bg-background text-foreground;
   }
 }
+
+/* Firefox: Set scrollbar width to thin and ensure it's always visible */
+.always-show-scrollbar {
+  scrollbar-width: thin;
+  scrollbar-color: #3f3f46 transparent; /* thumb color | track color */
+}
+
+/* Chrome, Edge, and Safari */
+.always-show-scrollbar::-webkit-scrollbar {
+  width: 6px; /* Width of the scrollbar */
+  display: block; /* Ensures it stays visible */
+}
+
+.always-show-scrollbar::-webkit-scrollbar-track {
+  background: transparent; /* Track background */
+}
+
+.always-show-scrollbar::-webkit-scrollbar-thumb {
+  background-color: #3f3f46; /* The zinc-700/800 color */
+  border-radius: 20px; /* Rounding for the thumb */
+  border: 1px solid transparent; /* Padding around thumb */
+}
+
+/* Ensure the thumb is visible even when not hovering */
+.always-show-scrollbar::-webkit-scrollbar-thumb:vertical {
+  min-height: 30px;
+}

@@ -18,7 +18,7 @@ const secondaryMenus: Record<string, { category: string; items: string[] }[]> = 
   "Board Room": [
     {
       category: "Business",
-      items: ["Performance", "Books", "Corporate Leads", "Camp", "Traveller", "Insignia", "Internship"],
+      items: ["Performance", "Books", "Corporate Leads", "Camp", "Traveller", "Insignia",],
     },
     {
       category: "Operations",
@@ -102,6 +102,7 @@ export default function DashboardLayout({ children }: { children: React.ReactNod
       activeSecondaryLabel = secondaryMenus["Workstation"][0].items[0]; // "Insights"
     } else if (activePrimaryLabel === "Profile" && secondaryMenus["Profile"] && secondaryMenus["Profile"][0]) {
       activeSecondaryLabel = secondaryMenus["Profile"][0].items[0]; // "Profile data"
+      console.log(activeSecondaryLabel);
     }
   }
 
@@ -117,7 +118,7 @@ export default function DashboardLayout({ children }: { children: React.ReactNod
     } else if (label === "Library") {
       router.push("/hq/dashboard/library"); // Assuming this is a direct path without secondary menus
     } else if (label === "Profile") {
-      router.push("/hq/dashboard/profile"); // Assuming this is a direct path without secondary menus
+      router.push("/hq/dashboard/profile/profile-data"); // Assuming this is a direct path without secondary menus
     }
   };
 
@@ -173,7 +174,7 @@ export default function DashboardLayout({ children }: { children: React.ReactNod
               <Button
                 key={item.label}
                 variant={activePrimaryLabel === item.label ? "secondary" : "ghost"}
-                className={cn("w-full justify-start gap-4 text-zinc-500", primaryCollapsed && "justify-center px-0")}
+                className={cn("w-full justify-start gap-4", primaryCollapsed && "justify-center px-0")}
                 onClick={() => handlePrimaryClick(item.label)}
               >
                 <item.icon className="h-5 w-5" />
@@ -208,7 +209,7 @@ export default function DashboardLayout({ children }: { children: React.ReactNod
                 <ScrollArea className="flex-1 p-6">
                   {secondaryMenus[activePrimaryLabel].map((group) => (
                     <div key={group.category} className="mb-10">
-                      <h3 className="text-sm text-zinc-500 font-black mb-4 px-2">
+                      <h3 className="text-zinc-500 font-black mb-4 px-2">
                         {group.category}
                       </h3>
 
@@ -220,7 +221,7 @@ export default function DashboardLayout({ children }: { children: React.ReactNod
                               handleSecondaryClick(group.category, item)
                             }
                             className={cn(
-                              "w-full text-left px-3 py-2 text-xs font-bold  tracking-tight rounded-sm transition-all hover:cursor-pointer",
+                              "w-full text-left px-3 py-2 text-sm font-medium rounded-sm transition-all hover:cursor-pointer",
                               activeSecondaryLabel === item &&
                                 group.category.toLowerCase() ===
                                 currentCategorySegment

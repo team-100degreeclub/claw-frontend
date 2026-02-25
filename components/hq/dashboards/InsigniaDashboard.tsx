@@ -13,7 +13,8 @@ import {
   ChevronRight,
   PlayCircle,
   Badge,
-  Info
+  Info,
+  MapPin
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
@@ -21,6 +22,7 @@ import { TableCell, TableRow } from "@/components/ui/table";
 import InsigniaSpotlight from "./InsigniaSpotlight";
 import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover";
 import GlobalLeaderboard from "./GlobalLeaderboard";
+import { BadgeImage, BadgeProgressBox } from "@/app/(marketing)/insignia/page";
 
 // --- Types ---
 interface Badge {
@@ -56,6 +58,53 @@ const MOCK_PARTICIPANT: Participant = {
   ]
 };
 
+const BADGE_DESCRIPTIONS = [
+  "Traveller,",
+
+  "Every camp you complete at CLAW earns you an insignia. These insignias represent your courage, learning, and the journey you take through Land, Air, Water and Spirit Road.",
+  "Your journey begins as an Explorer when you complete your first camp. As you continue and complete five camps in the same path, you earn the title of Master. After earning five Master badges, you become a Legend.",
+  "When you complete all four paths Land, Air, Water and Spirit Road you earn the Marshal insignia. Travellers who achieve five Marshal badges earn the title of Guardian.",
+  "At the very top is the Soul of Steel insignia. This is personally awarded by Major Vivek Jacob, Para SF 9, Indian Special Forces and Founder of CLAW. It is given only to travellers whose actions create a real positive impact in the world.",
+  "Every insignia you earn is added to your Insignia Board and recorded on your profile. Major milestones are also couriered to you so you can wear them with pride.",
+  "Each badge tells the story of your journey, a mark of something you have achieved and something that made you stronger.",
+  "-  Team CLAW"
+];
+
+const USER_PROGRESSION = {
+  explorer: { count: 3, total: 5, nextLevel: "Master", requirement: "Complete a camp in any path." },
+  master: { count: 1, total: 5, nextLevel: "Legend", requirement: "Complete 5 camps in the same path." },
+  legend: { count: 0, total: 5, nextLevel: "Marshal", requirement: "Earn 5 Master badges in a specific path." },
+  marshal: { count: 1, total: 5, nextLevel: "Guardian", requirement: "Master all four elemental paths." },
+  guardian: { count: 0, total: 5, nextLevel: "Soul of Steel", requirement: "Earn 5 Marshal badges." },
+  soulOfSteel: { earned: true }
+};
+
+const MY_INSIGNIAS = [
+  { category: "Land", badges: [{ name: "Explorer 1", date: "Jan 12, 2025" }, { name: "Explorer 2", date: "Mar 05, 2025" }] },
+  { category: "Air", badges: [{ name: "Master 2", date: "Dec 20, 2025" }] },
+  { category: "Water", badges: [{ name: "Captain 2", date: "Feb 15, 2026" }] },
+  { category: "Spirit Road", badges: [{ name: "Explorer 1", date: "Nov 10, 2025" }] },
+];
+
+const LEADERBOARD_DATA = [
+  {
+    name: "Tiju Lukose",
+    location: "Mumbai, India",
+    honors: ["Marshal", "Guardian", "Soul Of Steel"], // keys to render badge images
+    levels: { land: "Explorer 3", air: "Master", water: "Explorer 1", sr: "Explorer 1" }
+  },
+  {
+    name: "Sandeep Kumar",
+    location: "Delhi, India",
+    honors: ["Soul Of Steel"],
+    levels: { land: "Master", air: "Legend", water: "Explorer 4", sr: "Master" }
+  }
+];
+
+const HONORS = [
+  "Marshal", "Guardian", "Soul of Steel"
+]
+
 const getRank = (count: number) => {
   if (count > 15) return "Legend";
   if (count >= 11) return "Master";
@@ -66,155 +115,123 @@ const getRank = (count: number) => {
 
 
 export default function InsigniaDashboard() {
-  const currentRank = getRank(MOCK_PARTICIPANT.campsCompleted);
-
   return (
-    <div className="bg-zinc-950 text-zinc-100 p-8 min-h-screen">
-      {/* 1. Top Navigation Bar */}
-      <div className="flex items-center justify-between mb-12 border-b border-zinc-900 pb-6">
-        <div className="flex items-center gap-4">
-          <div className="w-12 h-12 rounded-full bg-zinc-800 border border-zinc-700 flex items-center justify-center">
-            <UserIcon className="w-6 h-6 text-cyan-500" />
-          </div>
-          <div>
-            <h2 className="text-xl font-bold">{MOCK_PARTICIPANT.name}</h2>
-            <p className="text-xs text-zinc-500 font-semibold">{MOCK_PARTICIPANT.level}</p>
-          </div>
-        </div>
-        <div className="flex gap-8">
-          <div className="text-center">
-            <p className="text-[10px] text-zinc-500 font-bold mb-1">Camps Completed</p>
-            <p className="text-xl font-bold">{MOCK_PARTICIPANT.campsCompleted}</p>
-          </div>
-          <div className="text-center flex flex-col justify-center">
-            <p className="text-sm text-zinc-500 font-bold mb-1 gap-1">
-              {/* Next */}
-              <Popover>
-                <PopoverTrigger asChild>
-                  <button className="hover:text-cyan-500 transition-colors">
-                     {/* Details */}
-                     <Info size={16} className="inline-block ml-1"/>
-                  </button>
-                </PopoverTrigger>
-                <PopoverContent className="w-80 bg-zinc-950 border-zinc-800 p-5 shadow-2xl backdrop-blur-xl">
-                  <div className="space-y-4">
-                    <h4 className="font-bold text-white text-sm border-b border-zinc-800 pb-2">
-                      Progression Codex
-                    </h4>
+    <div className="min-h-screen bg-black text-zinc-300 flex flex-col font-sans overflow-y-auto">
 
-                    {/* Main Tiers */}
-                    <div className="space-y-3">
-                      <p className="text-[10px] font-bold text-zinc-500  tracking-widest">Standard Ranks</p>
-                      <div className="grid grid-cols-2 gap-2 text-xs">
-                        <div className="flex justify-between p-2 bg-zinc-900/50 rounded-sm">
-                          <span className="text-zinc-400">Explorer</span>
-                          <span className="font-bold text-white">1-5</span>
-                        </div>
-                        <div className="flex justify-between p-2 bg-zinc-900/50 rounded-sm">
-                          <span className="text-zinc-400">Captain</span>
-                          <span className="font-bold text-white">6-10</span>
-                        </div>
-                        <div className="flex justify-between p-2 bg-zinc-900/50 rounded-sm">
-                          <span className="text-zinc-400">Master</span>
-                          <span className="font-bold text-white">11-15</span>
-                        </div>
-                        <div className="flex justify-between p-2 bg-zinc-900/50 rounded-sm">
-                          <span className="text-zinc-400 text-amber-500">Legend</span>
-                          <span className="font-bold text-amber-500">15+</span>
-                        </div>
-                      </div>
-                    </div>
+      {/* TOP SECTION (Former Aside) */}
+      <header className="w-full border-b border-zinc-900 bg-zinc-950/30 p-8 md:p-12">
+        <div className="max-w-[1400px] mx-auto">
+          {/* <div className="flex items-center gap-3 mb-10">
+            <h1 className="text-2xl font-bold text-white tracking-tighter leading-none">Insignia</h1>
+          </div> */}
 
-                    {/* Special Titles */}
-                    <div className="space-y-2 pt-2 border-t border-zinc-900">
-                      <p className="text-[10px] font-bold text-zinc-500  tracking-widest">Elite Titles</p>
-                      <div className="space-y-2">
-                        <div className="flex flex-col">
-                          <span className="text-xs font-bold text-cyan-400">Marshal</span>
-                          <span className="text-[10px] text-zinc-500 leading-tight">Complete Land, Air, Water, and Spirit in one cycle.</span>
-                        </div>
-                        <div className="flex flex-col">
-                          <span className="text-xs font-bold text-purple-400">Guardian</span>
-                          <span className="text-[10px] text-zinc-500 leading-tight">Achieved after completing five Marshal levels.</span>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                </PopoverContent>
-              </Popover>
-            </p>
-          </div>
-        </div>
-      </div>
-
-      {/* 2. Discipline Path Selection */}
-      <div className="mb-12">
-        {/* <h3 className="text-sm font-bold text-zinc-500 mb-6 flex items-center gap-2">
-          Your Next Badge: Guardian
-        </h3> */}
-        <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
-          {[
-            { label: 'Spirit Roads', icon: <Flame size={20} />, color: 'text-purple-400', bg: 'bg-purple-400/10' },
-            { label: 'Land', icon: <Mountain size={20} />, color: 'text-orange-500', bg: 'bg-orange-500/10' },
-            { label: 'Air', icon: <Wind size={20} />, color: 'text-blue-400', bg: 'bg-blue-400/10' },
-            { label: 'Water', icon: <Waves size={20} />, color: 'text-cyan-400', bg: 'bg-cyan-400/10' },
-          ].map((path) => (
-            <div key={path.label} className="bg-zinc-900/40 border border-zinc-800 p-6 rounded-sm hover:border-zinc-700 transition-all cursor-pointer group">
-              <div className={`${path.bg} ${path.color} w-10 h-10 flex items-center justify-center rounded-sm mb-4`}>
-                {path.icon}
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-start ">
+            {/* Left Column: Video */}
+            <div className="space-y-6">
+              <div className="aspect-video bg-zinc-900 border border-zinc-800 overflow-hidden relative rounded-xl shadow-2xl">
+                <iframe
+                  src="https://www.youtube.com/embed/yN3g8CdRgss"
+                  className="w-full h-full opacity-80"
+                  title="CLAW Badge System"
+                  allowFullScreen
+                />
               </div>
-              <h4 className="font-bold mb-2">{path.label}</h4>
-              <div className="flex gap-1 mb-4">
-                {[1, 2, 3, 4, 5].map((i) => (
-                  <div key={i} className={`w-2 h-2 rounded-full ${i <= 3 ? 'bg-cyan-500' : 'bg-zinc-800'}`} />
+              {/* <p className="text-sm font-semibold text-amber-500 tracking-tight">Official CLAW Insignia Guide</p> */}
+            </div>
+
+            {/* Right Column: Scrollable Text */}
+            <div className="space-y-6">
+              <h2 className="text-xl font-bold text-white border-l-4 border-amber-600 pl-4">
+                Understanding The CLAW Insignia
+              </h2>
+              {/* Added 'always-show-scrollbar' class */}
+              <div className="h-[280px] overflow-y-scroll pr-4 space-y-6 always-show-scrollbar">
+                {BADGE_DESCRIPTIONS.map((desc, i) => (
+                  <p key={i} className="text-base leading-relaxed text-zinc-400 font-medium">
+                    {desc}
+                  </p>
                 ))}
               </div>
-              {/* <p className="text-[10px] text-zinc-500 font-medium leading-relaxed">
-                Progress to the next tier by completing specialized environmental camps.
-              </p> */}
             </div>
-          ))}
+          </div>
         </div>
-      </div>
+      </header>
 
-      {/* 3. Cross-Camp Journey & Soul of Steel */}
-      <InsigniaSpotlight />
+      {/* BOTTOM SECTION (Main Content) */}
+      <main className="flex-1 p-8 md:p-12 space-y-20 max-w-[1400px] mx-auto w-full">
 
-      {/* 4. Leaderboards & Global Achievements */}
-      <GlobalLeaderboard />
-      
-      {/* <div className="grid grid-cols-1 lg:grid-cols-1 gap-6">
-        <div className="lg:col-span-2 bg-zinc-900/40 border border-zinc-800 p-6 rounded-sm">
-          <h3 className="text-sm font-bold text-zinc-500 mb-6">Global Leaderboard</h3>
-          <table className="w-full text-left">
-            <thead>
-              <tr className="text-xs text-zinc-600 font-bold border-b border-zinc-800">
-                <th className="pb-3">Rank</th>
-                <th className="pb-3">Name</th>
-                <th className="pb-3">Badges</th>
-                <th className="pb-3 text-right">Level</th>
-              </tr>
-            </thead>
-            <tbody className="text-xs">
-              {[
-                { name: 'Marcus Thorne', level: 'Soul Of Steel', icons: [<Mountain key="1" size={12} />, <Wind key="2" size={12} />] },
-                { name: 'Sarah Chen', level: 'Guardian', icons: [<Waves key="3" size={12} />, <Flame key="4" size={12} />] },
-                { name: 'Alex Rivera', level: 'Marshall', icons: [<Zap key="5" size={12} />] },
-                { name: 'Emily Patel', level: 'Spirit Roads', icons: [<Mountain key="6" size={12} />, <Waves key="7" size={12} />] },
-                { name: 'Jack Lee', level: 'Land', icons: [<Flame key="8" size={12} />, <Wind key="9" size={12} />] },
-                // { name: 'Maya Singh', level: 'Air', icons: [<Zap key="10" size={12}/>, <Mountain key="11" size={12}/>] },
-              ].map((op, i) => (
-                <tr key={op.name} className="border-b border-zinc-900 last:border-0">
-                  <td className="py-4 font-bold">{i + 1}</td>
-                  <td className="py-4 font-bold">{op.name}</td>
-                  <td className="py-4 flex gap-2 text-zinc-500">{op.icons}</td>
-                  <td className="py-4 text-right font-bold text-cyan-500">{op.level}</td>
-                </tr>
-              ))}
-            </tbody>
-          </table>
-        </div>
-      </div> */}
+        {/* 1. Global Honor Board */}
+        <section className="space-y-8">
+          <InsigniaSpotlight />
+
+          <div className="space-y-6">
+            <h3 className="text-xl font-bold text-white tracking-widest">Global Honor Board</h3>
+            <div className="border border-zinc-900 bg-zinc-950 rounded-2xl overflow-hidden shadow-2xl">
+              <div className="overflow-x-auto">
+                <table className="w-full text-left border-collapse">
+                  <thead className="bg-zinc-900/50 text-base font-bold text-white border-b border-zinc-900">
+                    <tr>
+                      <th className="p-6">Honors</th>
+                      <th className="p-6">Traveller</th>
+                      <th className="p-6">Land</th>
+                      <th className="p-6">Air</th>
+                      <th className="p-6">Water</th>
+                      <th className="p-6">Spirit Roads</th>
+                    </tr>
+                  </thead>
+                  <tbody className="divide-y divide-zinc-900/50">
+                    {LEADERBOARD_DATA.map((row, idx) => (
+                      <tr key={idx} className="hover:bg-zinc-900/20 transition-all duration-200 group">
+                        <td className="p-6">
+                          <div className="flex gap-4">
+                            {HONORS.map(h => (
+                              <div key={h} className="relative group/badge">
+                                <BadgeImage earned={row.honors.includes(h)} size="h-10" />
+                                <span className="absolute -top-8 left-1/2 -translate-x-1/2 bg-zinc-900 border border-zinc-800 px-2 py-1 rounded text-[10px] text-amber-500 font-bold opacity-0 group-hover/badge:opacity-100 transition-opacity whitespace-nowrap z-10">
+                                  {h}
+                                </span>
+                              </div>
+                            ))}
+                          </div>
+                        </td>
+                        <td className="p-6">
+                          <div className="font-bold text-white text-base">{row.name}</div>
+                          <div className="text-xs text-zinc-300 flex items-center gap-1.5 mt-1.5">
+                            <MapPin className="w-3.5 h-3.5 text-amber-600" /> {row.location}
+                          </div>
+                        </td>
+                        <td className="p-6 text-sm text-zinc-300 font-medium tabular-nums">{row.levels.land}</td>
+                        <td className="p-6 text-sm text-zinc-300 font-medium tabular-nums">{row.levels.air}</td>
+                        <td className="p-6 text-sm text-zinc-300 font-medium tabular-nums">{row.levels.water}</td>
+                        <td className="p-6 text-sm text-zinc-300 font-medium tabular-nums">{row.levels.sr}</td>
+                      </tr>
+                    ))}
+                  </tbody>
+                </table>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        {/* 2. Progression Summary Grid */}
+        <section className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-6 gap-6">
+          <BadgeProgressBox label="Explorer" {...USER_PROGRESSION.explorer} />
+          <BadgeProgressBox label="Master" {...USER_PROGRESSION.master} />
+          <BadgeProgressBox label="Legend" {...USER_PROGRESSION.legend} />
+          <BadgeProgressBox label="Marshal" {...USER_PROGRESSION.marshal} />
+          <BadgeProgressBox label="Guardian" {...USER_PROGRESSION.guardian} />
+
+          <div className="flex flex-col items-center justify-center gap-6 p-8 bg-amber-950/10 border border-amber-600/20 rounded-[32px] shadow-lg">
+            <BadgeImage earned={USER_PROGRESSION.soulOfSteel.earned} size="h-20" />
+            <div className="text-center space-y-2">
+              <span className="text-base font-bold text-amber-500 block">Soul of Steel</span>
+              <p className="text-sm text-zinc-500 font-medium leading-relaxed">
+                Awarded for exceptional impact.
+              </p>
+            </div>
+          </div>
+        </section>
+      </main>
     </div>
   );
 }
@@ -310,7 +327,7 @@ export const HDTooltip = ({ active, payload, label, currencyCols }: any) => {
                     style={{ color: entry.color, backgroundColor: entry.color }}
                   />
                   <span className="text-sm text-zinc-400">
-                    {entry.name[0].to() + entry.name.slice(1)}
+                    {entry.name[0].toUpperCase() + entry.name.slice(1)}
                   </span>
                 </div>
 

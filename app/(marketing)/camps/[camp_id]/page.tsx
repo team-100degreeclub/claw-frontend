@@ -331,7 +331,7 @@ Oh.. please do not ask how to join the Army..`,
 
             {/* 2. Tactical Info Bar (Data Points) */}
             <div className="relative z-10 -mt-20 mx-4 bg-zinc-950 border border-zinc-800 p-8 rounded-xl shadow-2xl">
-                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-8">
+                <div className="flex justify-between gap-8">
                     <InfoItem icon={<MapPin className="text-red-600" />} label="Location" value={selectedCamp.location} subValue="Google Maps Pin" href="https://maps.google.com" />
                     <InfoItem icon={<Calendar className="text-red-600" />} label="Camp Dates" value={selectedCamp.campDates} subValue={selectedCamp.duration} />
                     <InfoItem icon={<Clock className="text-red-600" />} label="Meetup" value={selectedCamp.meetupLocation} subValue={selectedCamp.meetupTime} href="https://maps.google.com" />
@@ -351,13 +351,13 @@ Oh.. please do not ask how to join the Army..`,
                         </div>
                     </div>
                     <div>
-                        <Button onClick={() => setIsBookingSheetOpen(true)} className="mr-2 w-full md:w-30 bg-blue-600 hover:bg-blue-700 hover:cursor-pointer text-white font-black tracking-[0.2em] h-10 text-xs shadow-[0_0_20px_rgba(220,38,38,0.3)] p-0">
+                        <Button onClick={() => setIsBookingSheetOpen(true)} className="mr-2 w-full md:w-30 bg-blue-600 hover:bg-blue-700 hover:cursor-pointer text-white font-black h-10 text-xs shadow-[0_0_20px_rgba(220,38,38,0.3)] p-0">
                             Buy Now
                         </Button>
-                        <Button disabled className="mr-2 w-full md:w-30 bg-green-600 hover:bg-green-700 hover:cursor-pointer text-white font-black tracking-[0.2em] h-10 text-xs shadow-[0_0_20px_rgba(220,38,38,0.3)]">
+                        <Button disabled className="mr-2 w-full md:w-30 bg-green-600 hover:bg-green-700 hover:cursor-pointer text-white font-black h-10 text-xs shadow-[0_0_20px_rgba(220,38,38,0.3)]">
                             Volunteer
                         </Button>
-                        <Button className="w-fit md:w-30 bg-zinc-700 hover:bg-zinc-800 hover:cursor-pointer text-white font-black tracking-[0.2em] h-10 text-xs">
+                        <Button className="w-fit md:w-30 bg-zinc-700 hover:bg-zinc-800 hover:cursor-pointer text-white font-black h-10 text-xs">
                             Share <Share2Icon className="mr-2 h-4 w-4" />
                         </Button>
                     </div>
@@ -371,7 +371,7 @@ Oh.. please do not ask how to join the Army..`,
                         <TabsTrigger
                             value="hosts"
                             className="relative px-0 py-6 bg-transparent rounded-xl border-b-2 border-transparent
-               text-sm font-black tracking-[0.1em] text-zinc-500
+               text-sm font-black text-zinc-500
                data-[state=active]:dark:text-green-600
                hover:text-zinc-200 transition-all duration-300 ease-out hover:cursor-pointer"
                         >
@@ -381,7 +381,7 @@ Oh.. please do not ask how to join the Army..`,
                         <TabsTrigger
                             value="brief"
                             className="relative px-0 py-6 bg-transparent rounded-xl border-b-2 border-transparent
-               text-sm font-black tracking-[0.1em] text-zinc-500
+               text-sm font-black text-zinc-500
                data-[state=active]:dark:text-green-600
                hover:text-zinc-200 transition-all duration-300 ease-out hover:cursor-pointer"
                         >
@@ -391,7 +391,7 @@ Oh.. please do not ask how to join the Army..`,
                         <TabsTrigger
                             value="checklist"
                             className="relative px-0 py-6 bg-transparent rounded-xl border-b-2 border-transparent
-               text-sm font-black tracking-[0.1em] text-zinc-500
+               text-sm font-black text-zinc-500
                data-[state=active]:dark:text-green-600
                hover:text-zinc-200 transition-all duration-300 ease-out hover:cursor-pointer"
                         >

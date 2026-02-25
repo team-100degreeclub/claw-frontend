@@ -45,14 +45,14 @@ export default function Navbar() {
           </Button>
           <Button
             variant="ghost"
-            onClick={() => router.push("/operation-blue-freedom")}
+            onClick={() => router.push("/careers")}
             className="flex items-center border-0 hover:bg-zinc-600/40 hover:cursor-pointer gap-2 text-sm font-bold tracking-widest text-zinc-300 transition-colors hover:text-white px-4"
           >
             Internships
           </Button>
           <Button
             variant="ghost"
-            onClick={() => router.push("/operation-blue-freedom")}
+            onClick={() => router.push("/about")}
             className="flex items-center border-0 hover:bg-zinc-600/40 hover:cursor-pointer gap-2 text-sm font-bold tracking-widest text-zinc-300 transition-colors hover:text-white px-4"
           >
             About Us
@@ -74,7 +74,7 @@ export default function Navbar() {
             <Button
               variant="ghost"
               size="icon"
-              onClick={() => router.push("/traveller/profile")}
+              onClick={() => router.push("/profile")}
               className="cursor-pointer hover:bg-white/60"
             >
               <User className="h-6 w-6 text-zinc-400" color="white"/>

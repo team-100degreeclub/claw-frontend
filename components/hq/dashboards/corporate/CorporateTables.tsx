@@ -1,6 +1,7 @@
 // components/hq/corporate/CorporateTables.tsx
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
+import { formatCompactNumber } from "../PerformanceDashboard";
 
 // data/corporate-data.ts
 export const CORPORATE_DATA = {
@@ -71,52 +72,95 @@ export const CORPORATE_DATA = {
 };
 
 export function CorporateTables() {
-  const formatCurrency = (val: number) => 
-    val.toLocaleString("en-IN", { style: "currency", currency: "INR", maximumFractionDigits: 2 });
 
   return (
     <Tabs defaultValue="persona" className="w-full">
-      <div className="flex justify-between items-center mb-6">
-        <TabsList className="bg-zinc-900 border border-zinc-800 p-1 h-11 rounded-lg">
-          <TabsTrigger 
-            value="persona" 
-            className="text-xs data-[state=active]:bg-zinc-800 data-[state=active]:text-white data-[state=active]:border-none transition-all px-6"
+      <div className="flex justify-center mb-8">
+        <TabsList className="relative bg-gradient-to-br from-zinc-900 to-zinc-950 rounded-2xl shadow-lg backdrop-blur-xl">
+
+          <TabsTrigger
+            value="persona"
+            className="
+        relative px-8 h-10 rounded-xl text-base font-medium
+        text-zinc-400
+        transition-all duration-300 ease-out
+        hover:text-white hover:bg-zinc-800/60
+        data-[state=active]:bg-white
+        data-[state=active]:text-zinc-900
+        data-[state=active]:shadow-md
+        focus-visible:outline-none
+        focus-visible:ring-2
+        focus-visible:ring-white/40
+      "
           >
-            Companies {`(${CORPORATE_DATA.companies.length})`}
+            Companies
+            <span className="ml-2 opacity-70">
+              ({CORPORATE_DATA.companies.length})
+            </span>
           </TabsTrigger>
-          <TabsTrigger 
-            value="team" 
-            className="text-xs data-[state=active]:bg-zinc-800 data-[state=active]:text-white data-[state=active]:border-none transition-all px-6"
+
+          <TabsTrigger
+            value="team"
+            className="
+        relative px-8 h-10 rounded-xl text-base font-medium
+        text-zinc-400
+        transition-all duration-300 ease-out
+        hover:text-white hover:bg-zinc-800/60
+        data-[state=active]:bg-white
+        data-[state=active]:text-zinc-900
+        data-[state=active]:shadow-md
+        focus-visible:outline-none
+        focus-visible:ring-2
+        focus-visible:ring-white/40
+      "
           >
-            Team {`(${CORPORATE_DATA.teamEngagements.length})`}
+            Team
+            <span className="ml-2 opacity-70">
+              ({CORPORATE_DATA.teamEngagements.length})
+            </span>
           </TabsTrigger>
+
         </TabsList>
       </div>
 
       <TabsContent value="persona" className="outline-none">
-        <div className="border border-zinc-800 bg-zinc-950 rounded-xl overflow-hidden shadow-2xl">
-          <Table>
-            <TableHeader className="bg-zinc-900/80 ">
-              <TableRow className="border-zinc-800 text-sm  text-zinc-500 tracking-widest hover:bg-transparent">
-                <TableHead className="py-4 w-1/3 pl-6">Company Name</TableHead>
-                {/* <TableHead>Country/State</TableHead> */}
-                <TableHead className="text-right w-2/3">Repeat</TableHead>
-                <TableHead className="text-right w-1/3">Gross</TableHead>
-                <TableHead className="text-right w-1/3 pr-6">Net</TableHead>
+        <div className="border border-zinc-800 bg-zinc-950/50 rounded-2xl overflow-hidden shadow-2xl">
+          <Table className="w-full">
+            <TableHeader className="bg-zinc-900/50">
+              <TableRow className="border-zinc-800 hover:bg-transparent">
+                {/* Main column on the far left */}
+                <TableHead className="py-5 text-base font-semibold text-white pl-8">
+                  Company Name
+                </TableHead>
+                {/* These columns are pushed to the far right with smaller widths */}
+                <TableHead className="py-5 text-base font-semibold text-white text-right w-[100px]">
+                  Repeat
+                </TableHead>
+                <TableHead className="py-5 text-base font-semibold text-white text-right w-[140px]">
+                  Gross
+                </TableHead>
+                <TableHead className="py-5 text-base font-semibold text-white text-right w-[140px] pr-8">
+                  Net
+                </TableHead>
               </TableRow>
             </TableHeader>
-            <TableBody className="text-sm">
+            <TableBody>
               {CORPORATE_DATA.companies.map((company) => (
-                <TableRow key={company.id} className="border-zinc-800 hover:bg-zinc-900/50 transition-colors">
-                  <TableCell className="text-white py-5 pl-6">{company.name}</TableCell>
-                  {/* <TableCell className="text-zinc-400">{company.location}</TableCell> */}
-                  <TableCell className="text-right">
-                    <span className="text-zinc-300 px-3 py-1 rounded-full tracking-tighter">
+                <TableRow key={company.id} className="border-zinc-800 hover:bg-zinc-800/40 transition-colors group">
+                  <TableCell className="py-5 text-base font-medium text-zinc-300 pl-8 group-hover:text-white">
+                    {company.name}
+                  </TableCell>
+                  <TableCell className="py-5 text-base text-right text-zinc-300 tabular-nums">
+                    <span className="px-3 py-1 rounded-md">
                       {company.repeat}
                     </span>
                   </TableCell>
-                  <TableCell className="text-right  text-zinc-300 w-1/3">{formatCurrency(company.gross)}</TableCell>
-                  <TableCell className="text-right text-emerald-400 font-black pr-6">{formatCurrency(company.net)}</TableCell>
+                  <TableCell className="py-5 text-base text-right text-zinc-300 tabular-nums">
+                    {formatCompactNumber(company.gross)}
+                  </TableCell>
+                  <TableCell className="py-5 text-base font-bold text-right text-emerald-400 pr-8 tabular-nums">
+                    {formatCompactNumber(company.net)}
+                  </TableCell>
                 </TableRow>
               ))}
             </TableBody>
@@ -125,23 +169,33 @@ export function CorporateTables() {
       </TabsContent>
 
       <TabsContent value="team" className="outline-none">
-        <div className="border border-zinc-800 bg-zinc-950 rounded-xl overflow-hidden shadow-2xl">
-          <Table>
-            <TableHeader className="bg-zinc-900/80">
-              <TableRow className="border-zinc-800 text-sm  text-zinc-500 font-black tracking-widest hover:bg-transparent">
-                <TableHead className="py-4 w-1/2">Team</TableHead>
-                {/* <TableHead>Company</TableHead> */}
-                <TableHead className="text-right w-1/2">Gross</TableHead>
-                <TableHead className="text-right">Net</TableHead>
+        <div className="border border-zinc-800 bg-zinc-950/50 rounded-2xl overflow-hidden shadow-2xl">
+          <Table className="w-full">
+            <TableHeader className="bg-zinc-900/50">
+              <TableRow className="border-zinc-800 hover:bg-transparent">
+                <TableHead className="py-5 text-base font-semibold text-white pl-8">
+                  Team Member
+                </TableHead>
+                <TableHead className="py-5 text-base font-semibold text-white text-right w-[140px]">
+                  Gross
+                </TableHead>
+                <TableHead className="py-5 text-base font-semibold text-white text-right w-[140px] pr-8">
+                  Net
+                </TableHead>
               </TableRow>
             </TableHeader>
-            <TableBody className="text-sm">
+            <TableBody>
               {CORPORATE_DATA.teamEngagements.map((engagement) => (
-                <TableRow key={engagement.id} className="border-zinc-800 hover:bg-zinc-900/50 transition-colors">
-                  <TableCell className="py-5">{engagement.memberName}</TableCell>
-                  {/* <TableCell>{engagement.company}</TableCell> */}
-                  <TableCell className="text-right">{formatCurrency(engagement.gross)}</TableCell>
-                  <TableCell className="text-right text-emerald-400 font-black ">{formatCurrency(engagement.net)}</TableCell>
+                <TableRow key={engagement.id} className="border-zinc-800 hover:bg-zinc-800/40 transition-colors group">
+                  <TableCell className="py-5 text-base font-medium text-zinc-300 pl-8 group-hover:text-white">
+                    {engagement.memberName}
+                  </TableCell>
+                  <TableCell className="py-5 text-base text-right text-zinc-300 tabular-nums">
+                    {formatCompactNumber(engagement.gross)}
+                  </TableCell>
+                  <TableCell className="py-5 text-base font-bold text-right text-emerald-400 pr-8 tabular-nums">
+                    {formatCompactNumber(engagement.net)}
+                  </TableCell>
                 </TableRow>
               ))}
             </TableBody>

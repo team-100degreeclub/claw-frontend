@@ -9,7 +9,7 @@ import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { Card, CardContent } from "@/components/ui/card";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
-import { User, Mail, Phone, FileText, Upload, Shield, CheckCircle, UploadCloud } from "lucide-react";
+import { User, Mail, Phone, FileText, Upload, Shield, CheckCircle, UploadCloud, Landmark, CreditCard, Hash } from "lucide-react";
 import { CountryCodePicker } from "../CountryCodePicker";
 import partnerService from "@/lib/services/partnerService";
 import { useEffect, useState } from "react";
@@ -34,6 +34,12 @@ const profileFormSchema = z.object({
         aadhaarCard: z.any().optional(),
         passport: z.any().optional(),
     }).optional(),
+    bank: z.object({
+        bankName: z.string().optional(),
+        accountHolderName: z.string().optional(),
+        accountNumber: z.string().optional(),
+        ifscCode: z.string().optional(),
+    })
 });
 
 type ProfileFormValues = z.infer<typeof profileFormSchema>;
@@ -95,6 +101,12 @@ export default function ProfileForm() {
                         phoneNumber: profileData.contact_number || ""
                     },
                     bio: profileData.bio || "",
+                    bank: {
+                        bankName: "",
+                        accountHolderName: "",
+                        accountNumber: "",
+                        ifscCode: "",
+                    }
                 };
                 form.reset(defaultValues);
                 setInitialFormValues(defaultValues);
@@ -505,6 +517,79 @@ export default function ProfileForm() {
                                                                     />
                                                                 </div>
                                                             )}
+                                                        </div>
+                                                    </FormControl>
+                                                    <FormMessage />
+                                                </FormItem>
+                                            )}
+                                        />
+                                    </div>
+                                </div>
+
+                                <div className="space-y-6 pt-6 border-t border-zinc-800">
+                                    <h3 className="text-sm  text-white   flex items-center gap-2">
+                                        <Mail className="h-5 w-5 text-cyan-500" />
+                                        Bank Account Details
+                                    </h3>
+                                    <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+                                        <FormField
+                                            control={form.control}
+                                            name="bank.bankName"
+                                            render={({ field }) => (
+                                                <FormItem>
+                                                    <FormLabel className="text-sm  text-zinc-400  ">Bank Name</FormLabel>
+                                                    <FormControl>
+                                                        <div className="relative">
+                                                            <Landmark className="absolute left-4 top-1/2 -translate-y-1/2 h-5 w-5 text-zinc-600" />
+                                                            <Input placeholder="" {...field} className="pl-12 h-14 bg-zinc-950 border-zinc-800 text-zinc-100 focus:ring-1 focus:ring-zinc-700" />
+                                                        </div>
+                                                    </FormControl>
+                                                    <FormMessage />
+                                                </FormItem>
+                                            )}
+                                        />
+                                        <FormField
+                                            control={form.control}
+                                            name="bank.accountHolderName"
+                                            render={({ field }) => (
+                                                <FormItem>
+                                                    <FormLabel className="text-sm  text-zinc-400  ">Account Holder Name</FormLabel>
+                                                    <FormControl>
+                                                        <div className="relative">
+                                                            <User className="absolute left-4 top-1/2 -translate-y-1/2 h-5 w-5 text-zinc-600" />
+                                                            <Input placeholder="" {...field} className="pl-12 h-14 bg-zinc-950 border-zinc-800 text-zinc-100 focus:ring-1 focus:ring-zinc-700" />
+                                                        </div>
+                                                    </FormControl>
+                                                    <FormMessage />
+                                                </FormItem>
+                                            )}
+                                        />
+                                        <FormField
+                                            control={form.control}
+                                            name="bank.accountNumber"
+                                            render={({ field }) => (
+                                                <FormItem>
+                                                    <FormLabel className="text-sm  text-zinc-400  ">Account Number</FormLabel>
+                                                    <FormControl>
+                                                        <div className="relative">
+                                                            <CreditCard className="absolute left-4 top-1/2 -translate-y-1/2 h-5 w-5 text-zinc-600" />
+                                                            <Input placeholder="" {...field} className="pl-12 h-14 bg-zinc-950 border-zinc-800 text-zinc-100 focus:ring-1 focus:ring-zinc-700" />
+                                                        </div>
+                                                    </FormControl>
+                                                    <FormMessage />
+                                                </FormItem>
+                                            )}
+                                        />
+                                        <FormField
+                                            control={form.control}
+                                            name="bank.ifscCode"
+                                            render={({ field }) => (
+                                                <FormItem>
+                                                    <FormLabel className="text-sm  text-zinc-400  ">IFSC</FormLabel>
+                                                    <FormControl>
+                                                        <div className="relative">
+                                                            <Hash className="absolute left-4 top-1/2 -translate-y-1/2 h-5 w-5 text-zinc-600" />
+                                                            <Input placeholder="" {...field} className="pl-12 h-14 bg-zinc-950 border-zinc-800 text-zinc-100 focus:ring-1 focus:ring-zinc-700" />
                                                         </div>
                                                     </FormControl>
                                                     <FormMessage />

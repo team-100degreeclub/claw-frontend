@@ -7,6 +7,7 @@ import { usePathname } from "next/navigation";
 
 export default function MarketingLayout({ children }: { children: React.ReactNode }) {
   const path = usePathname();
+  const displayLeaderboard = path !== "/about" && path !== "/insignia" && path !== "/careers";
   return (
     <div className="min-h-screen flex flex-col text-white selection:bg-red-600/30">
       <Navbar />
@@ -14,7 +15,7 @@ export default function MarketingLayout({ children }: { children: React.ReactNod
         <main className="flex-1 min-w-0 overflow-y-auto"> {/* Main content area - now independently scrollable */}
           {children}
         </main>
-        {path !== "/operation-blue-freedom" && path !== "/insignia" && <aside className="w-1/4 p-4 hidden lg:block overflow-y-auto h-[calc(100vh-144px)] sticky top-29"> {/* Leaderboard sidebar with fixed height, independent scrolling, and sticky position */}
+        {path !== "/about" && path !== "/insignia" && path !== "/careers" && <aside className="w-1/4 p-4 hidden lg:block overflow-y-auto h-[calc(100vh-144px)] sticky top-29"> {/* Leaderboard sidebar with fixed height, independent scrolling, and sticky position */}
           <Leaderboard />
         </aside>}
       </div>

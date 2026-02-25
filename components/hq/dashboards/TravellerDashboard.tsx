@@ -4,7 +4,7 @@ import { Card, } from "@/components/ui/card";
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
 import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer, Cell, LineChart, Line, } from "recharts";
 import { MetricItem } from "./corporate/LeadInsights";
-import { InsightCard } from "./PerformanceDashboard";
+import { formatCompactNumber, InsightCard, LegendItem } from "./PerformanceDashboard";
 import { countries } from "@/lib/countries";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { ChevronsUpDown } from "lucide-react";
@@ -26,23 +26,23 @@ const ageData = [
 // Growth Rate - Revenue,
 // Growth Rate - Spending,
 // Growth Rate - Traffic
-const detailedAnalysisPerCountry= [
-    {state: "Maharashtra", totalTravellers: 100, genderRatio: "50:40:10", ageBucket: "25-34", avgSpending: "1000", revenue: "50000", growthRateRevenue: "10%", growthRateSpending: "20%", growthRateTraffic: "15%", net: "50000", netPercentChange: "10%", avgSpendPercentChange: "20%"},
-    {state: "Rajasthan", totalTravellers: 50, genderRatio: "60:30:10", ageBucket: "35-44", avgSpending: "800", revenue: "30000", growthRateRevenue: "5%", growthRateSpending: "15%", growthRateTraffic: "10%", net: "30000", netPercentChange: "5%", avgSpendPercentChange: "15%"},
-    {state: "Kerala", totalTravellers: 75, genderRatio: "40:50:10", ageBucket: "18-24", avgSpending: "1200", revenue: "60000", growthRateRevenue: "15%", growthRateSpending: "25%", growthRateTraffic: "20%", net: "60000", netPercentChange: "15%", avgSpendPercentChange: "25%"},
-    {state: "Tamil Nadu", totalTravellers: 200, genderRatio: "70:25:5", ageBucket: "45+", avgSpending: "1500", revenue: "75000", growthRateRevenue: "20%", growthRateSpending: "30%", growthRateTraffic: "25%", net: "75000", netPercentChange: "20%", avgSpendPercentChange: "30%"},
-    {state: "Karnataka", totalTravellers: 150, genderRatio: "30:60:10", ageBucket: "25-34", avgSpending: "900", revenue: "45000", growthRateRevenue: "12%", growthRateSpending: "22%", growthRateTraffic: "17%", net: "45000", netPercentChange: "12%", avgSpendPercentChange: "22%"},
-    {state: "Gujarat", totalTravellers: 80, genderRatio: "55:40:5", ageBucket: "35-44", avgSpending: "1100", revenue: "55000", growthRateRevenue: "8%", growthRateSpending: "18%", growthRateTraffic: "13%", net: "55000", netPercentChange: "8%", avgSpendPercentChange: "18%"},
-    {state: "Punjab", totalTravellers: 120, genderRatio: "65:30:5", ageBucket: "18-24", avgSpending: "1300", revenue: "65000", growthRateRevenue: "18%", growthRateSpending: "28%", growthRateTraffic: "23%", net: "65000", netPercentChange: "18%", avgSpendPercentChange: "28%"},
-    {state: "Andhra Pradesh", totalTravellers: 90, genderRatio: "75:20:5", ageBucket: "45+", avgSpending: "1400", revenue: "70000", growthRateRevenue: "10%", growthRateSpending: "20%", growthRateTraffic: "15%", net: "70000", netPercentChange: "10%", avgSpendPercentChange: "20%"},
-    {state: "Telangana", totalTravellers: 60, genderRatio: "80:15:5", ageBucket: "25-34", avgSpending: "1200", revenue: "60000", growthRateRevenue: "12%", growthRateSpending: "22%", growthRateTraffic: "17%", net: "60000", netPercentChange: "12%", avgSpendPercentChange: "22%"},
+const detailedAnalysisPerCountry = [
+    { state: "Maharashtra", totalTravellers: 100, genderRatio: "50:40:10", ageBucket: "25-34", avgSpending: "1000", revenue: "50000", growthRateRevenue: "10%", growthRateSpending: "20%", growthRateTraffic: "15%", net: "50000", netPercentChange: "10%", avgSpendPercentChange: "20%" },
+    { state: "Rajasthan", totalTravellers: 50, genderRatio: "60:30:10", ageBucket: "35-44", avgSpending: "800", revenue: "30000", growthRateRevenue: "5%", growthRateSpending: "15%", growthRateTraffic: "10%", net: "30000", netPercentChange: "5%", avgSpendPercentChange: "15%" },
+    { state: "Kerala", totalTravellers: 75, genderRatio: "40:50:10", ageBucket: "18-24", avgSpending: "1200", revenue: "60000", growthRateRevenue: "15%", growthRateSpending: "25%", growthRateTraffic: "20%", net: "60000", netPercentChange: "15%", avgSpendPercentChange: "25%" },
+    { state: "Tamil Nadu", totalTravellers: 200, genderRatio: "70:25:5", ageBucket: "45+", avgSpending: "1500", revenue: "75000", growthRateRevenue: "20%", growthRateSpending: "30%", growthRateTraffic: "25%", net: "75000", netPercentChange: "20%", avgSpendPercentChange: "30%" },
+    { state: "Karnataka", totalTravellers: 150, genderRatio: "30:60:10", ageBucket: "25-34", avgSpending: "900", revenue: "45000", growthRateRevenue: "12%", growthRateSpending: "22%", growthRateTraffic: "17%", net: "45000", netPercentChange: "12%", avgSpendPercentChange: "22%" },
+    { state: "Gujarat", totalTravellers: 80, genderRatio: "55:40:5", ageBucket: "35-44", avgSpending: "1100", revenue: "55000", growthRateRevenue: "8%", growthRateSpending: "18%", growthRateTraffic: "13%", net: "55000", netPercentChange: "8%", avgSpendPercentChange: "18%" },
+    { state: "Punjab", totalTravellers: 120, genderRatio: "65:30:5", ageBucket: "18-24", avgSpending: "1300", revenue: "65000", growthRateRevenue: "18%", growthRateSpending: "28%", growthRateTraffic: "23%", net: "65000", netPercentChange: "18%", avgSpendPercentChange: "28%" },
+    { state: "Andhra Pradesh", totalTravellers: 90, genderRatio: "75:20:5", ageBucket: "45+", avgSpending: "1400", revenue: "70000", growthRateRevenue: "10%", growthRateSpending: "20%", growthRateTraffic: "15%", net: "70000", netPercentChange: "10%", avgSpendPercentChange: "20%" },
+    { state: "Telangana", totalTravellers: 60, genderRatio: "80:15:5", ageBucket: "25-34", avgSpending: "1200", revenue: "60000", growthRateRevenue: "12%", growthRateSpending: "22%", growthRateTraffic: "17%", net: "60000", netPercentChange: "12%", avgSpendPercentChange: "22%" },
 ]
 
 const dummyData = [
-  { name: 'Week 1', oldTrav: 45, newTrav: 120, revOld: 4500, revNew: 18000 },
-  { name: 'Week 2', oldTrav: 52, newTrav: 110, revOld: 5200, revNew: 16500 },
-  { name: 'Week 3', oldTrav: 48, newTrav: 140, revOld: 4800, revNew: 21000 },
-  { name: 'Week 4', oldTrav: 61, newTrav: 165, revOld: 6100, revNew: 24750 },
+    { name: 'Week 1', oldTrav: 45, newTrav: 120, revOld: 4500, revNew: 18000 },
+    { name: 'Week 2', oldTrav: 52, newTrav: 110, revOld: 5200, revNew: 16500 },
+    { name: 'Week 3', oldTrav: 48, newTrav: 140, revOld: 4800, revNew: 21000 },
+    { name: 'Week 4', oldTrav: 61, newTrav: 165, revOld: 6100, revNew: 24750 },
 ];
 
 const COLORS = ["#3b82f6", "#10b981", "#f59e0b", "#a855f7"];
@@ -51,15 +51,16 @@ export default function TravellerDashboard() {
     return (
         <div className="space-y-8 pb-20 max-w-[1600px] mx-auto animate-in fade-in duration-500 text-white">
 
+            <TravellerAnalysisGraph />
             <Card className="bg-zinc-900/40 border-zinc-700 rounded-none p-8">
                 <div className="flex justify-between">
-                    <MetricItem label="Total Registered" value="24,500" sub="All Time" text />
-                    <MetricItem label="Total Active" value="14,240" text />
-                    <MetricItem label="Active Per Day" value="8,000" text />
-                    <MetricItem label="Active 15th Day" value="6,000" text />
-                    <MetricItem label="Active 30th Day" value="5,000" text />
-                    <MetricItem label="Active 90th Day" value="4,000" text />
-                    <MetricItem label="DAU / MAU" value="10" highlight text />
+                    <MetricItem label="Total Registered" value={formatCompactNumber(24500).slice(1)} className="w-1/6" text />
+                    <MetricItem label="Total Active" value={formatCompactNumber(14240).slice(1)} className="w-1/6" text />
+                    <MetricItem label="Active Per Day" value={formatCompactNumber(8000).slice(1)} className="w-1/6" text />
+                    <MetricItem label="Active 15th Day" value={formatCompactNumber(6000).slice(1)} className="w-1/6" text />
+                    <MetricItem label="Active 30th Day" value={formatCompactNumber(5000).slice(1)} className="w-1/6" text />
+                    <MetricItem label="Active 90th Day" value={formatCompactNumber(4000).slice(1)} className="w-1/6" text />
+                    <MetricItem label="DAU / MAU" value={formatCompactNumber(10).slice(1)} highlight className="w-1/6" text />
                 </div>
             </Card>
 
@@ -80,97 +81,89 @@ export default function TravellerDashboard() {
                             </SelectContent>
                         </Select>
                     </div>
-                    <Table>
-                        <TableHeader className="border-zinc-800">
-                            <TableRow className="text-sm font-black text-zinc-500 ">
-                                <TableHead>State</TableHead>
-                                <TableHead className="text-right">Travellers</TableHead>
-                                <TableHead className="text-right">Gender M:F:T</TableHead>
-                                <TableHead className="text-right">Age Bucket</TableHead>
-                                <TableHead className="text-right">Revenue</TableHead>
-                                <TableHead className="text-right">Net</TableHead>
-                                <TableHead className="text-right">μ Spending</TableHead>
-                                {/* <TableHead className="text-right">Growth Rate - Revenue</TableHead> */}
-                                {/* <TableHead className="text-right">Growth Rate - Spending</TableHead> */}
-                                {/* <TableHead className="text-right">Traffic</TableHead> */}
-                            </TableRow>
-                        </TableHeader>
-                        <TableBody className="text-sm">
-                            {detailedAnalysisPerCountry.map((item, index) => (
-                                <TableRow key={index}>
-                                    <TableCell>{item.state}</TableCell>
-                                    <TableCell className="text-right">{item.totalTravellers}
-                                        (
-                                            {parseFloat(item.growthRateTraffic.split('%')[0]) > 0 ? (
-                                            <span className="text-emerald-500">
-                                                +{item.growthRateRevenue}
-                                            </span>
-                                        ) : (
-                                            <span className="text-red-500">
-                                                -{Math.abs(parseFloat(item.growthRateTraffic.split('%')[0]))}%
-                                            </span>
-                                        )}
-                                        )
-                                    </TableCell>
-                                    <TableCell className="text-right">{item.genderRatio}</TableCell>
-                                    <TableCell className="text-right">{item.ageBucket}</TableCell>
-                                    <TableCell className="text-right">
-                                        {item.revenue}
-                                        ({parseFloat(item.growthRateRevenue.split('%')[0]) > 0 ? (
-                                            <span className="text-emerald-500">
-                                                +{item.growthRateRevenue}
-                                            </span>
-                                        ) : (
-                                            <span className="text-red-500">
-                                                -{Math.abs(parseFloat(item.growthRateRevenue.split('%')[0]))}%
-                                            </span>
-                                        )})
-                                    </TableCell>
-                                    <TableCell className="text-right">
-                                        {parseFloat(item.net).toLocaleString('en-IN', { style: 'currency', currency: 'INR' })}
-                                        (
-                                            {parseFloat(item.netPercentChange.split('%')[0]) > 0 ? (
-                                                <span className="text-emerald-500">
-                                                    +{item.netPercentChange}
-                                                </span>
-                                            ) : (
-                                                <span className="text-red-500">
-                                                    -{Math.abs(parseFloat(item.netPercentChange.split('%')[0]))}%
-                                                </span>
-                                            )}
-                                        )
-                                    </TableCell>
-                                    <TableCell className="text-right">
-                                        {parseFloat(item.avgSpending).toLocaleString('en-IN', { style: 'currency', currency: 'INR', minimumFractionDigits: 2 })}
-                                            (
-                                            {parseFloat(item.avgSpendPercentChange.split('%')[0]) > 0 ? (
-                                                <span className="text-emerald-500">
-                                                    +{item.avgSpendPercentChange}
-                                                </span>
-                                            ) : (
-                                                <span className="text-red-500">
-                                                    -{Math.abs(parseFloat(item.avgSpendPercentChange.split('%')[0]))}%
-                                                </span>
-                                            )}
-                                            )
-                                        </TableCell>
-                                    {/* <TableCell className="text-right">{item.growthRateRevenue} </TableCell> */}
-                                    {/* <TableCell className="text-right">{item.growthRateSpending}</TableCell> */}
-                                    {/* <TableCell className="text-right">
-                                        {parseFloat(item.growthRateTraffic.split('%')[0]) > 0 ? (
-                                            <span className="text-emerald-500">
-                                                +{item.growthRateRevenue}
-                                            </span>
-                                        ) : (
-                                            <span className="text-red-500">
-                                                -{Math.abs(parseFloat(item.growthRateTraffic.split('%')[0]))}%
-                                            </span>
-                                        )}
-                                    </TableCell> */}
+                    <div className="overflow-hidden rounded-2xl border border-zinc-800 bg-zinc-950/50 shadow-2xl">
+                        <Table className="w-full border-collapse">
+                            <TableHeader className="bg-zinc-900/50">
+                                <TableRow className="border-b border-zinc-800 hover:bg-transparent">
+                                    <TableHead className="py-5 px-6 text-base font-semibold text-white text-left">State</TableHead>
+                                    <TableHead className="py-5 px-6 text-base font-semibold text-white text-right">Travellers</TableHead>
+                                    <TableHead className="py-5 px-6 text-base font-semibold text-white text-right">Gender M:F:T</TableHead>
+                                    <TableHead className="py-5 px-6 text-base font-semibold text-white text-right">Age Bucket</TableHead>
+                                    <TableHead className="py-5 px-6 text-base font-semibold text-white text-right">Revenue</TableHead>
+                                    <TableHead className="py-5 px-6 text-base font-semibold text-white text-right">Net</TableHead>
+                                    <TableHead className="py-5 px-6 text-base font-semibold text-white text-right">μ Spending</TableHead>
                                 </TableRow>
-                            ))}
-                        </TableBody>
-                    </Table>
+                            </TableHeader>
+                            <TableBody>
+                                {detailedAnalysisPerCountry.map((item, index) => (
+                                    <TableRow key={index} className="group border-b border-zinc-900 hover:bg-zinc-800/40 transition-colors">
+                                        {/* State Column */}
+                                        <TableCell className="py-5 px-6 text-sm font-medium text-zinc-300 group-hover:text-white">
+                                            {item.state}
+                                        </TableCell>
+
+                                        {/* Travellers Column */}
+                                        <TableCell className="py-5 px-6 text-sm text-right tabular-nums text-zinc-300">
+                                            <div className="flex flex-col items-end">
+                                                <span>{formatCompactNumber(item.totalTravellers).slice(1)}</span>
+                                                <span className={`text-sm font-bold ${parseFloat(item.growthRateTraffic) > 0 ? 'text-emerald-400' : 'text-rose-400'
+                                                    }`}>
+                                                    {parseFloat(item.growthRateTraffic) > 0 ? '+' : ''}{item.growthRateTraffic}
+                                                </span>
+                                            </div>
+                                        </TableCell>
+
+                                        {/* Gender Ratio */}
+                                        <TableCell className="py-5 px-6 text-sm text-right text-zinc-300 tabular-nums">
+                                            {item.genderRatio}
+                                        </TableCell>
+
+                                        {/* Age Bucket */}
+                                        <TableCell className="py-5 px-6 text-sm text-right text-zinc-300">
+                                            {item.ageBucket}
+                                        </TableCell>
+
+                                        {/* Revenue Column */}
+                                        <TableCell className="py-5 px-6 text-sm text-right tabular-nums text-zinc-300">
+                                            <div className="flex flex-col items-end">
+                                                <span>{formatCompactNumber(parseFloat(item.revenue))}</span>
+                                                <span className={`text-[sm font-bold ${parseFloat(item.growthRateRevenue) > 0 ? 'text-emerald-400' : 'text-rose-400'
+                                                    }`}>
+                                                    {parseFloat(item.growthRateRevenue) > 0 ? '+' : ''}{item.growthRateRevenue}
+                                                </span>
+                                            </div>
+                                        </TableCell>
+
+                                        {/* Net Column */}
+                                        <TableCell className="py-5 px-6 text-sm text-right tabular-nums text-zinc-300">
+                                            <div className="flex flex-col items-end">
+                                                <span className="font-semibold text-zinc-100">
+                                                    {formatCompactNumber(parseFloat(item.net))}
+                                                </span>
+                                                <span className={`text-sm font-bold ${parseFloat(item.netPercentChange) > 0 ? 'text-emerald-400' : 'text-rose-400'
+                                                    }`}>
+                                                    {parseFloat(item.netPercentChange) > 0 ? '+' : ''}{item.netPercentChange}
+                                                </span>
+                                            </div>
+                                        </TableCell>
+
+                                        {/* Avg Spending Column */}
+                                        <TableCell className="py-5 px-6 text-sm text-right tabular-nums text-zinc-300">
+                                            <div className="flex flex-col items-end">
+                                                <span>
+                                                    {formatCompactNumber(parseFloat(item.avgSpending))}
+                                                </span>
+                                                <span className={`text-sm font-bold ${parseFloat(item.avgSpendPercentChange) > 0 ? 'text-emerald-400' : 'text-rose-400'
+                                                    }`}>
+                                                    {parseFloat(item.avgSpendPercentChange) > 0 ? '+' : ''}{item.avgSpendPercentChange}
+                                                </span>
+                                            </div>
+                                        </TableCell>
+                                    </TableRow>
+                                ))}
+                            </TableBody>
+                        </Table>
+                    </div>
                 </InsightCard>
 
                 {/* 3. CUSTOMER PERSONA: DEMOGRAPHICS */}
@@ -203,8 +196,8 @@ export default function TravellerDashboard() {
             </div>
 
             {/* <div className="grid grid-cols-1 lg:grid-cols-2 gap-8"> */}
-                {/* 5. TICKETS BOOKED TO ATTENDED */}
-                {/* <InsightCard title="Fulfillment: Booking vs Attendance">
+            {/* 5. TICKETS BOOKED TO ATTENDED */}
+            {/* <InsightCard title="Fulfillment: Booking vs Attendance">
                     <div className="space-y-4">
                         <p className="text-base font-black text-zinc-500 ">Traveller Origin Proximity</p>
                         <AttendanceRow label="Same City" booked={450} attended={442} />
@@ -214,8 +207,8 @@ export default function TravellerDashboard() {
                     </div>
                 </InsightCard> */}
 
-                {/* 6. CAMP PARTICIPATION COMPARISON */}
-                {/* <InsightCard title="Camp Participation">
+            {/* 6. CAMP PARTICIPATION COMPARISON */}
+            {/* <InsightCard title="Camp Participation">
                     <div className="space-y-6">
                         <div className="grid grid-cols-2 gap-6">
                             <div className="bg-zinc-950 p-4 border border-zinc-800 rounded-sm">
@@ -242,9 +235,8 @@ export default function TravellerDashboard() {
                 </InsightCard> */}
             {/* </div> */}
 
-            <TravellerAnalysisGraph />
 
-            
+
         </div>
     );
 }
@@ -310,113 +302,108 @@ function MiniStat({ label, value, sub }: any) {
 
 const CustomTooltip = ({ active, payload, label }: any) => {
     (payload)
-  if (active && payload && payload.length) {
-    return (
-      <div className="bg-zinc-950 border border-zinc-800 p-4 shadow-2xl rounded-none">
-        <p className="text-[10px] font-black text-zinc-500 mb-2  tracking-widest">{label}</p>
-        <div className="space-y-1.5">
-          {payload.map((entry: any, index: number) => (
-            <div key={index} className="flex items-center justify-between gap-8">
-              <div className="flex items-center gap-2">
-                <div className="w-1.5 h-1.5 rounded-full" style={{ backgroundColor: entry.color }} />
-                <span className="text-[11px] font-bold text-zinc-300">{entry.name}:</span>
-              </div>
-              <span className="text-[11px] font-black text-white">
-                {entry.name.includes('Revenue') ? `$${entry.value.toLocaleString()}` : entry.value}
-              </span>
+    if (active && payload && payload.length) {
+        return (
+            <div className="bg-zinc-950 border border-zinc-800 p-4 shadow-2xl rounded-none">
+                <p className="text-[10px] font-black text-zinc-500 mb-2  tracking-widest">{label}</p>
+                <div className="space-y-1.5">
+                    {payload.map((entry: any, index: number) => (
+                        <div key={index} className="flex items-center justify-between gap-8">
+                            <div className="flex items-center gap-2">
+                                <div className="w-1.5 h-1.5 rounded-full" style={{ backgroundColor: entry.color }} />
+                                <span className="text-[11px] font-bold text-zinc-300">{entry.name}:</span>
+                            </div>
+                            <span className="text-[11px] font-black text-white">
+                                {entry.name.includes('Revenue') ? `$${entry.value.toLocaleString()}` : entry.value}
+                            </span>
+                        </div>
+                    ))}
+                </div>
             </div>
-          ))}
-        </div>
-      </div>
-    );
-  }
-  return null;
+        );
+    }
+    return null;
 };
 
-const LegendItem = ({ color, label }: { color: string, label: string }) => (
-  <div className="flex items-center gap-2">
-    <div className={`w-2 h-2 rounded-full ${color}`} />
-    <span className="text-zinc-400">{label}</span>
-  </div>
-);
+// const LegendItem = ({ color, label }: { color: string, label: string }) => (
+//     <div className="flex items-center gap-2">
+//         <div className={`w-2 h-2 rounded-full ${color}`} />
+//         <span className="text-zinc-400">{label}</span>
+//     </div>
+// );
 
 const TravellerAnalysisGraph = () => {
-  const [range, setRange] = useState('month');
+    const [range, setRange] = useState('month');
 
-  return (
-    <Card className="bg-zinc-900/40 border border-zinc-700 rounded-none p-8">
-      {/* Header Section */}
-      <div className="flex flex-col md:flex-row justify-between items-start md:items-center mb-10 gap-4">
-        <div className="flex items-center gap-3">
-          <div className="w-1 h-6 bg-cyan-500" />
-          <h3 className="text-lg font-black text-white ">Retention vs Acquisition</h3>
-        </div>
-        
-        <Tabs defaultValue="month" className="bg-zinc-950 border border-zinc-800 p-1 rounded-none">
-          <TabsList className="bg-transparent h-7 gap-1">
-            {["Week", "Month", "Year"].map(t => (
-              <TabsTrigger 
-                key={t} 
-                value={t.toLowerCase()} 
-                onClick={() => setRange(t.toLowerCase())}
-                className="data-[state=active]:bg-zinc-800 data-[state=active]:text-white text-[9px] font-black px-3 h-5 rounded-lg transition-all"
-              >
-                {t}
-              </TabsTrigger>
-            ))}
-          </TabsList>
-        </Tabs>
+    return (
+        <Card className="bg-zinc-900/40 border border-zinc-700 rounded-none p-8">
+            {/* Header Section */}
+            <div className="flex flex-col md:flex-row justify-between items-start md:items-center mb-10 gap-4">
+                <div className="flex items-center gap-3">
+                    <div className="w-1 h-6 bg-cyan-500" />
+                    <h3 className="text-lg font-black text-white ">Retention vs Acquisition</h3>
+                </div>
 
-        <div className="flex flex-wrap gap-x-6 gap-y-2 text-[9px] font-black  tracking-tight">
-          <LegendItem color="bg-blue-500" label="Old Travellers" />
-          {/* <LegendItem color="bg-indigo-400" label="Rev (Old)" /> */}
-          <LegendItem color="bg-emerald-500" label="New Travellers" />
-          {/* <LegendItem color="bg-teal-400" label="Rev (New)" /> */}
-        </div>
-      </div>
+                <Tabs defaultValue="month" className="bg-zinc-950 border border-zinc-800 p-1 rounded-sm">
+                    <TabsList className="bg-transparent h-7 gap-1">
+                        {["Week", "Month", "Quarter", "Year", "Lifetime"].map(t => (
+                            <TabsTrigger key={t} value={t.toLowerCase()} className="text-xs px-2 h-5">
+                                {t}
+                            </TabsTrigger>
+                        ))}
+                    </TabsList>
+                </Tabs>
 
-      {/* Chart Section */}
-      <div className="h-[400px] w-full">
-        <ResponsiveContainer width="100%" height="100%">
-          <LineChart data={dummyData} margin={{ top: 5, right: 20, left: 20, bottom: 0 }}>
-            <CartesianGrid strokeDasharray="0" stroke="#18181b" vertical={false} />
-            <XAxis
-              dataKey="name"
-              stroke="white"
-              fontSize={10}
-              fontWeight="bold"
-              axisLine={false}
-              tickLine={false}
-              tickMargin={15}
-            />
-            <YAxis hide domain={['auto', 'auto']} />
+                <div className="flex flex-wrap gap-x-6 gap-y-2 text-[9px] font-black  tracking-tight">
+                    <LegendItem color="bg-blue-500" label="Old Travellers" />
+                    {/* <LegendItem color="bg-indigo-400" label="Rev (Old)" /> */}
+                    <LegendItem color="bg-emerald-500" label="New Travellers" />
+                    {/* <LegendItem color="bg-teal-400" label="Rev (New)" /> */}
+                </div>
+            </div>
 
-            <Tooltip 
-              content={<CustomTooltip />} 
-              cursor={{ stroke: '#27272a', strokeWidth: 1 }} 
-            />
+            {/* Chart Section */}
+            <div className="h-[400px] w-full">
+                <ResponsiveContainer width="100%" height="100%">
+                    <LineChart data={dummyData} margin={{ top: 5, right: 30, left: 30, bottom: 10 }}>
+                        <CartesianGrid strokeDasharray="0" stroke="#18181b" vertical={false} />
+                        <XAxis
+                            dataKey="name"
+                            stroke="white"
+                            fontSize={15}
+                            fontWeight="bold"
+                            axisLine={false}
+                            tickLine={false}
+                            tickMargin={15}
+                        />
+                        <YAxis hide domain={['auto', 'auto']} />
 
-            {/* Visible Lines */}
-            <Line
-              name="Old Travellers"
-              dataKey="oldTrav"
-              stroke="#3b82f6"
-              strokeWidth={2}
-              dot={false}
-              activeDot={{ r: 4, fill: '#3b82f6' }}
-            />
-            <Line
-              name="New Travellers"
-              dataKey="newTrav"
-              stroke="#10b981"
-              strokeWidth={2}
-              dot={false}
-              activeDot={{ r: 4, fill: '#10b981' }}
-            />
+                        <Tooltip
+                            content={<CustomTooltip />}
+                            cursor={{ stroke: '#27272a', strokeWidth: 1 }}
+                        />
 
-            {/* Hidden "Ghost" Lines for Revenue */}
-            {/* We set stroke to transparent and hide the dots/activeDots */}
-            {/* <Line
+                        {/* Visible Lines */}
+                        <Line
+                            name="Old Travellers"
+                            dataKey="oldTrav"
+                            stroke="#3b82f6"
+                            strokeWidth={2}
+                            dot={false}
+                            activeDot={{ r: 4, fill: '#3b82f6' }}
+                        />
+                        <Line
+                            name="New Travellers"
+                            dataKey="newTrav"
+                            stroke="#10b981"
+                            strokeWidth={2}
+                            dot={false}
+                            activeDot={{ r: 4, fill: '#10b981' }}
+                        />
+
+                        {/* Hidden "Ghost" Lines for Revenue */}
+                        {/* We set stroke to transparent and hide the dots/activeDots */}
+                        {/* <Line
               name="Revenue (Old)"
               dataKey="revOld"
               stroke="transparent"
@@ -425,7 +412,7 @@ const TravellerAnalysisGraph = () => {
               activeDot={false}
               legendType="none"
             /> */}
-            {/* <Line
+                        {/* <Line
               name="Revenue (New)"
               dataKey="revNew"
               stroke="transparent"
@@ -434,12 +421,12 @@ const TravellerAnalysisGraph = () => {
               activeDot={false}
               legendType="none"
             /> */}
-          </LineChart>
-        </ResponsiveContainer>
-      </div>
+                    </LineChart>
+                </ResponsiveContainer>
+            </div>
 
-      {/* Summary Footer */}
-      {/* <div className="mt-8 grid grid-cols-1 md:grid-cols-2 gap-4">
+            {/* Summary Footer */}
+            {/* <div className="mt-8 grid grid-cols-1 md:grid-cols-2 gap-4">
         <div className="bg-zinc-950/50 border border-zinc-800 p-5">
           <p className="text-[10px] text-zinc-500 font-black mb-1 ">Top Growth Driver</p>
           <div className="flex items-baseline gap-2">
@@ -455,6 +442,6 @@ const TravellerAnalysisGraph = () => {
           </div>
         </div>
       </div> */}
-    </Card>
-  );
+        </Card>
+    );
 };

@@ -12,7 +12,7 @@ import {
 import { HDTooltip } from "./InsigniaDashboard";
 import { useParams } from "next/navigation";
 import { HOST_DATA } from "@/components/hq/team/TeamSidebar";
-import { InsightCard, LegendItem } from "./PerformanceDashboard";
+import { DataPoint, formatCompactNumber, InsightCard, LegendItem } from "./PerformanceDashboard";
 import { cn } from "@/lib/utils";
 
 const travellerTrafficData = {
@@ -107,69 +107,93 @@ const revenueData = {
 
 const dealData = {
   week: {
-    corporateNet: "₹1,12,000",
-    campNet: "₹1,45,000",
+    corporateNet: 1120000,
+    campNet: 1450000,
     corporateRows: [
-      ["Startup Hub / Pune", "Self", "₹62,000"],
-      ["Innovate Ltd / Delhi", "Jane Smith", "₹50,000"],
+      ["Startup Hub / Pune", "Self", 620000],
+      ["Innovate Ltd / Delhi", "Jane Smith", 500000],
     ],
     campRows: [
-      ["Weekend Survival / Lonavala", "Spirit Roads", "Major Karan", "20 - 35", "₹8,000", "₹1,45,000"],
+      ["Weekend Survival / Lonavala", "Spirit Roads", "Major Karan", "20 - 35", 800000, 1450000],
     ]
   },
   month: {
-    corporateNet: "₹4,50,000",
-    campNet: "₹6,00,000",
+    corporateNet: 4500000,
+    campNet: 6000000,
     corporateRows: [
-      ["Tech Corp / London", "John Doe, Jane Smith", "₹2,00,000"],
-      ["Global Inc / NY", "Jane Smith, John Doe", "₹2,50,000"],
+      ["Tech Corp / London", "John Doe, Jane Smith", 2000000],
+      ["Global Inc / NY", "Jane Smith, John Doe", 2500000],
     ],
     campRows: [
-      ["Himalayan Endurance / India", "Spirit Roads", "Major Karan", "18 - 40", "₹20,000", "₹4,20,000"],
-      ["Deep Dive / New York", "Adventure - Water", "Capt. Sameer S.", "18 - 40", "₹15,000", "₹1,80,000"],
+      ["Himalayan Endurance / India", "Spirit Roads", "Major Karan", "18 - 40", 2000000, 4200000],
+      ["Deep Dive / New York", "Adventure - Water", "Capt. Sameer S.", "18 - 40", 1500000, 1800000],
     ]
   },
   quarter: {
-    corporateNet: "₹14,20,000",
-    campNet: "₹18,50,000",
+    corporateNet: 14200000,
+    campNet: 18500000,
     corporateRows: [
-      ["Tech Corp / London", "Multiple", "₹6,40,000"],
-      ["Global Inc / NY", "Jane Smith", "₹4,80,000"],
-      ["Euro Finance / Paris", "John Doe", "₹3,00,000"],
+      ["Tech Corp / London", "Multiple", 6400000],
+      ["Global Inc / NY", "Jane Smith", 4800000],
+      ["Euro Finance / Paris", "John Doe", 3000000],
     ],
     campRows: [
-      ["Alpine Summit / Swiss", "Spirit Roads", "Major Karan", "25 - 50", "₹45,000", "₹9,50,000"],
-      ["Desert Trail / Dubai", "CLAW - Land", "Capt. Sameer S.", "21 - 45", "₹30,000", "₹5,20,000"],
-      ["Island Survival / Bali", "CLAW - Water", "Major Karan", "18 - 35", "₹25,000", "₹3,80,000"],
+      ["Alpine Summit / Swiss", "Spirit Roads", "Major Karan", "25 - 50", 4500000, 9500000],
+      ["Desert Trail / Dubai", "CLAW - Land", "Capt. Sameer S.", "21 - 45", 3000000, 5200000],
+      ["Island Survival / Bali", "CLAW - Water", "Major Karan", "18 - 35", 2500000, 3800000],
     ]
   },
   year: {
-    corporateNet: "₹52,00,000",
-    campNet: "₹74,00,000",
+    corporateNet: 52000000,
+    campNet: 74000000,
     corporateRows: [
-      ["Tech Corp / London", "Global Team", "₹22,00,000"],
-      ["Global Inc / NY", "Jane Smith", "₹18,50,000"],
-      ["Asian Tech / Singapore", "John Doe", "₹11,50,000"],
+      ["Tech Corp / London", "Global Team", 22000000],
+      ["Global Inc / NY", "Jane Smith", 18500000],
+      ["Asian Tech / Singapore", "John Doe", 11500000],
     ],
     campRows: [
-      ["Himalayan Series", "Spirit Roads", "Major Karan", "18 - 50", "Varies", "₹35,00,000"],
-      ["Global Adventure Tour", "CLAW", "Capt. Sameer", "18 - 40", "Varies", "₹24,00,000"],
-      ["Specialized Training", "Internal", "Major Karan", "25 - 45", "Varies", "₹15,00,000"],
+      ["Himalayan Series", "Spirit Roads", "Major Karan", "18 - 50", 22000000, 13000000],
+      ["Global Adventure Tour", "CLAW", "Capt. Sameer", "18 - 40", 15000000, 9000000],
+      ["Specialized Training", "Internal", "Major Karan", "25 - 45", 8000000, 7000000],
     ]
   },
   lifetime: {
-    corporateNet: "₹1,85,00,000",
-    campNet: "₹2,40,00,000",
+    corporateNet: 18500000,
+    campNet: 24000000,
     corporateRows: [
-      ["Top 5 Clients", "Global Collab", "₹1,20,00,000"],
-      ["SME Sector", "Direct", "₹65,00,000"],
+      ["Top 5 Clients", "Global Collab", 12000000],
+      ["SME Sector", "Direct", 65000000],
     ],
     campRows: [
-      ["Spirit Roads Portfolio", "Legacy", "Major Karan", "All", "Varies", "₹1,60,00,000"],
-      ["CLAW Portfolio", "New Age", "Capt. Sameer", "All", "Varies", "₹80,00,000"],
+      ["Spirit Roads Portfolio", "Legacy", "Major Karan", "All", 10000, 16000000],
+      ["CLAW Portfolio", "New Age", "Capt. Sameer", "All", 51999, 80000000],
     ]
   }
 };
+
+const CAREER_TIMELINE = [
+  {
+    range: "1999 — 2025",
+    duration: "12 yrs",
+    rank: "Major",
+    unit: "9 Para SF",
+    isActive: true,
+    honors: [
+      "Award 1",
+      "Award 2",
+    ]
+  },
+  {
+    range: "1992 — 1999",
+    duration: "8 yrs",
+    rank: "Lieutenant",
+    unit: "9 Para SF",
+    isActive: false,
+    honors: [
+      "Award 1",
+    ]
+  },
+];
 
 export default function HostInsightsView({ teamView = false }: { teamView?: boolean }) {
   const { view } = useParams();
@@ -190,7 +214,7 @@ export default function HostInsightsView({ teamView = false }: { teamView?: bool
       <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-6 border-b border-zinc-800 pb-8">
         <div>
           <h1 className="text-4xl font-black   tracking-tighter">
-            Welcome {host.rank} {host.name.split(' ').slice(1).join(' ')}
+            Welcome, {host.rank} {host.name.split(' ').slice(1).join(' ')}
           </h1>
 
           {/* <p className="text-xs text-zinc-500 font-bold mt-3">
@@ -219,8 +243,8 @@ export default function HostInsightsView({ teamView = false }: { teamView?: bool
         </div>
       </div>
       <div className="bg-zinc-900/20 rounded-sm lg:col-span-2">
-        <p className="text-sm font-black text-zinc-500 mb-2 tracking-widest ">Vision</p>
-        <p className="text-sm leading-relaxed text-zinc-300  font-medium">
+        <p className="text-base text-zinc-500 mb-2 tracking-widest ">Vision</p>
+        <p className="text-base leading-relaxed text-zinc-300  font-medium">
           To bridge the gap between elite survivalist training and civilian resilience.
           My mission is to cultivate a tribe of travelers who find strength in the wild
           and discipline in the spirit of the special forces.
@@ -247,63 +271,43 @@ export default function HostInsightsView({ teamView = false }: { teamView?: bool
           <div className="h-px flex-1 bg-zinc-900 ml-4" />
         </div> */}
 
-          <div className="space-y-0 flex gap-5">
-            {/* Entry 1 */}
-            <div className="relative pl-8 pb-10 border-l border-zinc-800 group">
-              {/* Timeline Node - White/Black contrast */}
-              <div className="absolute -left-[5px] top-0 w-2.5 h-2.5 rounded-full bg-white ring-4 ring-zinc-950 transition-all duration-300 group-hover:scale-125 group-hover:shadow-[0_0_15px_rgba(255,255,255,0.3)]" />
+          <div className="flex gap-12 mt-4">
+            {CAREER_TIMELINE.map((entry, index) => (
+              <div key={index} className="relative pl-8 pb-4 border-l border-zinc-800 group">
+                {/* Timeline Node */}
+                <div
+                  className={`absolute -left-[5px] top-1 w-2.5 h-2.5 rounded-full transition-all duration-300 ring-4 ring-zinc-950 ${entry.isActive
+                      ? "bg-white group-hover:scale-125 group-hover:shadow-[0_0_15px_rgba(255,255,255,0.3)]"
+                      : "bg-zinc-700 group-hover:bg-zinc-400"
+                    }`}
+                />
 
-              <div className="flex flex-col gap-2 -mt-1">
-                {/* Date Range as a primary anchor */}
-                <div className="flex items-center gap-2">
-                  <span className="text-xs text-white bg-zinc-800 px-2 py-0.5 rounded-sm">
-                    1999 — 2025
-                  </span>
-                  <div className="h-[1px] w-4 bg-zinc-800" />
-                  <span className="text-xs font-black text-zinc-400">
-                    12 yrs
-                  </span>
-                </div>
+                <div className="flex flex-col gap-3">
+                  {/* Date Section - text-sm labels */}
+                  <div className="flex items-center gap-3">
+                    <span className="text-base font-medium text-white ">
+                      {entry.range}
+                    </span>
+                    <span className="text-base font-medium text-zinc-400 tabular-nums">
+                      ({entry.duration})
+                    </span>
+                  </div>
 
-                <div className="flex flex-col">
-                  <span className="text-sm font-black text-white tracking-tight">
-                    Major
+                  {/* Content Section - text-base for Rank */}
+                  <div className="flex flex-col">
+                    <span className="text-base font-bold text-white leading-tight">
+                      {entry.rank}
+                    </span>
+                    <span className="text-base font-medium text-zinc-400">
+                      {entry.unit}
+                    </span>
+                  <span className="text-base font-medium text-zinc-400">
+                    {entry.honors.join(', ')}
                   </span>
-                  <span className="text-xs font-bold text-zinc-500 tracking-wide">
-                    9 Para SF
-                    {/* <span className="text-zinc-800 mx-1">/</span> REGIMENTAL COMMAND */}
-                  </span>
-                </div>
-              </div>
-            </div>
-
-            {/* Entry 2 */}
-            <div className="relative pl-8 pb-2 border-l border-zinc-800 group">
-              {/* Timeline Node - Dimmed for past record */}
-              <div className="absolute -left-[5px] top-0 w-2.5 h-2.5 rounded-full bg-zinc-700 ring-4 ring-zinc-950 transition-all duration-300 group-hover:bg-zinc-400 group-hover:scale-125" />
-
-              <div className="flex flex-col gap-2 -mt-1">
-                <div className="flex items-center gap-2">
-                  <span className="text-xs text-white bg-zinc-800 px-2 py-0.5 rounded-sm">
-                    1992 — 1999
-                  </span>
-                  <div className="h-[1px] w-4 bg-zinc-900" />
-                  <span className="text-xs font-black text-zinc-400">
-                    8 yrs
-                  </span>
-                </div>
-
-                <div className="flex flex-col">
-                  <span className="text-sm font-black text-white tracking-tight">
-                    Lieutenant
-                  </span>
-                  <span className="text-xs font-bold text-zinc-500 tracking-wide">
-                    9 Para SF
-                    {/* <span className="text-zinc-800 mx-1">/</span> SPECIAL OPERATIONS */}
-                  </span>
+                  </div>
                 </div>
               </div>
-            </div>
+            ))}
           </div>
         </div>
       </InsightCard>
@@ -323,6 +327,88 @@ export default function HostInsightsView({ teamView = false }: { teamView?: bool
         <MetricBox label="Avg Seats" value="42" />
         <MetricBox label="Repeat Travelers" value="18%" highlight sub="+5% vs last month" />
       </div> */}
+      <InsightCard title="Traveller Traffic" className="xl:col-span-2" showFilter currentFilter={travellerTrafficFilter} onFilterChange={(value) => setTravellerTrafficFilter(value)}>
+        <div className="self-end flex flex-wrap gap-4 text-[10px] font-black">
+          <LegendItem color="bg-blue-500" label="New" />
+          <LegendItem color="bg-green-500" label="Repeat" />
+        </div>
+        <div className="h-[300px] w-full mt-6">
+          <ResponsiveContainer width="100%" height="100%">
+            <LineChart data={currentTrafficData}
+              margin={{ top: 10, right: 20, left: 20, bottom: 0 }}
+            >
+              <CartesianGrid strokeDasharray="3 3" stroke="#27272a" vertical={false} />
+              <XAxis dataKey="name" stroke="#ffffff" fontSize={15} axisLine={false} tickLine={false} />
+              <YAxis dataKey="newTravellers" stroke="#ffffff" fontSize={15} axisLine={false} tickLine={false} />
+              <Tooltip
+                content={({ active, payload, label }) => {
+                  if (active && payload && payload.length) {
+                    const data = payload[0].payload;
+                    const growthRateNew = data.growthRateNew ? `${parseInt(data.growthRateNew) > 0 ? '+' : parseInt(data.growthRateNew) < 0 ? '-' : ''}${data.growthRateNew}%` : 'N/A';
+                    const growthRateRepeat = data.growthRateRepeat ? `${parseInt(data.growthRateRepeat) > 0 ? '+' : parseInt(data.growthRateRepeat) < 0 ? '-' : ''}${data.growthRateRepeat}%` : 'N/A';
+                    // console.log(data);
+                    // console.log(growthRateNew);
+                    // console.log(growthRateRepeat);
+
+                    return (
+                      <TrafficTooltip
+                        active={active}
+                        label={label}
+                        newTravellers={data.newTravellers}
+                        repeatTravellers={data.repeatTravellers}
+                        growthRateNew={growthRateNew}
+                        growthRateRepeat={growthRateRepeat}
+                      />
+                    );
+                  }
+                  return null;
+                }}
+              />
+              <Line type="monotone" dataKey="newTravellers" stroke="#06b6d4" strokeWidth={4} dot={false} />
+              <Line type="monotone" dataKey="repeatTravellers" stroke="#10b981" strokeWidth={4} dot={false} />
+            </LineChart>
+          </ResponsiveContainer>
+        </div>
+      </InsightCard>
+      {!teamView &&
+        <InsightCard title="Revenue Trend" className="xl:col-span-2" showFilter currentFilter={revenueFilter} onFilterChange={(value) => setRevenueFilter(value)}>
+          <div className="self-end flex flex-wrap gap-4 text-[10px] font-black">
+            {/* <LegendItem color="bg-blue-500" label="New" />
+            <LegendItem color="bg-green-500" label="Repeat" /> */}
+            <LegendItem color="bg-blue-500" label="Corporate" />
+            <LegendItem color="bg-green-500" label="Spirit Roads" />
+            <LegendItem color="bg-violet-500" label="Adventure - Land" />
+            <LegendItem color="bg-yellow-500" label="Adventure - Air" />
+            <LegendItem color="bg-red-500" label="Adventure - Water" />
+          </div>
+          <div className="h-[400px] w-full mt-6">
+            <ResponsiveContainer width="100%" height="100%">
+              <LineChart
+                data={currentRevenueData}
+                margin={{ top: 10, right: 10, left: 30, bottom: 0 }}
+              >
+                <CartesianGrid strokeDasharray="3 3" stroke="#27272a" vertical={false} />
+                <XAxis dataKey="name" stroke="#ffffff" fontSize={15} axisLine={false} tickLine={false} />
+                <YAxis
+                  stroke="#ffffff"
+                  fontSize={15}
+                  axisLine={false}
+                  tickLine={false}
+                  tickFormatter={(v) => v.toLocaleString("en-IN", { style: "currency", currency: "INR" })}
+                />
+                <Tooltip content={<HDTooltip currencyCols={["corporate", "spiritRoads", "land", "air", "water"]} />} />
+
+                {/* Individual Category Lines */}
+                <Line name="Corporate" type="monotone" dataKey="corporate" stroke="#06b6d4" strokeWidth={3} dot={false} />
+                <Line name="Spirit Roads" type="monotone" dataKey="spiritRoads" stroke="#10b981" strokeWidth={3} dot={false} />
+                <Line name="Adventure-Land" type="monotone" dataKey="land" stroke="#8b5cf6" strokeWidth={2} dot={false} />
+                <Line name="Adventure-Air" type="monotone" dataKey="air" stroke="#f59e0b" strokeWidth={2} dot={false} />
+                <Line name="Adventure-Water" type="monotone" dataKey="water" stroke="#f43f5e" strokeWidth={2} dot={false} />
+              </LineChart>
+            </ResponsiveContainer>
+          </div>
+        </InsightCard>
+      }
       {!teamView &&
         <InsightCard
           title="Deal"
@@ -331,10 +417,13 @@ export default function HostInsightsView({ teamView = false }: { teamView?: bool
           currentFilter={dealFilter}
           onFilterChange={(value) => setDealFilter(value)}
         >
-          <div className="flex flex-col gap-2">
-            <MetricBox
+          <div className="flex flex-col items-center gap-2">
+            <DataPoint
               label="Corporate Revenue(Net)"
-              value={currentDealData.corporateNet}
+              value={formatCompactNumber(currentDealData.corporateNet)}
+              className="p-4 mb-4 rounded-lg bg-zinc-900 w-full flex flex-col items-center"
+              highlight
+              highlightLabel
             />
             <InsightTable
               title="Corporate Insights"
@@ -343,10 +432,13 @@ export default function HostInsightsView({ teamView = false }: { teamView?: bool
             />
           </div>
 
-          <div className="flex flex-col gap-2 mt-6"> {/* Added margin for separation */}
-            <MetricBox
+          <div className="flex flex-col items-center gap-2 mt-6"> {/* Added margin for separation */}
+            <DataPoint
               label="Camp Revenue(Net)"
               value={currentDealData.campNet}
+              className="p-4 mb-4 rounded-lg bg-zinc-900 w-full flex flex-col items-center"
+              highlight
+              highlightLabel
             />
             <InsightTable
               title="Camp Insights"
@@ -431,88 +523,7 @@ export default function HostInsightsView({ teamView = false }: { teamView?: bool
           <h3 className="text-lg font-black text-white ">Revenue Trend</h3>
         </div>
         <div className="h-[300px] w-full"> */}
-      <InsightCard title="Traveller Traffic" className="xl:col-span-2" showFilter currentFilter={travellerTrafficFilter} onFilterChange={(value) => setTravellerTrafficFilter(value)}>
-        <div className="self-end flex flex-wrap gap-4 text-[10px] font-black">
-          <LegendItem color="bg-blue-500" label="New" />
-          <LegendItem color="bg-green-500" label="Repeat" />
-        </div>
-        <div className="h-[300px] w-full mt-6">
-          <ResponsiveContainer width="100%" height="100%">
-            <LineChart data={currentTrafficData}
-              margin={{ top: 10, right: 10, left: 10, bottom: 0 }}
-            >
-              <CartesianGrid strokeDasharray="3 3" stroke="#27272a" vertical={false} />
-              <XAxis dataKey="name" stroke="#52525b" fontSize={12} axisLine={false} tickLine={false} />
-              <YAxis dataKey="newTravellers" stroke="#52525b" fontSize={12} axisLine={false} tickLine={false} />
-              <Tooltip
-                content={({ active, payload, label }) => {
-                  if (active && payload && payload.length) {
-                    const data = payload[0].payload;
-                    const growthRateNew = data.growthRateNew ? `${parseInt(data.growthRateNew) > 0 ? '+' : parseInt(data.growthRateNew) < 0 ? '-' : ''}${data.growthRateNew}%` : 'N/A';
-                    const growthRateRepeat = data.growthRateRepeat ? `${parseInt(data.growthRateRepeat) > 0 ? '+' : parseInt(data.growthRateRepeat) < 0 ? '-' : ''}${data.growthRateRepeat}%` : 'N/A';
-                    // console.log(data);
-                    // console.log(growthRateNew);
-                    // console.log(growthRateRepeat);
-
-                    return (
-                      <TrafficTooltip
-                        active={active}
-                        label={label}
-                        newTravellers={data.newTravellers}
-                        repeatTravellers={data.repeatTravellers}
-                        growthRateNew={growthRateNew}
-                        growthRateRepeat={growthRateRepeat}
-                      />
-                    );
-                  }
-                  return null;
-                }}
-              />
-              <Line type="monotone" dataKey="newTravellers" stroke="#06b6d4" strokeWidth={4} dot={false} />
-              <Line type="monotone" dataKey="repeatTravellers" stroke="#10b981" strokeWidth={4} dot={false} />
-            </LineChart>
-          </ResponsiveContainer>
-        </div>
-      </InsightCard>
-      {!teamView &&
-        <InsightCard title="Revenue Trend" className="xl:col-span-2" showFilter currentFilter={revenueFilter} onFilterChange={(value) => setRevenueFilter(value)}>
-          <div className="self-end flex flex-wrap gap-4 text-[10px] font-black">
-            {/* <LegendItem color="bg-blue-500" label="New" />
-            <LegendItem color="bg-green-500" label="Repeat" /> */}
-            <LegendItem color="bg-blue-500" label="Corporate" />
-            <LegendItem color="bg-green-500" label="Spirit Roads" />
-            <LegendItem color="bg-violet-500" label="Adventure - Land" />
-            <LegendItem color="bg-yellow-500" label="Adventure - Air" />
-            <LegendItem color="bg-red-500" label="Adventure - Water" />
-          </div>
-          <div className="h-[500px] w-full mt-6">
-            <ResponsiveContainer width="100%" height="100%">
-              <LineChart
-                data={currentRevenueData}
-                margin={{ top: 10, right: 10, left: 30, bottom: 0 }}
-              >
-                <CartesianGrid strokeDasharray="3 3" stroke="#27272a" vertical={false} />
-                <XAxis dataKey="name" stroke="#52525b" fontSize={12} axisLine={false} tickLine={false} />
-                <YAxis
-                  stroke="#52525b"
-                  fontSize={12}
-                  axisLine={false}
-                  tickLine={false}
-                  tickFormatter={(v) => v.toLocaleString("en-IN", { style: "currency", currency: "INR" })}
-                />
-                <Tooltip content={<HDTooltip currencyCols={["corporate", "spiritRoads", "land", "air", "water"]} />} />
-
-                {/* Individual Category Lines */}
-                <Line name="Corporate" type="monotone" dataKey="corporate" stroke="#06b6d4" strokeWidth={3} dot={false} />
-                <Line name="Spirit Roads" type="monotone" dataKey="spiritRoads" stroke="#10b981" strokeWidth={3} dot={false} />
-                <Line name="Adventure-Land" type="monotone" dataKey="land" stroke="#8b5cf6" strokeWidth={2} dot={false} />
-                <Line name="Adventure-Air" type="monotone" dataKey="air" stroke="#f59e0b" strokeWidth={2} dot={false} />
-                <Line name="Adventure-Water" type="monotone" dataKey="water" stroke="#f43f5e" strokeWidth={2} dot={false} />
-              </LineChart>
-            </ResponsiveContainer>
-          </div>
-        </InsightCard>
-      }
+      
       {/* </div>
       </Card> */}
     </div>
@@ -559,27 +570,64 @@ function PerformanceTable({ title, headers, rows }: { title: string, headers: st
   );
 }
 
-function InsightTable({ title, headers, data, classname }: { title: string, headers: string[], data: string[][], classname?: string }) {
+function InsightTable({ title, headers, data, classname }: { title: string, headers: string[], data: (string | number)[][], classname?: string }) {
   return (
-    <Card className={cn("bg-dark border-0 rounded-none ring-0 pt-0", classname)}>
-      {/* <h3 className="text-xs  font-black text-cyan-500 mb-6  tracking-widest">{title}</h3> */}
-      {/* <div className="flex items-center gap-3">
-        <div className="w-1 h-6 bg-cyan-500" />
-        <h3 className="text-lg font-black text-white ">{title}</h3>
-      </div> */}
-      <Table>
-        <TableHeader>
-          <TableRow className={cn("text-sm font-bold text-zinc-500 hover:bg-transparent", `w-1/${headers.length}`)}>
-            {headers.map((h: string, i: number) => <TableHead key={h} className={`${i != 0 && "text-right"}`}>{h}</TableHead>)}
-          </TableRow>
-        </TableHeader>
-        <TableBody className="text-sm text-zinc-300">
-          {data.map((row: any[], index: number) => <TableRow key={`${row[0]}-${index}`}>
-            {Array.isArray(row) ? row.map((cell: string, index: number) => <TableCell key={index} className={`text-sm ${headers[index] == "Net" && "text-green-500"} ${index != 0 && "text-right"} w-1/${row.length}`}>{cell}</TableCell>) : <TableCell key={0} className="text-sm">{row}</TableCell>}
-          </TableRow>)}
-        </TableBody>
-      </Table>
-    </Card>
+    <Card className={cn("bg-zinc-950/50 border border-zinc-800 rounded-[24px] overflow-hidden shadow-2xl p-0", classname)}>
+  <Table className="w-full table-fixed border-collapse">
+    <TableHeader className="bg-zinc-900/50">
+      <TableRow className="border-zinc-800 hover:bg-transparent">
+        {headers.map((h: string, i: number) => (
+          <TableHead 
+            key={h} 
+            className={cn(
+              "py-5 px-6 text-base font-semibold text-white",
+              i !== 0 && "text-right"
+            )}
+          >
+            {h}
+          </TableHead>
+        ))}
+      </TableRow>
+    </TableHeader>
+    <TableBody>
+      {data.map((row: any[], index: number) => (
+        <TableRow 
+          key={`${row[0]}-${index}`} 
+          className="border-zinc-900 hover:bg-zinc-800/40 transition-colors group"
+        >
+          {Array.isArray(row) ? row.map((cell, cellIndex) => {
+            const isFirst = cellIndex === 0;
+            const isNet = headers[cellIndex] === "Net";
+            const isTicketSize = headers[cellIndex] === "Ticket Size";
+            
+            // Format number or return raw cell
+            const displayValue = typeof cell === 'number' ? formatCompactNumber(cell) : cell;
+
+            return (
+              <TableCell 
+                key={cellIndex} 
+                className={cn(
+                  "py-5 px-6 text-sm tabular-nums transition-colors",
+                  isFirst ? "font-medium text-zinc-300 group-hover:text-white" : "text-right",
+                  isNet ? "text-emerald-400 font-bold" : "text-zinc-300"
+                )}
+              >
+                {/* Special handling for Ticket Size slice logic if needed, otherwise standard format */}
+                {isTicketSize && typeof cell === 'number' 
+                  ? formatCompactNumber(cell)
+                  : displayValue}
+              </TableCell>
+            );
+          }) : (
+            <TableCell colSpan={headers.length} className="py-5 px-6 text-sm text-zinc-300">
+              {row}
+            </TableCell>
+          )}
+        </TableRow>
+      ))}
+    </TableBody>
+  </Table>
+</Card>
   );
 }
 
@@ -595,8 +643,8 @@ function MiniDataPoint({ label, value, highlight }: any) {
 function ProfileDetail({ label, value }: { label: string; value: string }) {
   return (
     <div className="flex flex-col border-b border-zinc-900 pb-2">
-      <span className="text-xs  font-black text-zinc-500 tracking-widest">{label}</span>
-      <span className="text-sm font-bold text-white mt-1">{value}</span>
+      <span className="text-base text-zinc-500">{label}</span>
+      <span className="text-base text-white mt-1">{value}</span>
     </div>
   );
 }
@@ -632,7 +680,7 @@ export const TrafficTooltip = ({
               <div className="w-1.5 h-1.5 rounded-full bg-cyan-400 shadow-[0_0_8px_#06b6d4]" />
               <div className="flex flex-col">
                 <span className="text-[11px] font-black text-zinc-400 tracking-tight">New</span>
-                <span className="text-[9px] font-bold">{growthRateNew} Growth</span>
+                <span className="text-[9px] font-bold">{growthRateNew}</span>
               </div>
             </div>
             <span className="text-sm font-black text-white ">
@@ -646,7 +694,7 @@ export const TrafficTooltip = ({
               <div className="w-1.5 h-1.5 rounded-full bg-emerald-500 shadow-[0_0_8px_#10b981]" />
               <div className="flex flex-col">
                 <span className="text-[11px] font-black text-zinc-400 tracking-tight">Repeat</span>
-                <span className="text-[9px] font-bold">{growthRateRepeat} Growth</span>
+                <span className="text-[9px] font-bold">{growthRateRepeat}</span>
               </div>
             </div>
             <span className="text-sm font-black text-white ">

@@ -616,7 +616,7 @@ function KanbanColumn({ id, title, items, onCardClick }: any) {
     const { setNodeRef } = useDroppable({ id });
     return (
         <div className="flex-1 min-w-[320px] bg-zinc-900/10 rounded-2xl border border-zinc-900/50 flex flex-col">
-            <div className="p-4 flex justify-between items-center text-[11px] font-bold text-zinc-500  tracking-[0.15em]">
+            <div className="p-4 flex justify-between items-center text-base text-white">
                 {title} <span className="bg-zinc-900 px-2 py-0.5 rounded-full border border-zinc-800">{items.length}</span>
             </div>
             <div ref={setNodeRef} className="p-3 space-y-3 flex-1 min-h-[500px]">
@@ -638,59 +638,83 @@ function KanbanCard({ id, item, onClick }: any) {
     };
 
     return (
-        <div ref={setNodeRef} style={style} {...attributes} {...listeners} onClick={handleInternalClick} className={cn("bg-zinc-950 border border-zinc-900 p-4 rounded-xl hover:border-zinc-700 transition-all cursor-grab active:cursor-grabbing group shadow-sm", isDragging && "opacity-30 border-dashed border-zinc-800")}>
-            <h4 className="text-[13px] font-semibold mb-1 text-zinc-100 group-hover:text-white transition-colors">{item?.company || "Untitled Inquiry"}</h4>
-            <div className="flex items-center gap-1.5 text-zinc-500 text-[11px] mb-4 pointer-events-none">
-                <MapPin size={10} /> {item?.location || "No location"}
-            </div>
-            <div className="flex flex-col justify-between border-t border-zinc-900 pt-3">
-                <div className="flex justify-between">
-                    <span className="text-xs text-zinc-300 font-bold mb-0.5">Lead Date: </span>
-                    <span className="text-xs text-zinc-400">
-                        {item?.inquiryDate ? new Intl.DateTimeFormat('en-IN', { year: 'numeric', month: 'short', day: 'numeric' }).format(new Date(item.inquiryDate)) : "No Date"}
-                    </span>
-                </div>
-                <div className="flex justify-between">
-                    <span className="text-xs text-zinc-300 font-bold mb-0.5">Event Date: </span>
-                    <span className="text-xs text-zinc-400">
-                        {item?.startDate ? new Intl.DateTimeFormat('en-IN', { year: 'numeric', month: 'short', day: 'numeric' }).format(new Date(item.startDate)) : "No Date"}
-                        {item?.endDate && item.endDate !== item.startDate ? ` - ${new Intl.DateTimeFormat('en-IN', { year: 'numeric', month: 'short', day: 'numeric' }).format(new Date(item.endDate))}` : ""}
-                    </span>
-                </div>
-                <div className="flex justify-between mt-1">
-                    <span className="text-xs text-zinc-300 font-bold mb-0.5">Event Time: </span>
-                    <span className="text-xs text-zinc-400">
-                        {item?.startTime || "No Time"}
-                        {item?.endTime && item.endTime !== item.startTime ? ` - ${item.endTime}` : ""}
-                    </span>
-                </div>                    {item.column === "Deal" &&
-                    (
-                        <div>
-                            <div>
-                                <div className="flex justify-between mt-1">
-                                    <span className="text-xs text-zinc-300 font-bold mb-0.5">Deal Size: </span>
-                                    <span className="text-xs font-bold text-emerald-400">₹{parseInt(item?.net).toLocaleString("en-IN")}</span>
-                                </div>
-                            </div>
-                            <div className="flex justify-between mt-1">
-                                <span className="text-xs text-zinc-300 font-bold mb-0.5">Assigned To: </span>
-                                <span className="text-xs text-zinc-400">
-                                    {item?.assignSpeaker && item.assignSpeaker.length > 0
-                                        ? item.assignSpeaker
-                                            .map((speakerValue: string) => SPEAKERS.find((s) => s.value === speakerValue)?.label)
-                                            .filter(Boolean)
-                                            .join(", ")
-                                        : "Unassigned"}
-                                </span>
-                            </div>
-                            <div className="flex justify-between mt-1">
-                                <span className="text-xs text-zinc-300 font-bold mb-0.5">Status: </span>
-                                <span className="text-xs text-zinc-400">{item?.status || "N/A"}</span>
-                            </div>
-                        </div>
-                    )
-                }
-            </div>
+        <div 
+  ref={setNodeRef} 
+  style={style} 
+  {...attributes} 
+  {...listeners} 
+  onClick={handleInternalClick} 
+  className={cn(
+    "bg-zinc-950 border border-zinc-800 p-5 rounded-2xl hover:border-zinc-600 transition-all cursor-grab active:cursor-grabbing group shadow-md", 
+    isDragging && "opacity-30 border-dashed border-zinc-700"
+  )}
+>
+    {/* Company Name: Primary focal point at text-base */}
+    <h4 className="text-base font-bold text-white mb-1 transition-colors">
+        {item?.company || "Untitled Inquiry"}
+    </h4>
+    
+    <div className="flex items-center gap-1.5 text-zinc-500 text-sm mb-4 pointer-events-none">
+        <MapPin size={12} className="text-zinc-600" /> 
+        {item?.location || "No location"}
+    </div>
+
+    {/* Metadata Section */}
+    <div className="flex flex-col gap-2 border-t border-zinc-800/50 pt-4">
+        <div className="flex justify-between items-center">
+            <span className="text-sm text-zinc-400 font-medium">Lead date</span>
+            <span className="text-sm text-zinc-300 tabular-nums">
+                {item?.inquiryDate ? new Intl.DateTimeFormat('en-IN', { year: 'numeric', month: 'short', day: 'numeric' }).format(new Date(item.inquiryDate)) : "No date"}
+            </span>
         </div>
+
+        <div className="flex justify-between items-center">
+            <span className="text-sm text-zinc-400 font-medium">Event date</span>
+            <span className="text-sm text-zinc-300 tabular-nums">
+                {item?.startDate ? new Intl.DateTimeFormat('en-IN', { year: 'numeric', month: 'short', day: 'numeric' }).format(new Date(item.startDate)) : "No date"}
+                {item?.endDate && item.endDate !== item.startDate ? ` - ${new Intl.DateTimeFormat('en-IN', { year: 'numeric', month: 'short', day: 'numeric' }).format(new Date(item.endDate))}` : ""}
+            </span>
+        </div>
+
+        <div className="flex justify-between items-center">
+            <span className="text-sm text-zinc-400 font-medium">Event time</span>
+            <span className="text-sm text-zinc-300 tabular-nums">
+                {item?.startTime || "No time"}
+                {item?.endTime && item.endTime !== item.startTime ? ` - ${item.endTime}` : ""}
+            </span>
+        </div>
+
+        {item.column === "Deal" && (
+            <div className="mt-2 pt-2 border-t border-zinc-900 flex flex-col gap-2">
+                <div className="flex justify-between items-center">
+                    <span className="text-sm text-zinc-400 font-medium">Deal size</span>
+                    <span className="text-sm font-bold text-emerald-400 tabular-nums">
+                        ₹{parseInt(item?.net).toLocaleString("en-IN")}
+                    </span>
+                </div>
+                
+                <div className="flex justify-between items-center">
+                    <span className="text-sm text-zinc-400 font-medium">Assigned to</span>
+                    <span className="text-sm text-zinc-300">
+                        {item?.assignSpeaker && item.assignSpeaker.length > 0
+                            ? item.assignSpeaker
+                                .map((speakerValue: string) => SPEAKERS.find((s) => s.value === speakerValue)?.label)
+                                .filter(Boolean)
+                                .join(", ")
+                            : "Unassigned"}
+                    </span>
+                </div>
+
+                <div className="flex justify-between items-center">
+                    <span className="text-sm text-zinc-400 font-medium">Status</span>
+                    {/* Status badge style */}
+                    <span className="text-sm text-zinc-300">
+                        {item?.status || "N/A"}
+                    </span>
+                </div>
+            </div>
+        )}
+    </div>
+</div>
     );
 }

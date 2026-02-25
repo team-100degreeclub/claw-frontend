@@ -74,7 +74,7 @@ export default function InsigniaSpotlight() {
                    <p className="text-blue-500 font-bold text-2xl ">
                        {spotlight.name}
                    </p>
-                   <div className="flex items-center gap-1 text-zinc-600 text-[10px]  font-bold">
+                   <div className="flex items-center gap-1 text-white text-sm font-bold">
                      {/* <MapPin size={10} className="text-blue-600" />  */}
                      {spotlight.location}
                    </div>
@@ -127,7 +127,7 @@ export default function InsigniaSpotlight() {
               key={operator.id}
               onClick={() => setSpotlight(operator)}
               className={cn(
-                "flex items-center gap-4 p-4 rounded-none border transition-all duration-300 min-w-[200px]",
+                "flex items-center gap-4 p-4 rounded-xl border transition-all duration-300 min-w-[200px]",
                 spotlight.id === operator.id 
                   ? "bg-zinc-900 border-blue-900/50" 
                   : "bg-black border-zinc-900 hover:border-zinc-700"
@@ -138,14 +138,14 @@ export default function InsigniaSpotlight() {
                   src={operator.avatar} 
                   alt={operator.name} 
                   className={cn(
-                    "w-10 h-10 rounded-none transition-all object-cover",
+                    "w-10 h-10 rounded-full transition-all object-cover",
                     spotlight.id === operator.id ? "grayscale-0" : "grayscale"
                   )}
                 />
               </div>
               <div className="text-left space-y-1">
-                <p className="text-xs font-bold text-white ">{operator.name}</p>
-                <p className="text-[9px] font-bold text-zinc-600">{operator.date}</p>
+                <p className="text-sm font-bold text-white ">{operator.name}</p>
+                <p className="text-xs text-white">{operator.date}</p>
               </div>
             </button>
           ))}

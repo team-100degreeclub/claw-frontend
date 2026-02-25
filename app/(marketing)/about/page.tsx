@@ -20,17 +20,12 @@ const DATA = {
     description: [
       "Hi there,",
 
-// CLAW, which stands for Conquer Land Air Water, was founded by Major Vivek Jacob, who served in 9 Para SF of the Indian Army Special Forces. CLAW is a team of Special Forces veterans who have seen destruction at its core and at its peak and have chosen to build a better world by building stronger individuals.
-
-// CLAW is not a regular camp. It is a space for awakening. A space where you reconnect with the strength, clarity, and energy that already exists within you.
-
-// Most people doubt themselves long before they are truly tested. At CLAW, through real experiences across land, air, water, and mind, you begin to understand what you are actually capable of. You learn how your mind responds to fear. You learn to steady your breath, focus your energy, and move forward with awareness. You start recognising the consciousness break the limits you placed on yourself and gradually move beyond them.
-
-// The goal is simple. We want you to win, not because we think you can, but because you can. No questions.
-
-// Come experience this journey. Discover your inner strength. Conquer from within and the world.
-
-// Team CLAW
+"CLAW, which stands for Conquer Land Air Water, was founded by Major Vivek Jacob, who served in 9 Para SF of the Indian Army Special Forces. CLAW is a team of Special Forces veterans who have seen destruction at its core and at its peak and have chosen to build a better world by building stronger individuals.",
+"CLAW is not a regular camp. It is a space for awakening. A space where you reconnect with the strength, clarity, and energy that already exists within you.",
+"Most people doubt themselves long before they are truly tested. At CLAW, through real experiences across land, air, water, and mind, you begin to understand what you are actually capable of. You learn how your mind responds to fear. You learn to steady your breath, focus your energy, and move forward with awareness. You start recognising the consciousness break the limits you placed on yourself and gradually move beyond them.",
+"The goal is simple. We want you to win, not because we think you can, but because you can. No questions.",
+"Come experience this journey. Discover your inner strength. Conquer from within and the world.",
+"- Team CLAW."
     ],  
     records: [
       { id: "01", category: "Land", feat: "Largest team of people with disabilities to scale Siachen Glacier (15,632 ft)." },
@@ -87,9 +82,13 @@ export default function OperationBlueFreedomPage() {
                     {DATA["About CLAW"].subtitle}
                   </p> */}
                 </div>
-                <p className="text-lg leading-relaxed font-medium">
-                  {DATA["About CLAW"].description}
-                </p>
+                <div className="flex flex-col gap-2">
+                  {DATA["About CLAW"].description.map((record, index) => (
+                  <p className={`text-lg leading-relaxed font-medium ${index == record.length - 1 ? 'mt-4' : ''}`}>
+                    {record}
+                  </p>
+                  ))}
+                </div>
               </div>
 
               {/* Records List */}

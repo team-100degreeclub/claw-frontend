@@ -24,7 +24,7 @@ const VIEW_COMPONENTS: Record<string, React.ComponentType> = {
   "business_camp": CampDashboard,
   "business_traveller": TravellerDashboard,
   "business_insignia": InsigniaDashboard,
-  "business_internship": JoiningRequestsDashboard,
+  // "business_internship": JoiningRequestsDashboard,
   "workstation_insights": HostInsightsView,
   "workstation_corporate": CorporateDashboard,
   "workstation_camps": HostCampsDashboard,
