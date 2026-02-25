@@ -14,7 +14,7 @@ export default function MarketingLayout({ children }: { children: React.ReactNod
         <main className="flex-1 min-w-0 overflow-y-auto"> {/* Main content area - now independently scrollable */}
           {children}
         </main>
-        {path !== "/operation-blue-freedom" && <aside className="w-1/4 p-4 hidden lg:block overflow-y-auto h-[calc(100vh-144px)] sticky top-29"> {/* Leaderboard sidebar with fixed height, independent scrolling, and sticky position */}
+        {path !== "/operation-blue-freedom" && path !== "/insignia" && <aside className="w-1/4 p-4 hidden lg:block overflow-y-auto h-[calc(100vh-144px)] sticky top-29"> {/* Leaderboard sidebar with fixed height, independent scrolling, and sticky position */}
           <Leaderboard />
         </aside>}
       </div>

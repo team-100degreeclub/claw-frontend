@@ -59,7 +59,7 @@ export default function TravellerDashboard() {
                     <MetricItem label="Active 15th Day" value="6,000" text />
                     <MetricItem label="Active 30th Day" value="5,000" text />
                     <MetricItem label="Active 90th Day" value="4,000" text />
-                    <MetricItem label="DAU / MAU Ratio" value="10" highlight text />
+                    <MetricItem label="DAU / MAU" value="10" highlight text />
                 </div>
             </Card>
 

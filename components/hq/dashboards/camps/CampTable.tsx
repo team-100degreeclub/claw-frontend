@@ -176,7 +176,7 @@ export function CampTable({ profile }: CampTableProps) {
                                         <TableHead className="text-[13px] w-1/9 text-white py-4 ">Price</TableHead>
                                         <TableHead className="text-[13px] w-1/9 text-white py-4 ">Sold</TableHead>
                                         <TableHead className="text-[13px] w-1/9 text-white py-4 ">Approval</TableHead>
-                                        <TableHead className="text-[13px] w-1/9 text-white py-4  text-center">Data</TableHead>
+                                        <TableHead className="text-[13px] w-1/9 text-white py-4  text-center">Tickets</TableHead>
                                         {/* <TableHead className="text-[13px] w-1/11 text-white py-4 ">Gross</TableHead>
                                         <TableHead className="text-[13px] w-1/11 text-white py-4 pr-6 ">Net</TableHead> */}
                                     </TableRow>
@@ -227,14 +227,14 @@ export function CampTable({ profile }: CampTableProps) {
                                             </TableCell>
 
                                             {/* Download Data */}
-                                            <TableCell className="text-left">
+                                            <TableCell className="">
                                                 <Button
                                                     variant="ghost"
                                                     size="icon"
                                                     onClick={() => handleDownloadTravellerData(camp.id)}
                                                     className="h-8 w-8 text-white hover:bg-zinc-800"
                                                 >
-                                                    Download Tickets
+                                                    <Download className="h-4 w-4" />
                                                 </Button>
                                             </TableCell>
 
