@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import {
     LineChart, Line, XAxis, YAxis, CartesianGrid,
     Tooltip, ResponsiveContainer, Legend
@@ -16,6 +16,7 @@ import {
 import { Badge } from "@/components/ui/badge";
 import { DataPoint, formatCompactNumber, InsightCard, LegendItem } from "./PerformanceDashboard";
 import { MetricItem } from "./corporate/LeadInsights";
+import { set } from "date-fns";
 
 // --- MOCK DATA ---
 const graphData = {
@@ -66,35 +67,189 @@ const graphData = {
 };
 
 const travellerInsights = {
-  week: {
-    visited: 1200,
-    unique: 930,
-    repeat: 270,
-  },
+    week: {
+        visited: 1200,
+        unique: 930,
+        repeat: 270,
+    },
 
-  month: {
-    visited: 5200,
-    unique: 4100,
-    repeat: 1100,
-  },
-  
-  quarter: {
-    visited: 700000,
-    unique: 6000,
-    repeat: 1300,
-  },
+    month: {
+        visited: 5200,
+        unique: 4100,
+        repeat: 1100,
+    },
 
-  year: {
-    visited: 68400,
-    unique: 52000,
-    repeat: 16400,
-  },
+    quarter: {
+        visited: 700000,
+        unique: 6000,
+        repeat: 1300,
+    },
 
-  lifetime: {
-    visited: 320000,
-    unique: 240000,
-    repeat: 80000,
-  },
+    year: {
+        visited: 68400,
+        unique: 52000,
+        repeat: 16400,
+    },
+
+    lifetime: {
+        visited: 320000,
+        unique: 240000,
+        repeat: 80000,
+    },
+};
+
+const campCategoryBreakdown = {
+    week: {
+        "Spirit Roads": ["30%", "20", "80", "2", "5"],
+        "Adventure - Land": ["30%", "30", "100", "4", "12"],
+        "Adventure - Air": ["80%", "50", "10", "5", "12"],
+        "Adventure - Water": ["68%", "15", "5", "5", "8"],
+    },
+
+    month: {
+        "Spirit Roads": ["30%", "80", "320", "8", "20"],
+        "Adventure - Land": ["30%", "120", "400", "16", "48"],
+        "Adventure - Air": ["80%", "200", "40", "20", "48"],
+        "Adventure - Water": ["68%", "60", "20", "20", "32"],
+    },
+
+    quarter: {
+        "Spirit Roads": ["30%", "260", "1040", "26", "65"],
+        "Adventure - Land": ["30%", "390", "1300", "52", "156"],
+        "Adventure - Air": ["80%", "650", "130", "65", "156"],
+        "Adventure - Water": ["68%", "195", "65", "65", "104"],
+    },
+
+    year: {
+        "Spirit Roads": ["30%", "1040", "4160", "104", "260"],
+        "Adventure - Land": ["30%", "1560", "5200", "208", "624"],
+        "Adventure - Air": ["80%", "2600", "520", "260", "624"],
+        "Adventure - Water": ["68%", "780", "260", "260", "416"],
+    },
+
+    lifetime: {
+        "Spirit Roads": ["30%", "5200", "20800", "520", "1300"],
+        "Adventure - Land": ["30%", "7800", "26000", "1040", "3120"],
+        "Adventure - Air": ["80%", "13000", "2600", "1300", "3120"],
+        "Adventure - Water": ["68%", "3900", "1300", "1300", "2080"],
+    },
+};
+
+const liveCamps = {
+    week: [
+        {
+            label: "Sunrise Trric / Kovalam, Tamil Nadu",
+            values: [
+                "Adventure - Land",
+                "Rahul Mishra",
+                "₹16,499",
+                "100",
+            ],
+            status: "Completed",
+        },
+        {
+            label: "Ocean Dive / Andaman Sea, Tamil Nadu",
+            values: [
+                "Adventure - Water",
+                "Siddharth Mishra",
+                "₹12,999",
+                "80",
+            ],
+            status: "HousefulL",
+        },
+    ],
+
+    month: [
+        {
+            label: "Sunrise Trric / Kovalam, Tamil Nadu",
+            values: [
+                "Adventure - Land",
+                "Rahul Mishra",
+                "₹16,499",
+                "400",
+            ],
+            status: "low-sale",
+        },
+        {
+            label: "Ocean Dive / Andaman Sea, Tamil Nadu",
+            values: [
+                "Adventure - Water",
+                "Siddharth Mishra",
+                "₹12,999",
+                "320",
+            ],
+            status: "completed",
+        },
+    ],
+
+    quarter: [
+        {
+            label: "Sunrise Trric / Kovalam, Tamil Nadu",
+            values: [
+                "Adventure - Land",
+                "Rahul Mishra",
+                "₹16,499",
+                "1300",
+            ],
+            status: "houseful",
+        },
+        {
+            label: "Ocean Dive / Andaman Sea, Tamil Nadu",
+            values: [
+                "Adventure - Water",
+                "Siddharth Mishra",
+                "₹12,999",
+                "1040",
+            ],
+            status: "low-sale",
+        },
+    ],
+
+    year: [
+        {
+            label: "Sunrise Trric / Kovalam, Tamil Nadu",
+            values: [
+                "Adventure - Land",
+                "Rahul Mishra",
+                "₹16,499",
+                "5200",
+            ],
+            status: "completed",
+        },
+        {
+            label: "Ocean Dive / Andaman Sea, Tamil Nadu",
+            values: [
+                "Adventure - Water",
+                "Siddharth Mishra",
+                "₹12,999",
+                "4160",
+            ],
+            status: "housefull",
+        },
+    ],
+
+    lifetime: [
+        {
+            label: "Sunrise Trric / Kovalam, Tamil Nadu",
+            values: [
+                "Adventure - Land",
+                "Rahul Mishra",
+                "₹16,499",
+                "26000",
+            ],
+            status: "low-sale",
+        },
+        {
+            label: "Ocean Dive / Andaman Sea, Tamil Nadu",
+            values: [
+                "Adventure - Water",
+                "Siddharth Mishra",
+                "₹12,999",
+                "20800",
+            ],
+            status: "completed",
+        },
+    ],
 };
 
 export default function CampDashboard() {
@@ -104,6 +259,26 @@ export default function CampDashboard() {
     const [liveCampsFilter, setLiveCampsFilter] = useState("month")
     const [liveCampStatusFilter, setLiveCampStatusFilter] = useState("all")
     const [liveCampSortFilter, setLiveCampSortFilter] = useState("high-to-low")
+    const [liveCampsFilteredData, setLiveCampsFilteredData] = useState(liveCamps[liveCampsFilter as keyof typeof liveCamps])
+
+    const handleLiveCampsFilter = (filter: string) => {
+        setLiveCampsFilter(filter)
+        setLiveCampsFilteredData(liveCamps[filter as keyof typeof liveCamps])
+    }
+
+    const handleLiveCampsStatusFilter = (filter: string) => {
+        setLiveCampStatusFilter(filter)
+        if(filter === "all") setLiveCampsFilteredData(liveCamps[liveCampsFilter as keyof typeof liveCamps])
+        else setLiveCampsFilteredData(liveCampsFilteredData.filter((item) => item.status === filter))
+    }
+    const handleLiveCampsSort = (sort: string) => {
+        setLiveCampSortFilter(sort)
+        if (sort === "high-to-low") {
+            setLiveCampsFilteredData(liveCampsFilteredData.sort((a, b) => parseInt(b.values[3]) - parseInt(a.values[3])))
+        } else {
+            setLiveCampsFilteredData(liveCampsFilteredData.sort((a, b) => parseInt(a.values[3]) - parseInt(b.values[3])))
+        }
+    }
 
     return (
         <div className="space-y-8 pb-20 max-w-[1600px] mx-auto animate-in fade-in duration-500 text-white">
@@ -185,16 +360,15 @@ export default function CampDashboard() {
                 </div>
             </Card>
 
-            <div className="grid grid-cols-1 lg:grid-cols-1 gap-8">
 
-                {/* 2 & 3. TRAVELER INSIGHTS & AVERAGES */}
-                <InsightCard title="Traveller Insights" showFilter currentFilter={travellerInsightsFilter} onFilterChange={setTravellerInsightsFilter}>
-                    <div className="flex justify-between">
-                        <DataPoint label="Visited" value={formatCompactNumber(travellerInsights[travellerInsightsFilter as keyof typeof travellerInsights].visited).slice(1)} />
-                        <DataPoint label="Unique" value={formatCompactNumber(travellerInsights[travellerInsightsFilter as keyof typeof travellerInsights].unique).slice(1)} />
-                        <DataPoint label="Repeat" value={formatCompactNumber(travellerInsights[travellerInsightsFilter as keyof typeof travellerInsights].repeat).slice(1)} />
-                    </div>
-                    {/* <div className="space-y-4">
+            {/* 2 & 3. TRAVELER INSIGHTS & AVERAGES */}
+            <InsightCard title="Traveller Insights" showFilter currentFilter={travellerInsightsFilter} onFilterChange={setTravellerInsightsFilter}>
+                <div className="flex justify-between">
+                    <DataPoint label="Visited" value={formatCompactNumber(travellerInsights[travellerInsightsFilter as keyof typeof travellerInsights].visited).slice(1)} />
+                    <DataPoint label="Unique" value={formatCompactNumber(travellerInsights[travellerInsightsFilter as keyof typeof travellerInsights].unique).slice(1)} />
+                    <DataPoint label="Repeat" value={formatCompactNumber(travellerInsights[travellerInsightsFilter as keyof typeof travellerInsights].repeat).slice(1)} />
+                </div>
+                {/* <div className="space-y-4">
                         <p className="text-[10px]  font-black text-zinc-500 tracking-widest">Average Data</p>
                         <div className="grid grid-cols-2 gap-4">
                             <MetricItem label="Avg Tickets Sold Per Camp" value="45" text />
@@ -203,35 +377,34 @@ export default function CampDashboard() {
                             <MetricItem label="Avg Slots Sold Per Camp" value="40" text />
                         </div>
                     </div> */}
-                </InsightCard>
+            </InsightCard>
 
-                {/* 4. CAMPS CATEGORY STATUS TABLE */}
-                <InsightCard title="Camps Category Breakdown" showFilter currentFilter={campCategoryBreakdownFIlter} onFilterChange={setCampCategoryBreakdownFilter}> 
-                    <div className="overflow-x-auto rounded-2xl border border-zinc-800 bg-zinc-950/50 shadow-2xl">
-                        {/* table-fixed is essential here to enforce equal column widths */}
-                        <Table className="w-full table-fixed border-collapse">
-                            <TableHeader className="bg-zinc-900/50">
-                                <TableRow className="border-zinc-800 hover:bg-transparent">
-                                    <TableHead className="w-1/6 py-5 text-base font-semibold text-white pl-8">
-                                        Camp Type
-                                    </TableHead>
-                                    <TableHead className="w-1/6 py-5 text-base font-semibold text-white text-right px-0">Houseful</TableHead>
-                                    <TableHead className="w-1/6 py-5 text-base font-semibold text-white text-right px-0">Live</TableHead>
-                                    <TableHead className="w-1/6 py-5 text-base font-semibold text-white text-right px-0">Pre-Registration</TableHead>
-                                    <TableHead className="w-1/6 py-5 text-base font-semibold text-white text-right px-0">Refund</TableHead>
-                                    <TableHead className="w-1/6 py-5 text-base font-semibold text-white text-right px-0 pr-8">Completed</TableHead>
-                                </TableRow>
-                            </TableHeader>
-                            <TableBody>
-                                <SummaryRow label="Spirit Roads" values={["30%", "20", "80", "2", "5"]} />
-                                <SummaryRow label="Adventure - Land" values={["30%", "30", "100", "4", "12"]} />
-                                <SummaryRow label="Adventure - Air" values={["80%", "50", "10", "5", "12"]} />
-                                <SummaryRow label="Adventure - Water" values={["68%", "15", "5", "5", "8"]} />
-                            </TableBody>
-                        </Table>
-                    </div>
-                </InsightCard>
-            </div>
+            {/* 4. CAMPS CATEGORY STATUS TABLE */}
+            <InsightCard title="Camps Category Breakdown" showFilter currentFilter={campCategoryBreakdownFIlter} onFilterChange={setCampCategoryBreakdownFilter}>
+                <div className="overflow-x-auto rounded-2xl border border-zinc-800 bg-zinc-950/50 shadow-2xl">
+                    {/* table-fixed is essential here to enforce equal column widths */}
+                    <Table className="w-full table-fixed border-collapse">
+                        <TableHeader className="bg-zinc-900/50">
+                            <TableRow className="border-zinc-800 hover:bg-transparent">
+                                <TableHead className="w-1/6 py-5 text-base font-semibold text-white pl-8">
+                                    Camp Type
+                                </TableHead>
+                                <TableHead className="w-1/6 py-5 text-base font-semibold text-white text-right px-0">Houseful</TableHead>
+                                <TableHead className="w-1/6 py-5 text-base font-semibold text-white text-right px-0">Live</TableHead>
+                                <TableHead className="w-1/6 py-5 text-base font-semibold text-white text-right px-0">Pre-Registration</TableHead>
+                                <TableHead className="w-1/6 py-5 text-base font-semibold text-white text-right px-0">Refund</TableHead>
+                                <TableHead className="w-1/6 py-5 text-base font-semibold text-white text-right px-0 pr-8">Completed</TableHead>
+                            </TableRow>
+                        </TableHeader>
+                        <TableBody>
+                            <SummaryRow label="Spirit Roads" values={campCategoryBreakdown[campCategoryBreakdownFIlter as keyof typeof campCategoryBreakdown]["Spirit Roads"]} />
+                            <SummaryRow label="Adventure - Land" values={campCategoryBreakdown[campCategoryBreakdownFIlter as keyof typeof campCategoryBreakdown]["Adventure - Land"]} />
+                            <SummaryRow label="Adventure - Air" values={campCategoryBreakdown[campCategoryBreakdownFIlter as keyof typeof campCategoryBreakdown]["Adventure - Air"]} />
+                            <SummaryRow label="Adventure - Water" values={campCategoryBreakdown[campCategoryBreakdownFIlter as keyof typeof campCategoryBreakdown]["Adventure - Water"]} />
+                        </TableBody>
+                    </Table>
+                </div>
+            </InsightCard>
 
             {/* 5. MAIN CAMP LIFECYCLE TABLE */}
             <Card className="bg-zinc-950/50 border border-zinc-700 rounded-none p-8 shadow-2xl">
@@ -243,7 +416,7 @@ export default function CampDashboard() {
 
                     <div className="flex flex-wrap gap-4 items-center">
                         {/* Modernized Tabs: Removed font-black and tracking, used text-sm */}
-                        <Tabs defaultValue="month" onValueChange={setLiveCampsFilter} value={liveCampsFilter} className="bg-zinc-950 border border-zinc-800 p-1 rounded-sm">
+                        <Tabs defaultValue="month" onValueChange={handleLiveCampsFilter} value={liveCampsFilter} className="bg-zinc-950 border border-zinc-800 p-1 rounded-sm">
                             <TabsList className="bg-transparent h-7 gap-1">
                                 {["Week", "Month", "Year", "Lifetime"].map(t => (
                                     <TabsTrigger key={t} value={t.toLowerCase()} className="text-xs px-2 h-5">
@@ -254,7 +427,7 @@ export default function CampDashboard() {
                         </Tabs>
 
                         {/* Refined Select: Unified text-sm and zinc colors */}
-                        <Select defaultValue="all" onValueChange={setLiveCampStatusFilter} value={liveCampStatusFilter}>
+                        <Select defaultValue="all" onValueChange={handleLiveCampsStatusFilter} value={liveCampStatusFilter}>
                             <SelectTrigger className="w-[180px] h-10 bg-zinc-900 border-zinc-800 text-sm text-zinc-300 rounded-xl focus:ring-zinc-700">
                                 <SelectValue placeholder="Status Filter" />
                             </SelectTrigger>
@@ -267,7 +440,7 @@ export default function CampDashboard() {
                             </SelectContent>
                         </Select>
 
-                        <Select defaultValue="high-to-low" onValueChange={setLiveCampSortFilter} value={liveCampSortFilter}>
+                        <Select defaultValue="high-to-low" onValueChange={handleLiveCampsSort} value={liveCampSortFilter}>
                             <SelectTrigger className="w-[180px] h-10 bg-zinc-900 border-zinc-800 text-sm text-zinc-300 rounded-xl focus:ring-zinc-700">
                                 <SelectValue placeholder="Sort By" />
                             </SelectTrigger>
@@ -292,24 +465,9 @@ export default function CampDashboard() {
                             </TableRow>
                         </TableHeader>
                         <TableBody>
-                            <SummaryRow
-                                label="Sunrise Trric / Kovalam, Tamil Nadu"
-                                values={[
-                                    "Adventure - Land",
-                                    "Rahul Mishra",
-                                    "₹16,499",
-                                    "100",
-                                ]}
-                            />
-                            <SummaryRow
-                                label="Ocean Dive / Andaman Sea, Tamil Nadu"
-                                values={[
-                                    "Adventure - Water",
-                                    "Siddharth Mishra",
-                                    "₹12,999",
-                                    "80",
-                                ]}
-                            />
+                            {liveCampsFilteredData.map(c => (
+                                <SummaryRow key={c.label} label={c.label} values={c.values} />
+                            ))}
                         </TableBody>
                     </Table>
                 </div>

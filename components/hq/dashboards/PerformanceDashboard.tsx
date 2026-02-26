@@ -764,7 +764,7 @@ export function InsightCard({ title, children, showFilter, showFilterTravellerDa
           </Tabs>
         )}
 
-        {showFilterTravellerDashboard && (
+        {/* {showFilterTravellerDashboard && (
           <div className="flex gap-4 justify-between align-end">
             <Tabs defaultValue="month" className="bg-zinc-950 border border-zinc-800 p-1 rounded-sm">
               <TabsList className="bg-transparent h-7 gap-1">
@@ -814,7 +814,7 @@ export function InsightCard({ title, children, showFilter, showFilterTravellerDa
               </Tabs>
             )}
           </div>
-        )}
+        )} */}
 
         {
 
