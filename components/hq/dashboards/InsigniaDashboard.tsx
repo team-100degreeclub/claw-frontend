@@ -164,6 +164,25 @@ export default function InsigniaDashboard() {
         <section className="space-y-8">
           <InsigniaSpotlight />
 
+          {/* 2. Progression Summary Grid */}
+        <section className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-6 gap-6">
+          <BadgeProgressBox label="Explorer" {...USER_PROGRESSION.explorer} />
+          <BadgeProgressBox label="Master" {...USER_PROGRESSION.master} />
+          <BadgeProgressBox label="Legend" {...USER_PROGRESSION.legend} />
+          <BadgeProgressBox label="Marshal" {...USER_PROGRESSION.marshal} />
+          <BadgeProgressBox label="Guardian" {...USER_PROGRESSION.guardian} />
+
+          <div className="flex flex-col items-center justify-center gap-6 p-8 bg-amber-950/10 border border-amber-600/20 rounded-[32px] shadow-lg">
+            <BadgeImage earned={USER_PROGRESSION.soulOfSteel.earned} size="h-20" />
+            <div className="text-center space-y-2">
+              <span className="text-base font-bold text-amber-500 block">Soul of Steel</span>
+              <p className="text-sm text-zinc-500 font-medium leading-relaxed">
+                Awarded for exceptional impact.
+              </p>
+            </div>
+          </div>
+        </section>
+
           <div className="space-y-6">
             <h3 className="text-xl font-bold text-white tracking-widest">Global Honor Board</h3>
             <div className="border border-zinc-900 bg-zinc-950 rounded-2xl overflow-hidden shadow-2xl">
@@ -213,24 +232,7 @@ export default function InsigniaDashboard() {
           </div>
         </section>
 
-        {/* 2. Progression Summary Grid */}
-        <section className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-6 gap-6">
-          <BadgeProgressBox label="Explorer" {...USER_PROGRESSION.explorer} />
-          <BadgeProgressBox label="Master" {...USER_PROGRESSION.master} />
-          <BadgeProgressBox label="Legend" {...USER_PROGRESSION.legend} />
-          <BadgeProgressBox label="Marshal" {...USER_PROGRESSION.marshal} />
-          <BadgeProgressBox label="Guardian" {...USER_PROGRESSION.guardian} />
-
-          <div className="flex flex-col items-center justify-center gap-6 p-8 bg-amber-950/10 border border-amber-600/20 rounded-[32px] shadow-lg">
-            <BadgeImage earned={USER_PROGRESSION.soulOfSteel.earned} size="h-20" />
-            <div className="text-center space-y-2">
-              <span className="text-base font-bold text-amber-500 block">Soul of Steel</span>
-              <p className="text-sm text-zinc-500 font-medium leading-relaxed">
-                Awarded for exceptional impact.
-              </p>
-            </div>
-          </div>
-        </section>
+        
       </main>
     </div>
   );

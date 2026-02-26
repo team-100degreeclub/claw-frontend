@@ -33,7 +33,7 @@ export function CreateCampSidebar({ currentSection, setCurrentSection, sections,
 		<nav className="flex flex-col gap-6">
     {/* Create Section */}
     <div className="flex flex-col gap-2">
-        <h4 className="px-3 text-[10px] font-bold uppercase text-zinc-500 tracking-[0.2em]">Create</h4>
+        {/* <h4 className="px-3 text-[10px] font-bold uppercase text-zinc-500 tracking-[0.2em]">Create</h4> */}
         {createSections.map((section) => {
             const isActive = currentSection === section;
             const isDisabled = false;
@@ -65,7 +65,7 @@ export function CreateCampSidebar({ currentSection, setCurrentSection, sections,
     {/* Manage Section */}
     {manageSections.length > 0 && (
         <div className="flex flex-col gap-2">
-            <h4 className="px-3 text-[10px] font-bold text-zinc-500 uppercase tracking-[0.2em]">Manage</h4>
+            {/* <h4 className="px-3 text-[10px] font-bold text-zinc-500 uppercase tracking-[0.2em]">Manage</h4> */}
             {manageSections.map((section) => {
                 const isActive = currentSection === section;
                 // const isDisabled = !isUpdateMode && !enabledSections.includes(section);

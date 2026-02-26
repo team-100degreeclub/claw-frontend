@@ -1,7 +1,7 @@
 "use client";
 
 import { zodResolver } from "@hookform/resolvers/zod";
-import { set, useForm } from "react-hook-form";
+import { set, useForm, useFieldArray } from "react-hook-form";
 import { z } from "zod";
 import { Button } from "@/components/ui/button";
 import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form";
@@ -9,7 +9,7 @@ import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { Card, CardContent } from "@/components/ui/card";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
-import { User, Mail, Phone, FileText, Upload, Shield, CheckCircle, UploadCloud, Landmark, CreditCard, Hash } from "lucide-react";
+import { User, Mail, Phone, FileText, Upload, Shield, CheckCircle, UploadCloud, Landmark, CreditCard, Hash, Plus, Trash2, Globe } from "lucide-react";
 import { CountryCodePicker } from "../CountryCodePicker";
 import partnerService from "@/lib/services/partnerService";
 import { useEffect, useState } from "react";
@@ -17,6 +17,7 @@ import { toast } from "sonner";
 import { Select, SelectTrigger, SelectValue, SelectContent, SelectItem } from "@/components/ui/select";
 import { PartnerProfileResponse } from "@/lib/types/api";
 import { ProfileGender } from "@/lib/types/enums";
+import { countries } from "@/lib/countries";
 
 const profileFormSchema = z.object({
     profileCode: z.string(),
@@ -24,6 +25,7 @@ const profileFormSchema = z.object({
     lastName: z.string().min(1, "Last name is required."),
     email: z.string().email("Invalid email address."),
     gender: z.nativeEnum(ProfileGender).optional(),
+    nationality: z.string().optional(),
     phone: z.object({
         countryCode: z.string().optional(),
         phoneNumber: z.string().optional(),
@@ -39,7 +41,14 @@ const profileFormSchema = z.object({
         accountHolderName: z.string().optional(),
         accountNumber: z.string().optional(),
         ifscCode: z.string().optional(),
-    })
+    }),
+    serviceRecords: z.array(z.object({
+        unit: z.string().min(1, "Unit is required."),
+        rank: z.string().min(1, "Rank is required."),
+        honors: z.string().optional(),
+        fromYear: z.number().min(1900, "Invalid year").max(new Date().getFullYear(), "Year cannot be in the future"),
+        toYear: z.number().min(1900, "Invalid year").max(2100, "Invalid year").optional().nullable(),
+    })).optional()
 });
 
 type ProfileFormValues = z.infer<typeof profileFormSchema>;
@@ -57,6 +66,10 @@ const dummyProfileData: PartnerProfileResponse = {
     bio: "This is a dummy bio for John Doe.",
     aadhaar_url: undefined,
     passport_url: undefined,
+    nationality: "India",
+    service_records: [
+        { unit: "Para SF", rank: "Major", honors: "Kirti Chakra", from_year: 2010, to_year: 2022 }
+    ]
 };
 
 export default function ProfileForm() {
@@ -79,8 +92,21 @@ export default function ProfileForm() {
             },
             bio: "",
             gender: undefined,
+            nationality: "",
+            serviceRecords: [],
+            bank: {
+                bankName: "",
+                accountHolderName: "",
+                accountNumber: "",
+                ifscCode: "",
+            }
         },
         mode: "onChange",
+    });
+
+    const { fields, append, remove } = useFieldArray({
+        control: form.control,
+        name: "serviceRecords",
     });
 
     useEffect(() => {
@@ -89,13 +115,22 @@ export default function ProfileForm() {
                 // const profileData = await partnerService.getMyProfile();
                 const profileData = dummyProfileData;
                 setProfile(profileData);
-                setProfile(dummyProfileData);
-                const defaultValues = {
+                
+                const mappedServiceRecords = profileData.service_records?.map(r => ({
+                    unit: r.unit || "",
+                    rank: r.rank || "",
+                    honors: r.honors || "",
+                    fromYear: r.from_year || 0,
+                    toYear: r.to_year || null,
+                })) || [];
+
+                const defaultValues: ProfileFormValues = {
                     profileCode: profileData.profile_code || "",
                     firstName: profileData.first_name || "",
                     lastName: profileData.last_name || "",
                     email: profileData.email || "",
                     gender: profileData.gender || undefined,
+                    nationality: profileData.nationality || "",
                     phone: {
                         countryCode: profileData.country_code || "",
                         phoneNumber: profileData.contact_number || ""
@@ -106,7 +141,10 @@ export default function ProfileForm() {
                         accountHolderName: "",
                         accountNumber: "",
                         ifscCode: "",
-                    }
+                    },
+                    serviceRecords: mappedServiceRecords.length > 0 
+                        ? mappedServiceRecords 
+                        : [{ unit: "", rank: "", honors: "", fromYear: new Date().getFullYear(), toYear: null }]
                 };
                 form.reset(defaultValues);
                 setInitialFormValues(defaultValues);
@@ -130,11 +168,11 @@ export default function ProfileForm() {
 
                 // Remove file-related fields from comparison
                 delete currentValues.profileImage;
-                delete currentValues.identificationDocuments?.aadhaarCard;
-                delete currentValues.identificationDocuments?.passport;
+                delete (currentValues as any).identificationDocuments?.aadhaarCard;
+                delete (currentValues as any).identificationDocuments?.passport;
                 delete cleanInitialValues.profileImage;
-                delete cleanInitialValues.identificationDocuments?.aadhaarCard;
-                delete cleanInitialValues.identificationDocuments?.passport;
+                delete (cleanInitialValues as any).identificationDocuments?.aadhaarCard;
+                delete (cleanInitialValues as any).identificationDocuments?.passport;
 
                 // Handle potential undefined for phone number fields
                 const currentPhone = currentValues.phone || {};
@@ -162,6 +200,9 @@ export default function ProfileForm() {
         if (data.gender) {
             formData.append("gender", data.gender);
         }
+        if (data.nationality) {
+            formData.append("nationality", data.nationality);
+        }
         if (data.phone?.countryCode) {
             formData.append("country_code", data.phone.countryCode);
         }
@@ -180,22 +221,51 @@ export default function ProfileForm() {
         if (data.identificationDocuments?.passport && data.identificationDocuments.passport[0]) {
             formData.append("passport_document", data.identificationDocuments.passport[0]);
         }
+        if (data.serviceRecords) {
+            formData.append("service_records", JSON.stringify(data.serviceRecords.map(r => ({
+                unit: r.unit,
+                rank: r.rank,
+                honors: r.honors,
+                from_year: r.fromYear,
+                to_year: r.toYear
+            }))));
+        }
 
         try {
             const updatedProfile = await partnerService.updateMyProfile(formData);
             setProfile(updatedProfile);
-            form.reset({
+            
+            const updatedMappedRecords = updatedProfile.service_records?.map(r => ({
+                unit: r.unit || "",
+                rank: r.rank || "",
+                honors: r.honors || "",
+                fromYear: r.from_year || 0,
+                toYear: r.to_year || null,
+            })) || [];
+
+            const resetValues: ProfileFormValues = {
                 profileCode: updatedProfile.profile_code || "",
                 firstName: updatedProfile.first_name || "",
                 lastName: updatedProfile.last_name || "",
                 email: updatedProfile.email || "",
                 gender: updatedProfile.gender || undefined,
+                nationality: updatedProfile.nationality || "",
                 phone: {
                     countryCode: updatedProfile.country_code || "",
                     phoneNumber: updatedProfile.contact_number || ""
                 },
                 bio: updatedProfile.bio || "",
-            });
+                bank: {
+                    bankName: "",
+                    accountHolderName: "",
+                    accountNumber: "",
+                    ifscCode: "",
+                },
+                serviceRecords: updatedMappedRecords.length > 0
+                    ? updatedMappedRecords
+                    : [{ unit: "", rank: "", honors: "", fromYear: new Date().getFullYear(), toYear: null }]
+            };
+            form.reset(resetValues);
             toast.success("Profile updated successfully!");
             setHasChanges(false);
         } catch (err) {
@@ -300,6 +370,7 @@ export default function ProfileForm() {
                                         render={({ field }) => (
                                             <FormItem>
                                                 <FormLabel className="text-sm  text-zinc-400   flex items-center gap-2">Gender</FormLabel>
+                                                <span className="sr-only">Select your gender</span>
                                                 <Select onValueChange={field.onChange} defaultValue={field.value}>
                                                     <FormControl>
                                                         <SelectTrigger className="h-14 bg-zinc-950 border-zinc-800 text-zinc-100 focus:ring-1 focus:ring-zinc-700">
@@ -356,6 +427,37 @@ export default function ProfileForm() {
                                     />
                                 </div>
 
+                                <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+                                    {/* Nationality */}
+                                    <FormField
+                                        control={form.control}
+                                        name="nationality"
+                                        render={({ field }) => (
+                                            <FormItem>
+                                                <FormLabel className="text-sm text-zinc-400 flex items-center gap-2">
+                                                    <Globe className="h-4 w-4 text-cyan-500" />
+                                                    Nationality
+                                                </FormLabel>
+                                                <Select onValueChange={field.onChange} value={field.value}>
+                                                    <FormControl>
+                                                        <SelectTrigger className="h-14 bg-zinc-950 border-zinc-800 text-zinc-100 focus:ring-1 focus:ring-zinc-700">
+                                                            <SelectValue placeholder="Select nationality" />
+                                                        </SelectTrigger>
+                                                    </FormControl>
+                                                    <SelectContent className="bg-zinc-900 border-zinc-800 text-zinc-100 shadow-2xl max-h-80">
+                                                        {countries.map((country) => (
+                                                            <SelectItem key={country.code} value={country.name} className="focus:bg-zinc-800">
+                                                                {country.name}
+                                                            </SelectItem>
+                                                        ))}
+                                                    </SelectContent>
+                                                </Select>
+                                                <FormMessage />
+                                            </FormItem>
+                                        )}
+                                    />
+                                </div>
+
                                 {/* Contact Information */}
                                 <div className="space-y-6 pt-6 border-t border-zinc-800">
                                     <h3 className="text-sm  text-white   flex items-center gap-2">
@@ -380,7 +482,7 @@ export default function ProfileForm() {
                                             )}
                                         />
                                         <FormItem>
-                                            <FormLabel className="text-sm  text-zinc-400  ">Phone Number</FormLabel>
+                                            <FormLabel className="text-sm text-zinc-400">Phone Number</FormLabel>
                                             <div className="flex gap-3">
                                                 <FormField
                                                     control={form.control}
@@ -407,6 +509,121 @@ export default function ProfileForm() {
                                             <FormMessage />
                                         </FormItem>
                                     </div>
+                                </div>
+
+                                {/* Service Record Section */}
+                                <div className="space-y-6 pt-6 border-t border-zinc-800">
+                                    <div className="flex items-center justify-between">
+                                        <h3 className="text-sm text-white flex items-center gap-2">
+                                            <Shield className="h-5 w-5 text-cyan-500" />
+                                            Service Records
+                                        </h3>
+                                        <Button
+                                            type="button"
+                                            variant="outline"
+                                            size="sm"
+                                            onClick={() => append({ unit: "", rank: "", honors: "", fromYear: new Date().getFullYear(), toYear: null })}
+                                            className="bg-zinc-900 border-zinc-800 text-zinc-300 hover:bg-zinc-800"
+                                        >
+                                            <Plus className="h-4 w-4 mr-2" />
+                                            Add Record
+                                        </Button>
+                                    </div>
+
+                                    <div className="space-y-8">
+                                        {fields.map((field, index) => (
+                                            <div key={field.id} className="relative p-6 bg-zinc-900/40 rounded-2xl border border-zinc-800 space-y-6 group">
+                                                <Button
+                                                    type="button"
+                                                    variant="ghost"
+                                                    size="icon"
+                                                    onClick={() => remove(index)}
+                                                    disabled={fields.length <= 1}
+                                                    className="absolute top-0 right-2 text-red-600 hover:text-red-400 hover:bg-red-400/10 disabled:hidden transition-all"
+                                                >
+                                                    <Trash2 className="h-4 w-4" />
+                                                </Button>
+
+                                                <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                                                    <FormField
+                                                        control={form.control}
+                                                        name={`serviceRecords.${index}.unit`}
+                                                        render={({ field }) => (
+                                                            <FormItem>
+                                                                <FormLabel className="text-sm text-zinc-400">Unit / Regiment</FormLabel>
+                                                                <FormControl>
+                                                                    <Input placeholder="e.g. 1st Battalion" {...field} className="h-12 bg-zinc-950 border-zinc-800" />
+                                                                </FormControl>
+                                                                <FormMessage />
+                                                            </FormItem>
+                                                        )}
+                                                    />
+                                                    <FormField
+                                                        control={form.control}
+                                                        name={`serviceRecords.${index}.rank`}
+                                                        render={({ field }) => (
+                                                            <FormItem>
+                                                                <FormLabel className="text-sm text-zinc-400">Rank</FormLabel>
+                                                                <FormControl>
+                                                                    <Input placeholder="e.g. Major" {...field} className="h-12 bg-zinc-950 border-zinc-800" />
+                                                                </FormControl>
+                                                                <FormMessage />
+                                                            </FormItem>
+                                                        )}
+                                                    />
+                                                </div>
+
+                                                <FormField
+                                                    control={form.control}
+                                                    name={`serviceRecords.${index}.honors`}
+                                                    render={({ field }) => (
+                                                        <FormItem>
+                                                            <FormLabel className="text-sm text-zinc-400">Honors / Awards</FormLabel>
+                                                            <FormControl>
+                                                                <Input placeholder="e.g. Param Vir Chakra" {...field} className="h-12 bg-zinc-950 border-zinc-800" />
+                                                            </FormControl>
+                                                            <FormMessage />
+                                                        </FormItem>
+                                                    )}
+                                                />
+
+                                                <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                                                    <FormField
+                                                        control={form.control}
+                                                        name={`serviceRecords.${index}.fromYear`}
+                                                        render={({ field }) => (
+                                                            <FormItem>
+                                                                <FormLabel className="text-sm text-zinc-400">From Year</FormLabel>
+                                                                <FormControl>
+                                                                    <Input type="number" {...field} onChange={(e) => field.onChange(e.target.value ? parseInt(e.target.value) : 0)} className="h-12 bg-zinc-950 border-zinc-800" />
+                                                                </FormControl>
+                                                                <FormMessage />
+                                                            </FormItem>
+                                                        )}
+                                                    />
+                                                    <FormField
+                                                        control={form.control}
+                                                        name={`serviceRecords.${index}.toYear`}
+                                                        render={({ field }) => (
+                                                            <FormItem>
+                                                                <FormLabel className="text-sm text-zinc-400">To Year</FormLabel>
+                                                                <FormControl>
+                                                                    <Input type="number" value={field.value || ""} onChange={(e) => field.onChange(e.target.value ? parseInt(e.target.value) : null)} className="h-12 bg-zinc-950 border-zinc-800" />
+                                                                </FormControl>
+                                                                <FormMessage />
+                                                            </FormItem>
+                                                        )}
+                                                    />
+                                                </div>
+                                            </div>
+                                        ))}
+                                    </div>
+                                    {fields.length === 0 && (
+                                        <div className="text-center py-10 bg-zinc-900/20 rounded-2xl border border-dashed border-zinc-800">
+                                            <Shield className="h-10 w-10 text-zinc-800 mx-auto mb-3" />
+                                            <p className="text-zinc-600 text-sm">No service records added yet.</p>
+                                        </div>
+                                    )}
                                 </div>
 
                                 {/* Bio Section */}
@@ -602,7 +819,7 @@ export default function ProfileForm() {
                                 {/* Action Buttons */}
                                 {hasChanges && (
                                     <div className="flex justify-end gap-6 pt-10 border-t border-zinc-800">
-                                        <Button type="button" variant="ghost" className="px-10 h-14 text-sm    text-zinc-500 hover:text-white hover:bg-zinc-900" disabled={isLoading}>
+                                        <Button type="button" variant="ghost" className="px-10 h-14 text-sm    text-zinc-500 hover:text-white hover:bg-zinc-900" onClick={() => form.reset(initialFormValues || undefined)} disabled={isLoading}>
                                             Cancel
                                         </Button>
                                         <Button type="submit" className="px-10 h-14 text-sm    bg-white text-black hover:bg-zinc-200 shadow-[0_0_20px_rgba(255,255,255,0.1)] transition-all" disabled={isLoading}>

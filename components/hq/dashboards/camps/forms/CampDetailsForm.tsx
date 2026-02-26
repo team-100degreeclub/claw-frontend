@@ -85,6 +85,20 @@ export function CampDetailsForm({ isUpdateMode, isUpdatable }: CampDetailsFormPr
     return (
         <div className="bg-zinc-950 mb-8 rounded-lg overflow-y-hidden text-zinc-100">
             <form id="camp-details-form" className="space-y-10">
+                <div className="flex flex-col gap-1.5">
+                            <label className="text-sm font-medium text-zinc-500 pl-1">Category</label>
+                            <Select defaultValue="Spirit Roads" >
+                                <SelectTrigger className="w-full h-[42px] bg-zinc-900 border-zinc-800 text-zinc-300 rounded-xl focus:ring-zinc-700 transition-all">
+                                    <SelectValue placeholder="Select status" />
+                                </SelectTrigger>
+                                <SelectContent className="bg-zinc-900 border-zinc-800 text-zinc-300 rounded-xl shadow-2xl">
+                                    <SelectItem value="Spirit Roads">Spirit Roads</SelectItem>
+                                    <SelectItem value="Adventure-Land">Adventure-Land</SelectItem>
+                                    <SelectItem value="Adventure-Air">Adventure-Air</SelectItem>
+                                    <SelectItem value="Adventure-Water">Adventure-Water</SelectItem>
+                                </SelectContent>
+                            </Select>
+                        </div>
                 {/* Camp Name */}
                 <FormField
                     control={control}
@@ -229,26 +243,7 @@ export function CampDetailsForm({ isUpdateMode, isUpdatable }: CampDetailsFormPr
                                 </FormItem>
                             )}
                         />
-                        <FormField
-                            control={control}
-                            name="seats"
-                            render={({ field }) => (
-                                <FormItem>
-                                    <FormLabel className="text-zinc-400">No. of Seats</FormLabel>
-                                    <FormControl>
-                                        <Input
-                                            type="number"
-                                            placeholder="10"
-                                            className="h-11 bg-zinc-900 border-zinc-800 text-zinc-100"
-                                            {...field}
-                                            onChange={(e) => field.onChange(e.target.value === "" ? null : Number(e.target.value))}
-                                            value={field.value ?? ""}
-                                        />
-                                    </FormControl>
-                                    <FormMessage />
-                                </FormItem>
-                            )}
-                        />
+                        
                     </div>
                 </div>
 
@@ -278,6 +273,26 @@ export function CampDetailsForm({ isUpdateMode, isUpdatable }: CampDetailsFormPr
                                 </FormItem>
                             )}
                         />
+                        <FormField
+                            control={control}
+                            name="seats"
+                            render={({ field }) => (
+                                <FormItem>
+                                    <FormLabel className="text-zinc-400">No. of Seats</FormLabel>
+                                    <FormControl>
+                                        <Input
+                                            type="number"
+                                            placeholder="10"
+                                            className="h-11 bg-zinc-900 border-zinc-800 text-zinc-100"
+                                            {...field}
+                                            onChange={(e) => field.onChange(e.target.value === "" ? null : Number(e.target.value))}
+                                            value={field.value ?? ""}
+                                        />
+                                    </FormControl>
+                                    <FormMessage />
+                                </FormItem>
+                            )}
+                        />
                         {/* <FormField
                     control={control}
                     name="isFree"
@@ -298,20 +313,7 @@ export function CampDetailsForm({ isUpdateMode, isUpdatable }: CampDetailsFormPr
                         </FormItem>
                     )}
                 /> */}
-                        <div className="flex flex-col gap-1.5">
-                            <label className="text-sm font-medium text-zinc-500 pl-1">Category</label>
-                            <Select defaultValue="Spirit Roads" >
-                                <SelectTrigger className="w-full h-[42px] bg-zinc-900 border-zinc-800 text-zinc-300 rounded-xl focus:ring-zinc-700 transition-all">
-                                    <SelectValue placeholder="Select status" />
-                                </SelectTrigger>
-                                <SelectContent className="bg-zinc-900 border-zinc-800 text-zinc-300 rounded-xl shadow-2xl">
-                                    <SelectItem value="Spirit Roads">Spirit Roads</SelectItem>
-                                    <SelectItem value="Adventure-Land">Adventure-Land</SelectItem>
-                                    <SelectItem value="Adventure-Air">Adventure-Air</SelectItem>
-                                    <SelectItem value="Adventure-Water">Adventure-Water</SelectItem>
-                                </SelectContent>
-                            </Select>
-                        </div>
+                        
                     </div>
                 </div>
 

@@ -240,7 +240,7 @@ export default function TravellerDashboard() {
                     <MetricItem label="Active 15th Day" value={formatCompactNumber(6000).slice(1)} className="w-1/6" text />
                     <MetricItem label="Active 30th Day" value={formatCompactNumber(5000).slice(1)} className="w-1/6" text />
                     <MetricItem label="Active 90th Day" value={formatCompactNumber(4000).slice(1)} className="w-1/6" text />
-                    <MetricItem label="DAU / MAU" value={formatCompactNumber(10).slice(1)} highlight className="w-1/6" text />
+                    <MetricItem label="DAU / MAU" value={formatCompactNumber(10).slice(1)} className="w-1/6" text />
                 </div>
             </Card>
 

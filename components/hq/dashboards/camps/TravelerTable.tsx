@@ -25,88 +25,101 @@ export function TravelerTable({ travelers }: TravelerTableProps) {
     };
 
     return (
-        <div className="rounded-xl bg-zinc-950 border border-zinc-900 overflow-hidden">
-            <Table>
-                <TableBody>
-                    {travelers.map((traveler) => (
-                        <TableRow key={traveler.id} className="group hover:bg-zinc-900/50 transition-colors border-zinc-900">
-                            <TableCell className="py-6 px-6">
-                                <div className="flex items-start justify-between">
-                                    <div className="space-y-4">
-                                        {/* Ticket Identification */}
-                                        <div className="flex items-center gap-3">
-                                            <span className="font-mono text-xs font-semibold text-zinc-500">
-                                                Ticket Number: {traveler.ticketNumber}
-                                            </span>
-                                        </div>
+        <div className="rounded-xl bg-zinc-950 overflow-hidden">
+            {/* <div className="overflow-hidden rounded-[24px] border    border-zinc-800 bg-zinc-950/50 shadow-2xl"> */}
+  <Table className="w-full">
+    <TableBody>
+      {travelers.map((traveler) => (
+        <TableRow 
+          key={traveler.id} 
+          className="group border-b border-zinc-900 last:border-0 hover:bg-zinc-800/40 transition-all duration-200"
+        >
+          <TableCell className="py-8 px-8">
+            <div className="flex items-start justify-between">
+              <div className="space-y-5">
+                {/* Secondary Info: Ticket Number (text-sm) */}
+                <div className="inline-flex items-center rounded-lg">
+                  <span className="text-sm font-medium text-zinc-400">
+                    Ticket Number: <span className="tabular-nums">{traveler.ticketNumber}</span>
+                  </span>
+                </div>
 
-                                        {/* Primary Info */}
-                                        <div>
-                                            <h3 className="text-lg font-bold text-white tracking-tight">
-                                                {traveler.name}
-                                            </h3>
-                                            <div className="flex items-center gap-3 mt-1 text-xs font-medium text-zinc-500 uppercase tracking-wider">
-                                                <span className="flex items-center gap-1"><User2 className="w-3 h-3" /> {traveler.age} Yrs</span>
-                                                <span className="w-1 h-1 rounded-full bg-zinc-800" />
-                                                <span>{traveler.gender}</span>
-                                            </div>
-                                        </div>
+                {/* Primary Info: Name (text-base) */}
+                <div>
+                  <h3 className="text-base font-bold text-white mb-1.5">
+                    {traveler.name}
+                  </h3>
+                  <div className="flex items-center gap-3 text-sm font-medium text-zinc-400">
+                    <span className="flex items-center gap-1.5">
+                      <User2 className="w-3.5 h-3.5 text-zinc-500" /> 
+                      {traveler.age} yrs
+                    </span>
+                    <span className="w-1 h-1 rounded-full bg-zinc-700" />
+                    <span>{traveler.gender}</span>
+                  </div>
+                </div>
 
-                                        {/* Contact & Location Grid */}
-                                        <div className="flex flex-wrap items-center gap-y-2 gap-x-6">
-                                            <div className="flex items-center gap-2 text-sm text-zinc-400">
-                                                <Mail className="w-3.5 h-3.5 text-zinc-600" />
-                                                <span>{traveler.email}</span>
-                                            </div>
-                                            <div className="flex items-center gap-2 text-sm text-zinc-400">
-                                                <Phone className="w-3.5 h-3.5 text-zinc-600" />
-                                                <span>{traveler.phone}</span>
-                                            </div>
-                                            <div className="flex items-center gap-2 text-sm text-zinc-400">
-                                                <MapPin className="w-3.5 h-3.5 text-zinc-600" />
-                                                <span>{traveler.location}</span>
-                                            </div>
-                                        </div>
-                                    </div>
+                {/* Contact & Location Grid (text-sm) */}
+                <div className="flex flex-wrap items-center gap-y-3 gap-x-8">
+                  <div className="flex items-center gap-2.5 text-sm text-zinc-300">
+                    <Mail className="w-4 h-4 text-zinc-500" />
+                    <span>{traveler.email}</span>
+                  </div>
+                  <div className="flex items-center gap-2.5 text-sm text-zinc-300">
+                    <Phone className="w-4 h-4 text-zinc-500" />
+                    <span>{traveler.phone}</span>
+                  </div>
+                  <div className="flex items-center gap-2.5 text-sm text-zinc-300">
+                    <MapPin className="w-4 h-4 text-zinc-500" />
+                    <span className="text-zinc-400">{traveler.location}</span>
+                  </div>
+                </div>
+              </div>
 
-                                    {/* Action Menu */}
-                                    <DropdownMenu>
-                                        <DropdownMenuTrigger asChild>
-                                            <Button variant="ghost" size="icon" className="text-zinc-600 hover:text-white hover:bg-zinc-800 rounded-full">
-                                                <MoreVertical className="h-5 w-5" />
-                                            </Button>
-                                        </DropdownMenuTrigger>
-                                        <DropdownMenuContent align="end" className="w-56 p-2 bg-zinc-900 border-zinc-800 rounded-xl shadow-2xl text-zinc-100">
-                                            <DropdownMenuItem className="flex items-center gap-3 px-3 py-2.5 text-sm font-medium text-zinc-300 rounded-lg cursor-pointer hover:bg-zinc-800 focus:bg-zinc-800 focus:text-white">
-                                                <span>Download Ticket</span>
-                                            </DropdownMenuItem>
-                                            <DropdownMenuSub>
-                                                <DropdownMenuSubTrigger className="flex items-center justify-between gap-3 px-3 py-2.5 text-sm font-medium text-zinc-300 rounded-lg cursor-pointer data-[state=open]:bg-zinc-800 focus:bg-zinc-800 focus:text-white">
-                                                    <div className="flex items-center gap-3">
-                                                        <span>View Identification</span>
-                                                    </div>
-                                                    {/* <ChevronRight className="h-4 w-4" /> */}
-                                                </DropdownMenuSubTrigger>
-                                                <DropdownMenuSubContent className="w-56 p-2 bg-zinc-900 border-zinc-800 rounded-xl shadow-2xl text-zinc-100">
-                                                    {traveler.identificationDocuments.map((doc) => (
-                                                        <DropdownMenuItem
-                                                            key={doc.url}
-                                                            className="flex items-center gap-3 px-3 py-2.5 text-sm font-medium text-zinc-300 rounded-lg cursor-pointer hover:bg-zinc-800 focus:bg-zinc-800 focus:text-white"
-                                                            onSelect={() => handleViewDocument(doc.url)}
-                                                        >
-                                                            <span>{doc.name}</span>
-                                                        </DropdownMenuItem>
-                                                    ))}
-                                                </DropdownMenuSubContent>
-                                            </DropdownMenuSub>
-                                        </DropdownMenuContent>
-                                    </DropdownMenu>
-                                </div>
-                            </TableCell>
-                        </TableRow>
-                    ))}
-                </TableBody>
-            </Table>
+              {/* Action Menu: shadcn-style dropdown */}
+              <DropdownMenu>
+                <DropdownMenuTrigger asChild>
+                  <Button 
+                    variant="ghost" 
+                    size="icon" 
+                    className="h-10 w-10 text-zinc-500 hover:text-white hover:bg-zinc-800 rounded-full transition-all"
+                  >
+                    <MoreVertical className="h-5 w-5" />
+                  </Button>
+                </DropdownMenuTrigger>
+                <DropdownMenuContent 
+                  align="end" 
+                  className="w-56 p-2 bg-zinc-900 border-zinc-800 rounded-xl shadow-2xl text-zinc-100"
+                >
+                  <DropdownMenuItem className="flex items-center gap-3 px-3 py-2.5 text-sm font-medium text-zinc-300 rounded-lg cursor-pointer hover:bg-zinc-800 focus:bg-zinc-800 focus:text-white transition-colors">
+                    <span>Download Ticket</span>
+                  </DropdownMenuItem>
+                  
+                  <DropdownMenuSub>
+                    <DropdownMenuSubTrigger className="flex items-center justify-between gap-3 px-3 py-2.5 text-sm font-medium text-zinc-300 rounded-lg cursor-pointer data-[state=open]:bg-zinc-800 focus:bg-zinc-800 focus:text-white transition-colors">
+                      <span>View Identification</span>
+                    </DropdownMenuSubTrigger>
+                    <DropdownMenuSubContent className="w-56 p-2 bg-zinc-900 border-zinc-800 rounded-xl shadow-2xl text-zinc-100">
+                      {traveler.identificationDocuments.map((doc) => (
+                        <DropdownMenuItem
+                          key={doc.url}
+                          className="flex items-center gap-3 px-3 py-2.5 text-sm font-medium text-zinc-300 rounded-lg cursor-pointer hover:bg-zinc-800 focus:bg-zinc-800 focus:text-white"
+                          onSelect={() => handleViewDocument(doc.url)}
+                        >
+                          <span>{doc.name}</span>
+                        </DropdownMenuItem>
+                      ))}
+                    </DropdownMenuSubContent>
+                  </DropdownMenuSub>
+                </DropdownMenuContent>
+              </DropdownMenu>
+            </div>
+          </TableCell>
+        </TableRow>
+      ))}
+    </TableBody>
+  </Table>
+{/* </div> */}
 
             <Dialog open={isDialogOpen} onOpenChange={setIsDialogOpen}>
                 <DialogContent className="max-w-4xl w-[90vw] h-[85vh] flex flex-col p-0 overflow-hidden border-zinc-800 bg-zinc-950 rounded-2xl shadow-2xl">

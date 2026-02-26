@@ -18,17 +18,17 @@ const secondaryMenus: Record<string, { category: string; items: string[] }[]> = 
   "Board Room": [
     {
       category: "Business",
-      items: ["Performance", "Books", "Corporate Leads", "Camp", "Traveller", "Insignia",],
+      items: ["Performance", "Books", "Corporate Leads", "Camp", "Traveller"],
     },
     {
-      category: "Operations",
-      items: ["Alert", "Engagement", "Errors & Bugs", "Api", "Social Media", "Feature Request", "Customer Support"],
+      category: "Backend",
+      items: ["Alert", "Engagement", "Errors & Bugs", "Api", "Social Media", "Feature Request", "Support"],
     },
   ],
   "Workstation": [
     {
       category: "Workstation",
-      items: ["Insights", "Corporate", "Camps"],
+      items: ["Insignia Info", "Insights", "Corporate", "Camps"],
     },
   ],
   "Profile": [
@@ -112,7 +112,7 @@ export default function DashboardLayout({ children }: { children: React.ReactNod
     } else if (label === "Board Room") {
       router.push("/hq/dashboard/business/performance"); // Default for Board Room
     } else if (label === "Workstation") {
-      router.push("/hq/dashboard/workstation/insights"); // Default for Workstation
+      router.push("/hq/dashboard/workstation/insignia"); // Default for Workstation
     } else if (label === "Team") {
       router.push("/hq/dashboard/team/self"); // Assuming this is a direct path without secondary menus
     } else if (label === "Library") {
@@ -140,7 +140,7 @@ export default function DashboardLayout({ children }: { children: React.ReactNod
         "relative flex flex-col border-r border-zinc-800 bg-zinc-950 transition-all duration-300",
         primaryCollapsed ? "w-16" : "w-48"
       )}>
-        <div className="p-6 font-bold text-white tracking-tighter truncate">
+        <div className="p-6 font-bold text-blue-500 tracking-tighter truncate">
           {primaryCollapsed ? "C." : "C.L.A.W HQ"}
         </div>
 

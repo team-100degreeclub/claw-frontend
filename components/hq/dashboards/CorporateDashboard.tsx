@@ -22,6 +22,8 @@ import { format } from "date-fns";
 import { Sheet, SheetContent } from "@/components/ui/sheet";
 import { KanbanForm, LeadData } from "./corporate/CorporateKanban";
 import { formatCompactNumber } from "./PerformanceDashboard";
+import { HoverCard, HoverCardContent, HoverCardTrigger } from "@/components/ui/hover-card";
+import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 
 // Mock data for individual host's corporate deals
 const CORPORATE_DEALS = [
@@ -31,7 +33,10 @@ const CORPORATE_DEALS = [
     location: "London, UK",
     date: "12 Mar 2026",
     time: "10:00 AM",
-    collab: ["Dr. Sarah Chen", "Marcus Thorne"],
+    collab: [
+      { name: "Dr. Sarah Chen", profile_image_url: "https://github.com/shadcn.png" },
+      { name: "Marcus Thorne", profile_image_url: "https://github.com/shadcn.png" },
+    ],
     net: 185000,
     status: "Completed"
   },
@@ -41,7 +46,10 @@ const CORPORATE_DEALS = [
     location: "New York, USA",
     date: "25 Mar 2026",
     time: "11:00 AM",
-    collab: ["Robert P.", "Emily Rivera"],
+    collab: [
+      { name: "Robert P.", profile_image_url: "https://github.com/shadcn.png" },
+      { name: "Emily Rivera", profile_image_url: "https://github.com/shadcn.png" },
+    ],
     net: 142000,
     status: "Canceled"
   },
@@ -126,8 +134,9 @@ export default function CorporateDashboard() {
         <Table className="w-full">
           <TableHeader className="bg-zinc-900/50">
             <TableRow className="border-zinc-800 hover:bg-transparent">
-              <TableHead className="py-5 px-6 text-base font-semibold text-white">Company & Location</TableHead>
+              <TableHead className="py-5 px-6 text-base font-semibold text-white">Company </TableHead>
               <TableHead className="py-5 text-base font-semibold text-white">Event Date & Time</TableHead>
+              <TableHead className="py-5 text-base font-semibold text-white">Event Location</TableHead>
               <TableHead className="py-5 text-base font-semibold text-white">Collaboration</TableHead>
               <TableHead className="py-5 text-base font-semibold text-white">Net Pay</TableHead>
               <TableHead className="py-5 text-base font-semibold text-white w-[180px]">Action</TableHead>
@@ -139,19 +148,41 @@ export default function CorporateDashboard() {
               <TableRow key={deal.id} className="border-zinc-900 hover:bg-zinc-800/40 transition-colors group">
                 {/* Company Name & Location */}
                 <TableCell className="px-6 text-sm font-medium text-zinc-300 group-hover:text-white transition-colors">
-                  {deal.company}, {deal.location}
+                  {deal.company}
                 </TableCell>
 
                 {/* Date & Time */}
                 <TableCell className="text-sm font-medium text-zinc-300 ">
                   {format(new Date(deal.date), "dd MMM yyyy, hh:mm a")}
                 </TableCell>
+                <TableCell className="text-sm font-medium text-zinc-300 ">
+                  {deal.location}
+                </TableCell>
 
                 {/* Collaboration Tags */}
-                <TableCell className="text-sm font-medium text-zinc-300">
+                {/* <TableCell className="text-sm font-medium text-zinc-300">
                   {deal.collab.length > 2
                     ? `${deal.collab.slice(0, 2).join(", ")} + ${deal.collab.length - 2} more`
                     : deal.collab.join(", ")}
+                </TableCell> */}
+                <TableCell className="py-5">
+                  <div className="flex -space-x-2">
+                    {deal.collab.map((partner, i) => (
+                      <HoverCard key={i}>
+                        <HoverCardTrigger asChild>
+                          <Avatar className="h-8 w-8 border-2 border-zinc-950 transition-transform group-hover:scale-110">
+                            <AvatarImage src={partner.profile_image_url} />
+                            <AvatarFallback className="text-[10px] bg-zinc-800 text-white font-semibold">
+                              {partner.name.split(" ")?.[0]}{partner.name.split(" ")?.[0]}
+                            </AvatarFallback>
+                          </Avatar>
+                        </HoverCardTrigger>
+                        <HoverCardContent className="bg-zinc-900 border-zinc-800 text-zinc-300 rounded-xl">
+                          <p className="text-sm font-medium">{partner.name.split(" ")[0]} {partner.name.split(" ")[1]}</p>
+                        </HoverCardContent>
+                      </HoverCard>
+                    ))}
+                  </div>
                 </TableCell>
 
                 {/* Net Pay Highlight */}

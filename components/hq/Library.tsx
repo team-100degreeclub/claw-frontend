@@ -2,119 +2,121 @@
 
 import React from "react";
 import { ScrollArea, ScrollBar } from "@/components/ui/scroll-area";
-import { Badge } from "@/components/ui/badge";
-import { Play, Clock, Share2 } from "lucide-react";
+import { Play, Clock, Info } from "lucide-react";
 import { Button } from "@/components/ui/button";
 
-// Mock Data for Library Content
-const VIDEO_SECTIONS = [
-  {
-    category: "Operational Initiatives",
-    videos: [
-      { id: "1", title: "Project Soul of Steel: Phase 1", duration: "12:45", thumbnail: "/vid-1.jpg", tag: "Mission" },
-      { id: "2", title: "Himalayan High-Altitude Survival", duration: "08:20", thumbnail: "/vid-2.jpg", tag: "Training" },
-      { id: "3", title: "Urban Resilience Protocols", duration: "15:10", thumbnail: "/vid-3.jpg", tag: "Initiative" },
-      { id: "4", title: "Maritime Ops Overview", duration: "05:30", thumbnail: "/vid-4.jpg", tag: "Briefing" },
-    ]
-  },
-  {
-    category: "Corporate & Vision",
-    videos: [
-      { id: "5", title: "C.L.A.W. Legacy: Why We Build", duration: "04:15", thumbnail: "/vid-5.jpg", tag: "Vision" },
-      { id: "6", title: "Stakeholder Intelligence 2026", duration: "22:00", thumbnail: "/vid-6.jpg", tag: "Corporate" },
-      { id: "7", title: "The Special Forces Philosophy", duration: "06:45", thumbnail: "/vid-7.jpg", tag: "Philosophy" },
-    ]
-  }
+// --- Mock Data ---
+const TOP_MISSION_VIDEOS = [
+  { id: "m1", title: "Good to see you, Ankit", duration: "02:15" },
+  { id: "m2", title: "CLAW - Adventure", duration: "05:40" },
+  { id: "m3", title: "Spirit Roads", duration: "08:12" },
+  { id: "m4", title: "Empowering Corporate - CLAW", duration: "12:30" },
+  { id: "m5", title: "Insignia", duration: "04:45" },
+  { id: "m6", title: "Operation Blue Freedom", duration: "15:20" },
+];
+
+const BUILDER_VIDEOS = [
+  { id: "b1", title: "Major Vivek Jacob", role: "Founder", duration: "10:30" },
+  { id: "b2", title: "Raunak Laad", role: "Founder", duration: "08:15" },
+  { id: "b3", title: "Tiju Lukose", role: "Tech Lead", duration: "09:45" },
 ];
 
 export default function Library() {
   return (
-    <div className="space-y-12 pb-20 animate-in fade-in duration-500">
+    <div className="min-h-screen bg-black text-zinc-300 space-y-16 pb-24">
       
-      {/* Header Section */}
-      <div className="border-b border-zinc-800 pb-8">
-        <h2 className="text-4xl font-black text-white">
-          Library
-        </h2>
-        <p className="text-sm text-zinc-500 font-bold mt-2">
-          Documenting the Mission, the People, and the Vision
-        </p>
-      </div>
+      {/* 1. Top Section: Mission Grid (No Category Text/Metadata) */}
+      <section className="px-4 md:px-8 pt-8">
+        <ScrollArea className="w-full whitespace-nowrap rounded-none border-none">
+          <div className="flex w-max space-x-6 pb-6">
+            {TOP_MISSION_VIDEOS.map((video) => (
+              <div key={video.id} className="w-[320px] group cursor-pointer">
+                <div className="relative aspect-video rounded-2xl overflow-hidden border border-zinc-800 bg-zinc-900 transition-all hover:border-zinc-600">
+                   <div className="absolute inset-0 bg-black/40 group-hover:bg-black/10 transition-colors z-10" />
+                   <div className="absolute inset-0 flex items-center justify-center z-20 opacity-0 group-hover:opacity-100 transition-all transform scale-90 group-hover:scale-100">
+                      <div className="h-12 w-12 rounded-full bg-white/10 backdrop-blur-md border border-white/20 flex items-center justify-center text-white">
+                        <Play fill="currentColor" size={20} />
+                      </div>
+                   </div>
+                   {/* Placeholder Content */}
+                   <div className="w-full h-full bg-gradient-to-br from-zinc-800 to-zinc-950 flex items-center justify-center">
+                     <span className="text-zinc-700 font-bold text-xl uppercase tracking-tighter">C.L.A.W</span>
+                   </div>
+                   {/* <div className="absolute bottom-3 right-3 z-30 bg-black/60 px-2 py-1 rounded text-[10px] font-medium text-white backdrop-blur-md tabular-nums">
+                     {video.duration}
+                   </div> */}
+                </div>
+                <p className="mt-3 text-sm font-medium text-zinc-300 group-hover:text-white transition-colors truncate">
+                  {video.title}
+                </p>
+              </div>
+            ))}
+          </div>
+          <ScrollBar orientation="horizontal" className="bg-zinc-900/50" />
+        </ScrollArea>
+      </section>
 
-      {/* Video Sections */}
-      {VIDEO_SECTIONS.map((section) => (
-        <div key={section.category} className="space-y-6">
-          <div className="flex items-center gap-4 px-2">
-            <div className="h-4 w-1 bg-cyan-500" />
-            <h3 className="text-sm font-black text-white ">
-              {section.category}
-            </h3>
+      {/* 2. Software Demo: Full Width Hero */}
+      <section className="px-4 md:px-8">
+        <div className="relative w-full rounded-[32px] overflow-hidden border border-zinc-800 bg-zinc-950 aspect-[21/9] group shadow-2xl">
+          <div className="absolute inset-0 bg-gradient-to-t from-black via-transparent to-transparent z-10" />
+          
+          <div className="absolute inset-0 flex items-center justify-center z-20">
+            <Button size="icon" className="h-20 w-20 rounded-full bg-white text-black hover:scale-110 transition-transform">
+               <Play fill="currentColor" size={32} />
+            </Button>
           </div>
 
-          <ScrollArea className="w-full whitespace-nowrap rounded-none border-none">
-            <div className="flex w-max space-x-6 p-2">
-              {section.videos.map((video) => (
-                <VideoCard key={video.id} video={video} />
-              ))}
+          <div className="absolute bottom-10 left-10 z-20 space-y-2">
+            <h2 className="text-3xl font-bold text-white tracking-tight">Software Demo</h2>
+            {/* <p className="text-sm text-zinc-400 max-w-lg">
+              Comprehensive walkthrough of the internal operational interface and intelligence systems.
+            </p> */}
+          </div>
+          
+          <div className="w-full h-full bg-zinc-900 flex items-center justify-center">
+             <span className="text-zinc-800 font-bold text-8xl opacity-30">SYSTEM DEMO</span>
+          </div>
+        </div>
+      </section>
+
+      {/* 3. From the Builders: Categorized List */}
+      <section className="px-4 md:px-8 space-y-8">
+        <div className="flex items-center gap-3">
+          <div className="w-1 h-5 bg-cyan-500 rounded-full" />
+          <h3 className="text-base font-semibold text-white tracking-tight">From the Builders</h3>
+        </div>
+
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
+          {BUILDER_VIDEOS.map((video) => (
+            <div key={video.id} className="group space-y-4">
+               <div className="relative aspect-video rounded-2xl overflow-hidden border border-zinc-800 bg-zinc-900 transition-all hover:border-zinc-600">
+                  <div className="absolute inset-0 bg-black/40 group-hover:bg-black/20 transition-colors z-10" />
+                  <div className="absolute inset-0 flex items-center justify-center z-20 opacity-0 group-hover:opacity-100 transition-all">
+                    <Play fill="currentColor" size={24} className="text-white" />
+                  </div>
+                  <div className="w-full h-full bg-gradient-to-tr from-zinc-900 to-zinc-800" />
+               </div>
+               
+               <div className="flex justify-between items-start pr-2">
+                 <div className="space-y-1">
+                   <h4 className="text-base font-bold text-zinc-100 group-hover:text-cyan-400 transition-colors">
+                     {video.title}
+                   </h4>
+                   <p className="text-sm text-zinc-500 font-medium">
+                     {video.role} 
+                   </p>
+                 </div>
+                 {/* <div className="flex items-center gap-1.5 text-zinc-500 text-xs font-medium tabular-nums">
+                    <Clock size={12} />
+                    {video.duration}
+                 </div> */}
+               </div>
             </div>
-            <ScrollBar orientation="horizontal" className="bg-zinc-900" />
-          </ScrollArea>
+          ))}
         </div>
-      ))}
+      </section>
 
-    </div>
-  );
-}
-
-function VideoCard({ video }: { video: any }) {
-  return (
-    <div className="group relative w-[380px] space-y-4">
-      {/* Thumbnail Container */}
-      <div className="relative aspect-video overflow-hidden border border-zinc-800 bg-zinc-900 transition-all hover:border-cyan-500/50">
-        <div className="absolute inset-0 bg-black/40 group-hover:bg-black/20 transition-colors z-10" />
-        
-        {/* Play Icon Overlay */}
-        <div className="absolute inset-0 flex items-center justify-center z-20 opacity-0 group-hover:opacity-100 transition-all transform scale-90 group-hover:scale-100">
-          <div className="h-14 w-14 rounded-full bg-white/10 backdrop-blur-md border border-white/20 flex items-center justify-center text-white">
-            <Play fill="currentColor" size={24} />
-          </div>
-        </div>
-
-        {/* Top Badges */}
-        {/* <div className="absolute top-3 left-3 z-30">
-          <Badge className="bg-white text-[9px] font-black border-zinc-700 rounded-none backdrop-blur-md">
-            {video.tag}
-          </Badge>
-        </div> */}
-
-        {/* Duration Badge */}
-        {/* <div className="absolute bottom-3 right-3 z-30 bg-zinc-950/90 px-2 py-1 rounded-sm border border-zinc-800 flex items-center gap-1.5 backdrop-blur-md">
-          <Clock size={10} className="text-zinc-500" />
-          <span className="text-[10px] font-bold text-white font-mono">{video.duration}</span>
-        </div> */}
-
-        {/* Placeholder Thumbnail - In production replace with <Image /> */}
-        <div className="w-full h-full bg-gradient-to-br from-zinc-800 to-zinc-950 flex items-center justify-center">
-           <span className="text-zinc-800 font-black text-4xl  opacity-50 ">
-             C.L.A.W
-           </span>
-        </div>
-      </div>
-
-      {/* Metadata */}
-      <div className="px-1 flex justify-between items-start gap-4">
-        <div className="space-y-1">
-          <h4 className="text-sm font-bold text-zinc-100 group-hover:text-cyan-400 transition-colors truncate">
-            {video.title}
-          </h4>
-          <p className="text-[10px]  font-black text-zinc-600">
-            Internal Mission Briefing
-          </p>
-        </div>
-        {/* <Button variant="ghost" size="icon" className="h-8 w-8 text-zinc-500 hover:text-white hover:bg-zinc-800">
-          <Share2 size={14} />
-        </Button> */}
-      </div>
     </div>
   );
 }

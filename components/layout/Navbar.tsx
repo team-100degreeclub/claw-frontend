@@ -16,7 +16,7 @@ export default function Navbar() {
         <div className="flex items-center gap-2 cursor-pointer" onClick={() => router.push("/")}>
             <Button
               variant="link"
-              className="ml-10 flex items-center border-0 hover:bg-zinc-600/30 hover:cursor-pointer gap-2 text-sm font-bold tracking-widest text-zinc-300 transition-colors hover:text-white px-4"
+              className="ml-10 flex items-center border-0 hover:bg-zinc-600/30 hover:cursor-pointer gap-2 text-sm font-bold text-zinc-300 transition-colors hover:text-white px-4"
             >
               <HomeIcon className="h-4 w-4" />
             </Button>
@@ -25,7 +25,7 @@ export default function Navbar() {
             alt="C.L.A.W. Logo"
             className="h-10 w-10 rounded-full"
           /> */}
-          <h1 className="text-xl font-black tracking-tighter text-white">
+          <h1 className="text-2xl font-black tracking-tighter text-blue-500">
             C.L.A.W.{"  "}
             <span className="ml-1">
               GLOBAL
@@ -39,21 +39,21 @@ export default function Navbar() {
           <Button
             variant="ghost"
             onClick={() => router.push("/corporate-events")}
-            className="flex items-center border-0 bg-none hover:bg-zinc-600/40 hover:cursor-pointer gap-2 text-sm font-bold tracking-widest text-zinc-300 transition-colors hover:text-white px-4"
+            className="flex items-center border-0 bg-none hover:bg-zinc-600/40 hover:cursor-pointer gap-2 text-sm font-bold text-zinc-300 transition-colors hover:text-white px-4"
           >
             Invite Us
           </Button>
           <Button
             variant="ghost"
             onClick={() => router.push("/careers")}
-            className="flex items-center border-0 hover:bg-zinc-600/40 hover:cursor-pointer gap-2 text-sm font-bold tracking-widest text-zinc-300 transition-colors hover:text-white px-4"
+            className="flex items-center border-0 hover:bg-zinc-600/40 hover:cursor-pointer gap-2 text-sm font-bold  text-zinc-300 transition-colors hover:text-white px-4"
           >
             Internships
           </Button>
           <Button
             variant="ghost"
             onClick={() => router.push("/about")}
-            className="flex items-center border-0 hover:bg-zinc-600/40 hover:cursor-pointer gap-2 text-sm font-bold tracking-widest text-zinc-300 transition-colors hover:text-white px-4"
+            className="flex items-center border-0 hover:bg-zinc-600/40 hover:cursor-pointer gap-2 text-sm font-bold text-zinc-300 transition-colors hover:text-white px-4"
           >
             About Us
           </Button>

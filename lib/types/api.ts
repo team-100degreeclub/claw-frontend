@@ -29,6 +29,14 @@ export interface PartnerProfileUpdate {
   bio?: string | null;
 }
 
+export interface ServiceRecord {
+  unit?: string | null;
+  rank?: string | null;
+  honors?: string | null;
+  from_year?: number | null;
+  to_year?: number | null;
+}
+
 export interface PartnerProfileResponse {
   id: string;
   profile_code?: string | null;
@@ -42,6 +50,8 @@ export interface PartnerProfileResponse {
   bio?: string | null;
   aadhaar_url?: string | null;
   passport_url?: string | null;
+  nationality?: string | null;
+  service_records?: ServiceRecord[] | null;
 }
 
 export interface CollaborationsPartnerResponse{
