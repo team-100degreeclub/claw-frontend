@@ -193,7 +193,7 @@ export default function TicketDashboard() {
                                       {t.name}'s profile is incomplete. Share this secure link for document upload.
                                     </p>
                                     <div className="flex gap-2 bg-zinc-900 p-2 rounded-xl border border-zinc-800">
-                                      <Input readOnly value={"https://example.com"} className="bg-transparent border-0 h-10 text-zinc-400 focus-visible:ring-0" />
+                                      <Input readOnly value={"http://localhost:3000/confirm-slot/11"} className="bg-transparent border-0 h-10 text-zinc-400 focus-visible:ring-0" />
                                       <Button variant="secondary" className="bg-zinc-800 hover:bg-zinc-700 h-10 px-4 rounded-lg">
                                         <Copy className="h-4 w-4" />
                                       </Button>
