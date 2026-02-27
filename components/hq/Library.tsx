@@ -17,7 +17,7 @@ const TOP_MISSION_VIDEOS = [
 
 const BUILDER_VIDEOS = [
   { id: "b1", title: "Major Vivek Jacob", role: "Founder", duration: "10:30" },
-  { id: "b2", title: "Raunak Laad", role: "Founder", duration: "08:15" },
+  { id: "b2", title: "Raunak Laad", role: "Co-Founder", duration: "08:15" },
   { id: "b3", title: "Tiju Lukose", role: "Tech Lead", duration: "09:45" },
 ];
 

@@ -37,7 +37,7 @@ export function CountryCodePicker({ value, onChange, className }: CountryCodePic
           variant="outline"
           role="combobox"
           aria-expanded={open}
-          className={cn("w-[130px] justify-between h-12 border-gray-200", className)}
+          className={cn("min-w-18 justify-between h-12 border-gray-200", className)}
         >
           {value ? selectedCountry?.dialCode : "Code"}
           <ChevronsUpDown className="ml-2 h-4 w-4 shrink-0 opacity-50" />

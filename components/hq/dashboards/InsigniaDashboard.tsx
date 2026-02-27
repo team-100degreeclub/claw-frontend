@@ -23,6 +23,12 @@ import InsigniaSpotlight from "./InsigniaSpotlight";
 import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover";
 import GlobalLeaderboard from "./GlobalLeaderboard";
 import { BadgeImage, BadgeProgressBox } from "@/app/(marketing)/insignia/page";
+import {
+  Sheet,
+  SheetContent,
+  SheetTrigger,
+} from "@/components/ui/sheet";
+import InsigniaDetails from "./InsigniaDetails";
 
 // --- Types ---
 interface Badge {
@@ -165,23 +171,38 @@ export default function InsigniaDashboard() {
           <InsigniaSpotlight />
 
           {/* 2. Progression Summary Grid */}
-        <section className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-6 gap-6">
-          <BadgeProgressBox label="Explorer" {...USER_PROGRESSION.explorer} />
-          <BadgeProgressBox label="Master" {...USER_PROGRESSION.master} />
-          <BadgeProgressBox label="Legend" {...USER_PROGRESSION.legend} />
-          <BadgeProgressBox label="Marshal" {...USER_PROGRESSION.marshal} />
-          <BadgeProgressBox label="Guardian" {...USER_PROGRESSION.guardian} />
-
-          <div className="flex flex-col items-center justify-center gap-6 p-8 bg-amber-950/10 border border-amber-600/20 rounded-[32px] shadow-lg">
-            <BadgeImage earned={USER_PROGRESSION.soulOfSteel.earned} size="h-20" />
-            <div className="text-center space-y-2">
-              <span className="text-base font-bold text-amber-500 block">Soul of Steel</span>
-              <p className="text-sm text-zinc-500 font-medium leading-relaxed">
-                Awarded for exceptional impact.
-              </p>
+          <div className="space-y-6">
+            <div className="flex items-center justify-between">
+              <h3 className="text-xl font-bold text-white">Your Progression</h3>
+              <Sheet>
+                <SheetTrigger asChild>
+                  <Button variant="link" className="text-amber-500 font-bold hover:text-amber-400 p-0 flex items-center gap-1 group">
+                    View Detailed Progress <ChevronRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
+                  </Button>
+                </SheetTrigger>
+                <SheetContent side="right" className="min-w-2xl sm:max-w-3xl p-0 border-zinc-900 bg-black">
+                   <InsigniaDetails />
+                </SheetContent>
+              </Sheet>
             </div>
+            <section className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-6 gap-6">
+              <BadgeProgressBox label="Explorer" {...USER_PROGRESSION.explorer} />
+              <BadgeProgressBox label="Master" {...USER_PROGRESSION.master} />
+              <BadgeProgressBox label="Legend" {...USER_PROGRESSION.legend} />
+              <BadgeProgressBox label="Marshal" {...USER_PROGRESSION.marshal} />
+              <BadgeProgressBox label="Guardian" {...USER_PROGRESSION.guardian} />
+
+              <div className="flex flex-col items-center justify-center gap-6 p-8 bg-amber-950/10 border border-amber-600/20 rounded-[32px] shadow-lg">
+                <BadgeImage earned={USER_PROGRESSION.soulOfSteel.earned} size="h-20" />
+                <div className="text-center space-y-2">
+                  <span className="text-base font-bold text-amber-500 block">Soul of Steel</span>
+                  <p className="text-sm text-zinc-500 font-medium leading-relaxed">
+                    Awarded for exceptional impact.
+                  </p>
+                </div>
+              </div>
+            </section>
           </div>
-        </section>
 
           <div className="space-y-6">
             <h3 className="text-xl font-bold text-white tracking-widest">Global Honor Board</h3>

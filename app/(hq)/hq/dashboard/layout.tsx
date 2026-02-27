@@ -77,10 +77,11 @@ export default function DashboardLayout({ children }: { children: React.ReactNod
   let activeSecondaryLabel = "";
   const currentCategorySegment = pathSegments[2]; // e.g., 'business'
   const currentViewSegment = pathSegments[3];   // e.g., 'performance'
-
+  console.log(pathSegments)
   if (currentViewSegment && secondaryMenus[activePrimaryLabel]) {
     for (const group of secondaryMenus[activePrimaryLabel]) {
       for (const item of group.items) {
+        console.log(item)
         if (item.toLowerCase().replace(/\s+/g, "-") === currentViewSegment) {
           // Also check if the category matches the current URL category segment
           if (group.category.toLowerCase() === currentCategorySegment) {
@@ -112,7 +113,7 @@ export default function DashboardLayout({ children }: { children: React.ReactNod
     } else if (label === "Board Room") {
       router.push("/hq/dashboard/business/performance"); // Default for Board Room
     } else if (label === "Workstation") {
-      router.push("/hq/dashboard/workstation/insignia"); // Default for Workstation
+      router.push("/hq/dashboard/workstation/insignia-info"); // Default for Workstation
     } else if (label === "Team") {
       router.push("/hq/dashboard/team/self"); // Assuming this is a direct path without secondary menus
     } else if (label === "Library") {
