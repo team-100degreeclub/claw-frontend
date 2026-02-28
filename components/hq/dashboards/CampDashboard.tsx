@@ -143,7 +143,7 @@ const liveCamps = {
                 "Adventure - Land",
                 "Rahul Mishra",
                 "₹16,499",
-                "100",
+                "20",
             ],
             status: "Completed",
         },
@@ -153,7 +153,7 @@ const liveCamps = {
                 "Adventure - Water",
                 "Siddharth Mishra",
                 "₹12,999",
-                "80",
+                "10",
             ],
             status: "HousefulL",
         },
@@ -166,7 +166,7 @@ const liveCamps = {
                 "Adventure - Land",
                 "Rahul Mishra",
                 "₹16,499",
-                "400",
+                "25",
             ],
             status: "low-sale",
         },
@@ -176,7 +176,7 @@ const liveCamps = {
                 "Adventure - Water",
                 "Siddharth Mishra",
                 "₹12,999",
-                "320",
+                "15",
             ],
             status: "completed",
         },
@@ -189,7 +189,7 @@ const liveCamps = {
                 "Adventure - Land",
                 "Rahul Mishra",
                 "₹16,499",
-                "1300",
+                "15",
             ],
             status: "houseful",
         },
@@ -199,7 +199,7 @@ const liveCamps = {
                 "Adventure - Water",
                 "Siddharth Mishra",
                 "₹12,999",
-                "1040",
+                "20",
             ],
             status: "low-sale",
         },
@@ -212,7 +212,7 @@ const liveCamps = {
                 "Adventure - Land",
                 "Rahul Mishra",
                 "₹16,499",
-                "5200",
+                "30",
             ],
             status: "completed",
         },
@@ -222,7 +222,7 @@ const liveCamps = {
                 "Adventure - Water",
                 "Siddharth Mishra",
                 "₹12,999",
-                "4160",
+                "20",
             ],
             status: "housefull",
         },
@@ -235,7 +235,7 @@ const liveCamps = {
                 "Adventure - Land",
                 "Rahul Mishra",
                 "₹16,499",
-                "26000",
+                "10",
             ],
             status: "low-sale",
         },
@@ -245,7 +245,7 @@ const liveCamps = {
                 "Adventure - Water",
                 "Siddharth Mishra",
                 "₹12,999",
-                "20800",
+                "20",
             ],
             status: "completed",
         },
@@ -541,7 +541,7 @@ export default function CampDashboard() {
                                         {formatCompactNumber(80000)}
                                     </td>
                                     <td className="py-5 px-6 text-sm text-right text-zinc-300">
-                                        Expected: By Friday
+                                        12 Mar 2026
                                     </td>
                                     <td className="py-5 px-6 text-sm text-right">
                                         <span className="inline-flex items-center text-amber-400 font-medium">

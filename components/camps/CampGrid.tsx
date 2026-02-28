@@ -1,10 +1,10 @@
 import { CampCard } from "./CampCard";
 import { MOCK_CAMPS } from "@/lib/mockCamps";
 
-export default function CampGrid({ isLetsTalkActive }: { isLetsTalkActive: boolean }) {
-  const filteredCamps = isLetsTalkActive
-    ? MOCK_CAMPS.filter((camp) => camp.environment === "Conversation")
-    : MOCK_CAMPS;
+export default function CampGrid({ categoryFilter, subCategoryFilter }: { categoryFilter: boolean, subCategoryFilter: string }) {
+  const filteredCamps = categoryFilter
+    ? MOCK_CAMPS.filter((camp) => camp.environment === "Spirit Roads")
+    : MOCK_CAMPS.filter((camp) => camp.environment !== "Spirit Roads" && camp.environment === subCategoryFilter);
 
   if (filteredCamps.length === 0) {
     return (

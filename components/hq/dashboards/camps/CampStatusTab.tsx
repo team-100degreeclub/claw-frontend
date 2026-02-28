@@ -33,7 +33,7 @@ export function CampStatusTab({
     control,
     watch,
   } = useFormContext<CampFormValues>();
-
+  console.log("Status: "+status);
 
   if (campId == undefined || status == undefined) return null;
   const [action, setAction] = React.useState<ActionType | null>(null);
@@ -108,7 +108,7 @@ export function CampStatusTab({
               <Button
                 onClick={markCompleted}
                 disabled={loading}
-                className="bg-blue-600 hover:bg-blue-700 text-white w-full h-10"
+                className="bg-white hover:bg-white/80 text-black w-full h-10"
               >
                 {loading ? "Updating..." : "Mark as Completed"}
               </Button>

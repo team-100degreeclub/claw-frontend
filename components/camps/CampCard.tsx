@@ -90,7 +90,7 @@ export function CampCard({ camp, documentStatus, onCardClick }: { camp: Camp; do
             </div>
             <div className="flex items-center gap-2 text-[13px] font-bold text-zinc-600 dark:text-zinc-400">
               <Grid className="w-3.5 h-3.5" /> 
-              {camp.environment.toString() === "Conversation" ? "Conversation" : camp.environment + "/" + camp.specialization}
+              {camp.environment.toString() === "Spirit Roads" ? "Spirit Roads" : camp.environment + "/" + camp.specialization}
             </div>
           </div>
         </div>

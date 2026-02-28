@@ -15,7 +15,7 @@ export const formatCompactNumber = (number: number) => {
   if (number < 1000) return "₹" + number.toString();
   return "₹" + Intl.NumberFormat('en-US', {
     notation: "compact",
-    maximumFractionDigits: 1,
+    maximumFractionDigits: 2,
   }).format(number);
 };
 
@@ -210,7 +210,7 @@ const travellerInsights = {
 export default function PerformanceDashboard() {
 
   const [graphActiveTab, setGraphActiveTab] = React.useState("month");
-  const [corporateFilter, setCorporateFilter] = useState("month");
+  const [corporateFilter, setCorporateFilter] = useState("week");
   const [campFilter, setCampFilter] = useState("month");
   const [teamInsightsFilter, setTeamInsightsFilter] = useState("month");
   const [travellerInsightsFilter, setTravellerInsightsFilter] = useState("month");
@@ -234,14 +234,14 @@ export default function PerformanceDashboard() {
 
   const bestPerformingForEachRange = {
     week: "1 - 7 February",
-    month: "January 2023",
-    year: "2023",
-    lifetime: "2023"
+    month: "Dec 2025",
+    year: "2025",
+    lifetime: "2025"
   }
 
   const worstPerformingForEachRange = {
     week: "1 - 7 December",
-    month: "November 2021",
+    month: "Apr 2025",
     year: "2021",
     lifetime: "2021"
   }
@@ -256,7 +256,7 @@ export default function PerformanceDashboard() {
         average: "100000",
         high: "200000",
         descHigh: "Apple, Cupertino",
-        low: "5000",
+        low: "27900",
         descLow: "Some Startup, Bangalore"
       },
       timeToConvert: {
@@ -273,10 +273,10 @@ export default function PerformanceDashboard() {
       canceled: "2",
       convRate: "26.7%",
       pay: {
-        average: "120000",
+        average: "200000",
         high: "1500000",
         descHigh: "Facebook, California",
-        low: "10500",
+        low: "27900",
         descLow: "Zerodha, Bangalore"
       },
       timeToConvert: {
@@ -296,7 +296,7 @@ export default function PerformanceDashboard() {
         average: "140000",
         high: "1500000",
         descHigh: "Facebook, California",
-        low: "10500",
+        low: "27900",
         descLow: "Zerodha, Bangalore"
       },
       timeToConvert: {
@@ -316,7 +316,7 @@ export default function PerformanceDashboard() {
         average: "150000",
         high: "2500000",
         descHigh: "SpaceX, Hawthorne",
-        low: "8000",
+        low: "27900",
         descLow: "Local Firm, Delhi"
       },
       timeToConvert: {
@@ -336,7 +336,7 @@ export default function PerformanceDashboard() {
         average: "160000",
         high: "5000000",
         descHigh: "Microsoft, Redmond",
-        low: "5000",
+        low: "27900",
         descLow: "Small Biz, Mumbai"
       },
       timeToConvert: {
@@ -469,8 +469,8 @@ export default function PerformanceDashboard() {
                 </tr>
               </thead>
               <tbody className="divide-y divide-zinc-800">
-                <KPIRow type="Corporate" gross={14500000} net={6500000} avg={6500000} high={6500000} low={6500000} cancel={6500000} />
-                <KPIRow type="Camps" gross={11400000} net={6200000} avg={6200000} high={6200000} low={6200000} cancel={6200000} />
+                <KPIRow type="Corporate" gross={145000000} net={65000000} avg={650000} high={6500000} low={6500000} cancel={650000} />
+                <KPIRow type="Camps" gross={114000000} net={62000000} avg={620000} high={6200000} low={6200000} cancel={620000} />
               </tbody>
             </table>
           </div>
@@ -495,10 +495,10 @@ export default function PerformanceDashboard() {
                 </td>
                 <td className="px-4 py-4 text-zinc-300">Major Sandeep</td>
                 <td className="px-4 py-4 text-zinc-300">
-                  <span className="py-1">12 days</span>
+                  <span className="py-1">8 days</span>
                 </td>
                 <td className="px-4 py-4 text-sm font-bold text-emerald-400 text-right tabular-nums">
-                  {formatCompactNumber(19000)}
+                  {formatCompactNumber(390900)}
                 </td>
               </tr>
 
@@ -510,10 +510,10 @@ export default function PerformanceDashboard() {
                 </td>
                 <td className="px-4 py-4 text-zinc-300">Sgt. Miller</td>
                 <td className="px-4 py-4 text-zinc-300">
-                  <span className="py-1 ">10 days</span>
+                  <span className="py-1 ">14 days</span>
                 </td>
                 <td className="px-4 py-4 font-bold text-emerald-400 text-right tabular-nums">
-                  {formatCompactNumber(2000)}
+                  {formatCompactNumber(81830)}
                 </td>
               </tr>
             </tbody>
@@ -545,7 +545,7 @@ export default function PerformanceDashboard() {
                   </span>
                 </td>
                 <td className="px-4 py-4 text-sm font-bold text-emerald-400 text-right tabular-nums">
-                  {formatCompactNumber(19000)}
+                  {formatCompactNumber(270000)}
                 </td>
               </tr>
 
@@ -562,7 +562,7 @@ export default function PerformanceDashboard() {
                   </span>
                 </td>
                 <td className="px-4 py-4 text-sm font-bold text-emerald-400 text-right tabular-nums">
-                  {formatCompactNumber(2000)}
+                  {formatCompactNumber(17390)}
                 </td>
               </tr>
             </tbody>

@@ -94,24 +94,28 @@ export default function CareersPage() {
             <div
               key={job.id}
               onClick={() => setSelectedJob(job)}
-              className="grid grid-cols-1 md:grid-cols-12 items-center px-8 py-6 bg-zinc-900/30 hover:bg-zinc-800/50 border border-zinc-800 rounded-sm transition-all cursor-pointer group"
+              className="flex justify-between items-center px-8 py-6 bg-zinc-900/30 hover:bg-zinc-800/50 border border-zinc-800 rounded-sm transition-all cursor-pointer group"
             >
               <div className="col-span-5 mb-2 md:mb-0">
                 <h3 className="text-lg font-bold group-hover:text-cyan-400 transition-colors">{job.title}</h3>
               </div>
-              <div className="col-span-3 flex items-center gap-2 text-zinc-400 text-sm mb-1 md:mb-0">
-                <Briefcase className="w-4 h-4 text-zinc-600" />
-                {job.department}
-              </div>
-              <div className="col-span-3 flex items-center gap-2 text-zinc-400 text-sm">
-                <MapPin className="w-4 h-4 text-zinc-600" />
-                {job.location}
-              </div>
-              <div className="col-span-1 hidden md:flex justify-end">
-                <ArrowRight className="w-5 h-5 text-zinc-700 group-hover:text-white group-hover:translate-x-1 transition-all" />
-              </div>
-              <div className="md:hidden mt-4">
-                <Button variant="secondary" className="w-full text-xs h-8">View Details</Button>
+              <div className="flex items-center gap-4">
+                <div className="flex flex-row items-start">
+                  <div className="col-span-3 flex items-center gap-2 text-zinc-400 text-sm mb-1 md:mb-0">
+                    {/* <Briefcase className="w-4 h-4 text-zinc-600" /> */}
+                    {job.department+ ", " + job.location}
+                  </div>
+                  {/* <div className="col-span-3 flex items-center gap-2 text-zinc-400 text-sm">
+                    <MapPin className="w-4 h-4 text-zinc-600" />
+                    {job.location}
+                  </div> */}
+                  <div className="md:hidden mt-4">
+                    <Button variant="secondary" className="w-full text-xs h-8">View Details</Button>
+                  </div>
+                </div>
+                  <div className="col-span-1 hidden md:flex justify-end">
+                    <ArrowRight className="w-5 h-5 text-zinc-700 group-hover:text-white group-hover:translate-x-1 transition-all" />
+                  </div>
               </div>
             </div>
           ))}
@@ -158,7 +162,7 @@ export default function CareersPage() {
                   </DialogDescription>
                 </div>
               </DialogHeader>
-              
+
               <div className="space-y-6 my-4">
                 <div>
                   <h4 className="text-sm font-black  text-white mb-2">Key Responsibilities</h4>

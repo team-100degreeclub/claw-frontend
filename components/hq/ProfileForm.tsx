@@ -357,7 +357,7 @@ export default function ProfileForm() {
                                                 <FormControl>
                                                     <Input {...field} disabled className="bg-zinc-950 border-zinc-800 text-cyan-500 font-mono text-lg h-14  opacity-80" />
                                                 </FormControl>
-                                                <p className="text-xs text-zinc-600 mt-2">Your unique identifier in the system</p>
+                                                {/* <p className="text-xs text-zinc-600 mt-2">Your unique identifier in the system</p> */}
                                                 <FormMessage />
                                             </FormItem>
                                         )}
@@ -370,10 +370,10 @@ export default function ProfileForm() {
                                         render={({ field }) => (
                                             <FormItem>
                                                 <FormLabel className="text-sm  text-zinc-400   flex items-center gap-2">Gender</FormLabel>
-                                                <span className="sr-only">Select your gender</span>
+                                                {/* <span className="sr-only">Select your gender</span> */}
                                                 <Select onValueChange={field.onChange} defaultValue={field.value}>
                                                     <FormControl>
-                                                        <SelectTrigger className="h-14 bg-zinc-950 border-zinc-800 text-zinc-100 focus:ring-1 focus:ring-zinc-700">
+                                                        <SelectTrigger className="h-14 bg-zinc-950 border-zinc-800 text-zinc-100 focus:ring-1 focus:ring-zinc-700 w-full">
                                                             <SelectValue placeholder="Select your gender" />
                                                         </SelectTrigger>
                                                     </FormControl>
@@ -440,11 +440,11 @@ export default function ProfileForm() {
                                                 </FormLabel>
                                                 <Select onValueChange={field.onChange} value={field.value}>
                                                     <FormControl>
-                                                        <SelectTrigger className="h-14 bg-zinc-950 border-zinc-800 text-zinc-100 focus:ring-1 focus:ring-zinc-700">
+                                                        <SelectTrigger className="h-14 bg-zinc-950 border-zinc-800 text-zinc-100 focus:ring-1 focus:ring-zinc-700 w-full">
                                                             <SelectValue placeholder="Select nationality" />
                                                         </SelectTrigger>
                                                     </FormControl>
-                                                    <SelectContent className="bg-zinc-900 border-zinc-800 text-zinc-100 shadow-2xl max-h-80">
+                                                    <SelectContent className="bg-zinc-900 border-zinc-800 text-zinc-100 shadow-2xl">
                                                         {countries.map((country) => (
                                                             <SelectItem key={country.code} value={country.name} className="focus:bg-zinc-800">
                                                                 {country.name}

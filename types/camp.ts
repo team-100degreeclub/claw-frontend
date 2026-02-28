@@ -1,6 +1,6 @@
 // types/camp.ts
-export type Environment = 'Land' | 'Air' | 'Water' | 'Conversation';
-export type Specialization = 'Mental' | 'Physical' | 'Medical' | 'Conversation';
+export type Environment = 'Land' | 'Air' | 'Water' | 'Spirit Roads';
+export type Specialization = 'Mental' | 'Physical' | 'Medical' | 'Spirit Roads';
 
 export interface Camp {
   id: string;

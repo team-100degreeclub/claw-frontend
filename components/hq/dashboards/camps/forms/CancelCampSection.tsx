@@ -96,12 +96,12 @@ export function CancelCampSection({
   return (
     <div className="bg-zinc-950 border border-zinc-900 rounded-xl p-8 space-y-10 text-zinc-100">
       <div className="flex justify-between items-start">
-        <div className="space-y-2 border-l-2 border-zinc-100 pl-4">
+        <div className="space-y-2">
           <h3 className="text-2xl font-bold text-white tracking-tight">
             Cancel Camp & Notify Applicants
           </h3>
           <p className="text-sm text-zinc-500 leading-relaxed">
-            {status === CampStatus.CANCELLED ? " This camp has been cancelled." : "You can share a short video explaining why the camp was cancelled."}
+            {status === CampStatus.CANCELLED ? " This camp has been cancelled." : "You can share a short video and a message explaining why the camp was cancelled."}
           </p>
         </div>
       </div>

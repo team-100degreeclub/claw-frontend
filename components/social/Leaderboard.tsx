@@ -27,7 +27,7 @@ export default function Leaderboard() {
       </div>
 
       {/* 2. Scrollable Content Area */}
-      <div className="flex-1 overflow-y-auto custom-scrollbar p-4">
+      <div className="flex-1 overflow-y-auto scrollbar-thin p-4">
         {selectedTab === "stories" && <Stories />}
         {selectedTab === "insignia" && <Insignia />}
         {selectedTab === "past_camps" && <PastCamps />}

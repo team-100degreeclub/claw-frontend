@@ -41,7 +41,7 @@ const PAST_CAMPS_DATA = [
 
 export default function PastCamps() {
   return (
-    <ScrollArea className="h-[calc(100vh-120px)] w-full">
+    <div className="h-[calc(100vh-120px)] w-full">
       <div className="p-4 space-y-8">
         {PAST_CAMPS_DATA.map((camp) => (
           <div key={camp.id} className="group space-y-4">
@@ -101,6 +101,6 @@ export default function PastCamps() {
             <p className="text-xs text-zinc-600">You've reached the beginning of our history.</p>
         </div> */}
       </div>
-    </ScrollArea>
+    </div>
   );
 }

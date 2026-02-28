@@ -8,7 +8,7 @@ export const CORPORATE_DATA = {
   companies: [
     {
       id: "c1",
-      name: "Apple Inc. / USA",
+      name: "Microsoft. / Bangalore, India",
       location: "USA / CA",
       gross: 1200000,
       net: 980000,
@@ -16,7 +16,7 @@ export const CORPORATE_DATA = {
     },
     {
       id: "c2",
-      name: "Microsoft",
+      name: "Apple / Washington, USA",
       location: "USA / WA",
       gross: 2450000,
       net: 2100000,
@@ -24,7 +24,7 @@ export const CORPORATE_DATA = {
     },
     {
       id: "c3",
-      name: "Google",
+      name: "Google / California, USA",
       location: "USA / CA",
       gross: 850000,
       net: 720000,
@@ -32,7 +32,7 @@ export const CORPORATE_DATA = {
     },
     {
       id: "c4",
-      name: "Amazon",
+      name: "Amazon / Hyderabad, India",
       location: "USA / WA",
       gross: 3200000,
       net: 2850000,
@@ -42,28 +42,28 @@ export const CORPORATE_DATA = {
   teamEngagements: [
     {
       id: "t1",
-      memberName: "Major Ankit / Apple Inc. USA",
+      memberName: "Major Ankit / Microsoft, India",
       company: "Apple Inc.",
       gross: 1200000,
       net: 980000,
     },
     {
       id: "t2",
-      memberName: "Sarah Chen",
+      memberName: "Sarah Chen / Apple, USA",
       company: "Microsoft",
       gross: 1450000,
       net: 1250000,
     },
     {
       id: "t3",
-      memberName: "Michael Ross",
+      memberName: "Michael Ross / Amazon, India",
       company: "Amazon",
       gross: 1800000,
       net: 1600000,
     },
     {
       id: "t4",
-      memberName: "Elena Rodriguez",
+      memberName: "Elena Rodriguez / Google, USA",
       company: "Google",
       gross: 850000,
       net: 720000,

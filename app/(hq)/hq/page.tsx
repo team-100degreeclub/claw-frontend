@@ -1,3 +1,6 @@
+"use client";
+
+import { useEffect } from "react";
 import Link from "next/link";
 import {
   Dialog,
@@ -9,6 +12,19 @@ import JoinForm from "@/components/hq/JoinTheClanForm";
 import ProfileCodeDialog from "@/components/hq/ProfileCodeDialog";
 
 export default function HQLandingPage() {
+  // useEffect(() => {
+  //   const audio = new Audio("/pulsar_sound.mp3");
+  //   audio.loop = true;
+  //   // audio.volume = 0.5;
+  //   audio.play().catch(error => {
+  //     console.log("Autoplay was blocked by the browser.", error);
+  //   });
+
+  //   return () => {
+  //     audio.pause();
+  //   };
+  // }, []);
+
   return (
     <main className="relative flex min-h-screen flex-col items-center justify-center overflow-hidden bg-[#050505]">
       {/* 1. Cinematic Background Layer */}

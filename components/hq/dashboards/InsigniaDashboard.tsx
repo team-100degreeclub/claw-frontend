@@ -67,13 +67,21 @@ const MOCK_PARTICIPANT: Participant = {
 const BADGE_DESCRIPTIONS = [
   "Traveller,",
 
-  "Every camp you complete at CLAW earns you an insignia. These insignias represent your courage, learning, and the journey you take through Land, Air, Water and Spirit Road.",
-  "Your journey begins as an Explorer when you complete your first camp. As you continue and complete five camps in the same path, you earn the title of Master. After earning five Master badges, you become a Legend.",
-  "When you complete all four paths Land, Air, Water and Spirit Road you earn the Marshal insignia. Travellers who achieve five Marshal badges earn the title of Guardian.",
-  "At the very top is the Soul of Steel insignia. This is personally awarded by Major Vivek Jacob, Para SF 9, Indian Special Forces and Founder of CLAW. It is given only to travellers whose actions create a real positive impact in the world.",
-  "Every insignia you earn is added to your Insignia Board and recorded on your profile. Major milestones are also couriered to you so you can wear them with pride.",
-  "Each badge tells the story of your journey, a mark of something you have achieved and something that made you stronger.",
-  "-  Team CLAW"
+  "At CLAW, every camp you complete earns you an insignia. These insignias represent your courage, learning, and the journey you take through Land, Air, Water, and Spirit Road.",
+  "Here's what each badge represents:",
+
+  "Explorer: Complete your first camp to earn your Explorer insignia.",
+  "Master: Complete 5 camps in a single tier, for example Land, to earn the title of Master.",
+  "Legend: Earn 5 Master badges to become a Legend of that tier.",
+  "Marshal: Complete all 4 tiers i.e Land, Air, Water, and Spirit Road to earn your Marshal insignia.",
+  "Guardian: Travellers who earn 5 Marshal badges become Guardians.",
+  "Soul of Steel: The highest honor, personally awarded by Major Vivek Jacob, Para SF 9, Indian Special Forces and Founder of CLAW. This is given only to travellers who have made a real positive impact in the world. Even if it’s a small impact, as long as it makes the world a better place, we will invite you personally to the Den.",
+
+  "Every insignia you earn is added to your Insignia Board, recorded on your profile, and couriered to you so you can wear them with pride. Each insignia tells the story of your journey, showing what you have achieved and how you have grown.",
+
+  "We are proud to be on this journey with you.",
+
+  "Team CLAW",
 ];
 
 const USER_PROGRESSION = {
@@ -151,12 +159,50 @@ export default function InsigniaDashboard() {
                 Understanding The CLAW Insignia
               </h2>
               {/* Added 'always-show-scrollbar' class */}
-              <div className="h-[280px] overflow-y-scroll pr-4 space-y-6 always-show-scrollbar">
-                {BADGE_DESCRIPTIONS.map((desc, i) => (
+              <div className="h-[280px] overflow-y-scroll pr-4 space-y-6 scrollbar-thin">
+                {/* {BADGE_DESCRIPTIONS.map((desc, i) => (
                   <p key={i} className="text-base leading-relaxed text-zinc-400 font-medium">
                     {desc}
                   </p>
-                ))}
+                ))} */}
+                <p className="text-base leading-relaxed text-zinc-400 font-medium">
+                  Traveller,
+                </p>
+                <p className="text-base leading-relaxed text-zinc-400 font-medium">
+                  At CLAW, every camp you complete earns you an insignia. These insignias represent your courage, learning, and the journey you take through Land, Air, Water, and Spirit Road.
+                </p>
+                <p className="text-base leading-relaxed text-zinc-400 font-medium">
+                  Here’s what each badge represents:
+                </p>
+                <ul className="list-disc list-inside text-base leading-relaxed text-zinc-400 font-medium space-y-2">
+                  <li>
+                    Explorer: Complete your first camp to earn your Explorer insignia.
+                  </li>
+                  <li>
+                    Master: Complete 5 camps in a single tier, for example Land, to earn the title of Master.
+                  </li>
+                  <li>
+                    Legend: Earn 5 Master badges to become a Legend of that tier.
+                  </li>
+                  <li>
+                    Marshal: Complete all 4 tiers i.e Land, Air, Water, and Spirit Road to earn your Marshal insignia.
+                  </li>
+                  <li>
+                    Guardian: Travellers who earn 5 Marshal badges become Guardians.
+                  </li>
+                  <li>
+                    Soul of Steel: The highest honor, personally awarded by Major Vivek Jacob, Para SF 9, Indian Special Forces and Founder of CLAW. This is given only to travellers who have made a real positive impact in the world. Even if it’s a small impact, as long as it makes the world a better place, we will invite you personally to the Den.
+                  </li>
+                </ul>
+                <p className="text-base leading-relaxed text-zinc-400 font-medium">
+                  Every insignia you earn is added to your Insignia Board, recorded on your profile, and couriered to you so you can wear them with pride. Each insignia tells the story of your journey, showing what you have achieved and how you have grown.
+                </p>
+                <p className="text-base leading-relaxed text-zinc-400 font-medium">
+                  We are proud to be on this journey with you.
+                </p>
+                <p className="text-base leading-relaxed text-zinc-400 font-medium">
+                  Team CLAW
+                </p>
               </div>
             </div>
           </div>
@@ -181,7 +227,7 @@ export default function InsigniaDashboard() {
                   </Button>
                 </SheetTrigger>
                 <SheetContent side="right" className="min-w-2xl sm:max-w-3xl p-0 border-zinc-900 bg-black">
-                   <InsigniaDetails />
+                  <InsigniaDetails />
                 </SheetContent>
               </Sheet>
             </div>
@@ -253,7 +299,7 @@ export default function InsigniaDashboard() {
           </div>
         </section>
 
-        
+
       </main>
     </div>
   );

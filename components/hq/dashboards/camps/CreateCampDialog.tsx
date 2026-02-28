@@ -26,7 +26,7 @@ import { CampFormValues } from "@/lib/types/api";
 
 const allSections = ["Camp Details", "Collaborate", "Pitch", "Paper Work", "Documents Required", "Bank Detail", "Privacy & Refund", "Camp's Status", "Go Viral", "Camp Analytics", "Traveller's Info", "Letters"];
 
-const dummyCampFormValues: CampFormValues = {
+export const dummyCampFormValues: CampFormValues = {
   id: "dummy-camp-id",
   slug: "dummy-camp-slug",
   campName: "Dummy Camp Adventure",
@@ -47,7 +47,7 @@ const dummyCampFormValues: CampFormValues = {
   meetupAddress: "456 Gathering Point, City, State",
   meetupGoogleMapsUrl: "https://maps.google.com/?q=Dummy+Meetup+Point",
   partners: [],
-  status: CampStatus.PENDING_REVIEW,
+  status: CampStatus.APPROVED,
   pitch: {
     campBrief: "This is a dummy camp brief about an exciting adventure.",
     checkList: "Sleeping bag, hiking boots, positive attitude",
@@ -142,7 +142,6 @@ const dummyCampFormValues: CampFormValues = {
 };
 
 export function CreateCampDialog({ initialData, isOpen, onClose }: { initialData?: Partial<CampFormValues>; isOpen?: boolean; onClose?: () => void }) {
-	initialData = dummyCampFormValues;
 	const [currentSectionIndex, setCurrentSectionIndex] = React.useState(0);
 	const [enabledSections, setEnabledSections] = React.useState<string[]>(initialData ? allSections : ["Camp Details"]);
 	const [isUpdatable, setIsUpdatable] = React.useState(false);
@@ -262,8 +261,8 @@ export function CreateCampDialog({ initialData, isOpen, onClose }: { initialData
 	}, [initialData?.id]);
 
 
-	// const sections = initialData ? allSections : allSections.filter((s) => !["Go Viral", "Traveller's Info", "Camp's Status", "Letters", "Camp Analytics"].includes(s));
-	const sections = allSections
+	const sections = initialData ? allSections : allSections.filter((s) => !["Go Viral", "Traveller's Info", "Camp's Status", "Letters", "Camp Analytics"].includes(s));
+	// const sections = allSections
 	const currentSection = sections[currentSectionIndex];
 	const currentFormId = `${currentSection.replace(/ /g, "-").toLowerCase()}-form`;
 
@@ -653,7 +652,7 @@ export function CreateCampDialog({ initialData, isOpen, onClose }: { initialData
                             setCurrentSection={setCurrentSectionIndex} 
                             sections={sections} 
                             enabledSections={enabledSections} 
-                            isUpdateMode={isUpdateMode} 
+                            isUpdateMode={initialData != undefined} 
                         />
                     </div>
 

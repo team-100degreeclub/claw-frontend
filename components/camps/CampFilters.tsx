@@ -31,7 +31,7 @@ const FOCUS_AREAS = [
   { label: "Medical", value: "medical", icon: <HeartPulse className="w-3.5 h-3.5" /> },
 ];
 
-export default function CampFilters({ isLetsTalkActive, onToggleLetsTalk }: { isLetsTalkActive: boolean, onToggleLetsTalk: (isActive: boolean) => void }) {
+export default function CampFilters({ categoryFilter, onToggleCategoryFilter, setSubCategoryFilter }: { categoryFilter: boolean, onToggleCategoryFilter: (isActive: boolean) => void, setSubCategoryFilter: (filter: string) => void }) {
   const [locations, setLocations] = React.useState<string[]>(["India"]);
   const [domain, setDomain] = React.useState("Land");
   const [focus, setFocus] = React.useState<string[]>([]);
@@ -46,13 +46,19 @@ export default function CampFilters({ isLetsTalkActive, onToggleLetsTalk }: { is
 
   React.useEffect(() => {
     if (activeMode === "Spirit Roads") {
-      onToggleLetsTalk(true);
+      onToggleCategoryFilter(true);
       setDomain(""); // Deselect Land/Air/Water
     } else { // activeMode === "Adventure"
-      onToggleLetsTalk(false);
+      onToggleCategoryFilter(false);
       setDomain("Land"); // Select Land by default for Adventure
+      setSubCategoryFilter("Land");
     }
   }, [activeMode]);
+
+  const handleSubCategoryChange = (subCategory: string) => {
+    setDomain(subCategory);
+    setSubCategoryFilter(subCategory);
+  }
 
   return (
     <div className="flex items-center gap-1 bg-white dark:bg-zinc-950 p-4 rounded-xl shadow-sm border border-zinc-100 dark:border-zinc-800 w-full transition-colors">
@@ -69,9 +75,9 @@ export default function CampFilters({ isLetsTalkActive, onToggleLetsTalk }: { is
         
           <span className="text-xs font-semibold">Conquer</span>
           <div className="flex bg-zinc-100 dark:bg-zinc-900 p-1 rounded-full border border-transparent dark:border-zinc-800 text-lg">
-            <ToggleButton active={domain === "Land"} onClick={() => setDomain("Land")} label="Land" />
-            <ToggleButton active={domain === "Air"} onClick={() => setDomain("Air")} label="Air" />
-            <ToggleButton active={domain === "Water"} onClick={() => setDomain("Water")} label="Water" />
+            <ToggleButton active={domain === "Land"} onClick={() => handleSubCategoryChange("Land")} label="Land" />
+            <ToggleButton active={domain === "Air"} onClick={() => handleSubCategoryChange("Air")} label="Air" />
+            <ToggleButton active={domain === "Water"} onClick={() => handleSubCategoryChange("Water")} label="Water" />
           </div>
         </>
       )}

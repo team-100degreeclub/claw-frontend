@@ -65,7 +65,7 @@ const COLLABORATIONS = [
 
 export default function HeroDiscovery() {
   const plugin = React.useRef(
-    Autoplay({ delay: 2500 })
+    Autoplay({ delay: 3000 })
   );
 
   return (
@@ -73,8 +73,8 @@ export default function HeroDiscovery() {
       <Carousel
         plugins={[plugin.current]}
         className="w-full"
-        onMouseEnter={plugin.current.stop}
-        onMouseLeave={plugin.current.reset}
+        // onMouseEnter={plugin.current.stop}
+        // onMouseLeave={plugin.current.reset}
       >
         <CarouselContent>
           {COLLABORATIONS.map((collab, index) => (

@@ -6,7 +6,8 @@ import CampFilters from "@/components/camps/CampFilters";
 import CampGrid from "@/components/camps/CampGrid";
 
 export default function Home() {
-  const [isLetsTalkActive, setIsLetsTalkActive] = useState(false);
+  const [categoryFilter, setCategoryFilter] = useState(false);
+  const [subCategoryFilter, setSubCategoryFilter] = useState("Land");
 
   return (
     <>
@@ -14,8 +15,8 @@ export default function Home() {
       
       {/* We wrap the filters and grid in a container for consistent spacing */}
       <div className="space-y-8">
-        <CampFilters isLetsTalkActive={isLetsTalkActive} onToggleLetsTalk={setIsLetsTalkActive} />
-        {isLetsTalkActive ? (
+        <CampFilters categoryFilter={categoryFilter} onToggleCategoryFilter={setCategoryFilter} setSubCategoryFilter={setSubCategoryFilter} />
+        {categoryFilter ? (
           <p className="text-base text-white px-4">
             These are conversation camps built by Special Forces veterans, where together we breathe through your life situations and try to see them from a slightly higher consciousness. These camps are built for small or personal groups only.
           </p>
@@ -24,7 +25,7 @@ export default function Home() {
             These are adventure camps built by Special Forces veterans, where we try to reach the highest level of consciousness by performing activities which target the physical, mental and medical aspects.
           </p>
         )}
-        <CampGrid isLetsTalkActive={isLetsTalkActive} />
+        <CampGrid categoryFilter={categoryFilter} subCategoryFilter={subCategoryFilter} />
       </div>
     </>
   );

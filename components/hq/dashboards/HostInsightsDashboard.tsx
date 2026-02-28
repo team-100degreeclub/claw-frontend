@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
 import { Switch } from "@/components/ui/switch"; // npx shadcn-ui@latest add switch
@@ -158,13 +158,19 @@ const dealData = {
     ]
   },
   lifetime: {
-    corporateNet: 18500000,
-    campNet: 24000000,
+    corporateNet: 70000000,
+    campNet: 84800000,
     corporateRows: [
+      ["Tech Corp / London", "Global Team", 22000000],
+      ["Global Inc / NY", "Jane Smith", 18500000],
+      ["Asian Tech / Singapore", "John Doe", 11500000],
       ["Top 5 Clients", "Global Collab", 12000000],
       ["SME Sector", "Direct", 65000000],
     ],
     campRows: [
+      ["Himalayan Series", "Spirit Roads", "Major Karan", "18 - 50", 22000000, 13000000],
+      ["Global Adventure Tour", "CLAW", "Capt. Sameer", "18 - 40", 15000000, 9000000],
+      ["Specialized Training", "Internal", "Major Karan", "25 - 45", 8000000, 7000000],
       ["Spirit Roads Portfolio", "Legacy", "Major Karan", "All", 10000, 16000000],
       ["CLAW Portfolio", "New Age", "Capt. Sameer", "All", 51999, 80000000],
     ]
@@ -206,6 +212,10 @@ export default function HostInsightsView({ teamView = false }: { teamView?: bool
   const currentTrafficData = travellerTrafficData[travellerTrafficFilter == "week" ? "week" : travellerTrafficFilter == "month" ? "month" : travellerTrafficFilter == "quarter" ? "quarter" : revenueFilter == "year" ? "year" : "lifetime"];
   const currentRevenueData = revenueData[revenueFilter == "week" ? "week" : revenueFilter == "month" ? "month" : revenueFilter == "quarter" ? "quarter" : revenueFilter == "year" ? "year" : "lifetime"];
   const host = HOST_DATA.find(h => h.id === view) || HOST_DATA[0];
+
+  useEffect(() => {
+    setIsAvailable(host.status === "Available");
+  }, [host.status]);
 
   return (
     <div className="space-y-8 pb-20 text-white animate-in fade-in duration-500">
@@ -442,7 +452,7 @@ export default function HostInsightsView({ teamView = false }: { teamView?: bool
             />
             <InsightTable
               title="Camp Insights"
-              headers={["Camp Name / Location", "Type", "Collab", "Target Audience", "Ticket Size", "Net"]}
+              headers={["Camp Name", "Type", "Collab", "Target Audience", "Ticket Size", "Net"]}
               data={currentDealData.campRows}
             />
           </div>

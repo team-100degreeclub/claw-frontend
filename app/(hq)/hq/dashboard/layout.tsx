@@ -34,7 +34,7 @@ const secondaryMenus: Record<string, { category: string; items: string[] }[]> = 
   "Profile": [
     {
       category: "Profile",
-      items: ["Profile Data", "Support", "Privacy Policy", "Contract"],
+      items: ["Profile Data", "Contract", "Support", "Privacy Policy"],
     },
   ]
 };

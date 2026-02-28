@@ -38,6 +38,13 @@ export default function Navbar() {
         <div className="flex items-center gap-4">
           <Button
             variant="ghost"
+            onClick={() => router.push("/login")}
+            className="flex items-center border-0 bg-none hover:bg-zinc-600/40 hover:cursor-pointer gap-2 text-sm font-bold text-zinc-300 transition-colors hover:text-white px-4"
+          >
+            Login
+          </Button>
+          <Button
+            variant="ghost"
             onClick={() => router.push("/corporate-events")}
             className="flex items-center border-0 bg-none hover:bg-zinc-600/40 hover:cursor-pointer gap-2 text-sm font-bold text-zinc-300 transition-colors hover:text-white px-4"
           >
@@ -82,7 +89,7 @@ export default function Navbar() {
             <Button
               variant="ghost"
               size="icon"
-              onClick={() => router.push("/bookings")}
+              onClick={() => router.push("tickets")}
               className="cursor-pointer hover:bg-white/60"
             >
               <CalendarCheck className="h-6 w-6 text-zinc-400" color="white"/>

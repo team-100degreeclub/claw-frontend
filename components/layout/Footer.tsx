@@ -14,12 +14,12 @@ export default function Footer() {
 
       {/* 2. Right Section: CTA & Socials */}
       <div className="flex items-center gap-8">
-        <Link 
+        {/* <Link 
           href="/careers" 
           className="text-xs text-white hover:text-cyan-400 transition-colors"
         >
           Careers
-        </Link>
+        </Link> */}
         {/* <Link 
           href="/hq" 
           className="text-xs font-black uppercase tracking-[0.2em] text-white hover:text-cyan-400 transition-colors"

@@ -35,11 +35,15 @@ const DATA = {
     ]
   },
   "Special Forces": [
-    { id: "SF-01", name: "Major Vivek Jacob", role: "Founder & Mission Lead", img: "/vivek_jacob.jpg" },
+    { id: "SF-01", name: "Major Vivek Jacob", role: "Founder", img: "/vivek_jacob.jpg" },
     { id: "SF-02", name: "Gaurav Bali", role: "Combat Veteran & Mountain Expert", img: "/gaurav_bali.jpg" }
   ],
   "Core Team": [
     { id: "CT-01", name: "Anjali Sharma", role: "Operations Director", img: "https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?q=80&w=1288&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D" },
+    { id: "CT-02", name: "Aditya S.", role: "Content Writer", img: "https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?q=80&w=1288&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D" },
+    { id: "CT-03", name: "Neha S.", role: "Digital Marketing Specialist", img: "https://images.unsplash.com/photo-1599566150163-29194dcaad36?q=80&w=1287&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D" },
+    { id: "CT-04", name: "Tushar K.", role: "Graphic Designer", img: "https://images.unsplash.com/photo-1560250097-0b93528c311a?q=80&w=1287&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D" },
+    { id: "CT-05", name: "Rajesh K.", role: "Fullstack Developer", img: "https://images.unsplash.com/photo-1544723795-3fb6469f5b39?q=80&w=1289&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D" },
   ],
   "Super Interns": [
     { id: "IN-01", name: "Rahul V.", role: "Fullstack Developer", img: "https://images.unsplash.com/photo-1599566150163-29194dcaad36?q=80&w=1287&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D" },
@@ -115,32 +119,28 @@ export default function OperationBlueFreedomPage() {
             </div>
           ) : (
             /* Team Members Grid */
-            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-8 animate-in fade-in duration-500">
-              {(DATA[activeTab] as Member[]).map((member) => (
-                <Card
-                  key={member.id}
-                  className="bg-zinc-900/40 border-zinc-800 rounded-[24px] overflow-hidden group hover:border-zinc-700 transition-all duration-300"
-                >
-                  <CardHeader className="p-0">
-                    <div className="aspect-[4/5] w-full overflow-hidden bg-zinc-950">
-                      <img
-                        src={member.img}
-                        alt={member.name}
-                        className="w-full h-full object-cover transition-all duration-500 scale-105 group-hover:scale-100"
-                      />
-                    </div>
-                  </CardHeader>
-                  <CardContent className="p-6">
-                    <h3 className="text-white text-base font-bold">
-                      {member.name}
-                    </h3>
-                    <p className="text-zinc-500 text-sm font-medium mt-1">
-                      {member.role}
-                    </p>
-                  </CardContent>
-                </Card>
-              ))}
-            </div>
+            <div className="flex gap-8 overflow-x-auto pb-4 scrollbar-thin animate-in fade-in duration-500">
+  {(DATA[activeTab] as Member[]).map((member) => (
+    <Card
+      key={member.id}
+      className="bg-zinc-900/40 border-zinc-800 rounded-[24px] overflow-hidden group hover:border-zinc-700 transition-all duration-300 shrink-0 w-64"
+    >
+      <CardHeader className="p-0">
+        <div className="aspect-[4/5] w-full overflow-hidden bg-zinc-950">
+          <img
+            src={member.img}
+            alt={member.name}
+            className="w-full h-full object-cover transition-all duration-500 scale-105 group-hover:scale-100"
+          />
+        </div>
+      </CardHeader>
+      <CardContent className="p-6">
+        <h3 className="text-white text-base font-bold">{member.name}</h3>
+        <p className="text-zinc-500 text-sm font-medium mt-1">{member.role}</p>
+      </CardContent>
+    </Card>
+  ))}
+</div>
           )}
         </div>
       </main>

@@ -13,7 +13,16 @@ import { useFormContext, useFieldArray } from "react-hook-form";
 import { getDocumentTypes, DocumentType } from "@/lib/services/documentService";
 import { CampFormValues } from "@/lib/types/api";
 import { Input } from "@/components/ui/input";
-
+// export interface DocumentType {
+//   id: string;
+//   document_type_code: string;
+//   document_name: string;
+// }
+const documentTypes: DocumentType[] = [
+    {id: "doc-type-id-1", document_type_code: "doc-type-code-1", document_name: "Aadhaar Card"},
+    {id: "doc-type-id-2", document_type_code: "doc-type-code-2", document_name: "Passport"},
+    {id: "doc-type-id-3", document_type_code: "doc-type-code-3", document_name: "Medical Certificate"},
+]
 export function DocumentsRequiredSection() {
   const { control, watch, setValue, register } = useFormContext<CampFormValues>();
 
@@ -22,12 +31,11 @@ export function DocumentsRequiredSection() {
     name: "requiredDocuments",
   });
 
-  const [availableDocuments, setAvailableDocuments] = useState<DocumentType[]>(
-    []
-  );
+  const [availableDocuments, setAvailableDocuments] = useState<DocumentType[]>(documentTypes);
 
   useEffect(() => {
-    getDocumentTypes().then(setAvailableDocuments).catch(console.error);
+    // getDocumentTypes().then(setAvailableDocuments).catch(console.error);
+    // setAvailableDocuments(documentTypes);
   }, []);
 
   const watchedDocuments = watch("requiredDocuments") ?? [];
@@ -85,7 +93,7 @@ export function DocumentsRequiredSection() {
                                     );
                                 }}
                             >
-                                <SelectTrigger className="h-11 bg-zinc-900 border-zinc-800 text-zinc-100 focus:ring-white">
+                                <SelectTrigger className="h-11 bg-zinc-900 border-zinc-800 text-zinc-100 focus:ring-white w-full">
                                     <SelectValue placeholder="Select a document from database" />
                                 </SelectTrigger>
 

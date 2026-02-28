@@ -198,7 +198,7 @@ export function CampDetailsForm({ isUpdateMode, isUpdatable }: CampDetailsFormPr
                                     <FormLabel className="text-zinc-400">Gender</FormLabel>
                                     <Select onValueChange={field.onChange} defaultValue={field.value}>
                                         <FormControl>
-                                            <SelectTrigger className="h-11 bg-zinc-900 border-zinc-800 text-zinc-100">
+                                            <SelectTrigger className="h-11 bg-zinc-900 border-zinc-800 text-zinc-100 w-full">
                                                 <SelectValue placeholder="Select gender">
                                                     {field.value ? genderDisplay[field.value] : "Select gender"}
                                                 </SelectValue>

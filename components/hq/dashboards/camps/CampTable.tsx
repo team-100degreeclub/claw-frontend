@@ -14,6 +14,7 @@ import { toast } from "sonner";
 import { IncompleteProfileDialog } from "./IncompleteProfileDialog";
 import { formatCompactNumber } from "../PerformanceDashboard";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
+import { dummyCampFormValues } from "./CreateCampDialog";
 
 // Updated type to reflect new columns
 interface ExtendedCampView {
@@ -65,6 +66,7 @@ interface CampTableProps {
 
 export function CampTable({ profile }: CampTableProps) {
     const [isCreateCampOpen, setCreateCampOpen] = React.useState(false);
+    const [ isUpdate, setIsUpdate ] = React.useState(false);
     const [selectedCamp, setSelectedCamp] = React.useState<Partial<CampFormValues> | undefined>(undefined);
     const [camps, setCamps] = useState<ExtendedCampView[]>([]);
     const [isLoading, setIsLoading] = useState(true);
@@ -82,10 +84,11 @@ export function CampTable({ profile }: CampTableProps) {
 
     const isProfileComplete = (profile: PartnerProfileResponse | null): boolean => true;
 
-    const handleCreateCampClick = () => {
+    const handleCreateCampClick = (isUpdate: boolean) => {
         if (isProfileComplete(profile)) {
-            setSelectedCamp(undefined);
+            setSelectedCamp(dummyCampFormValues);
             setCreateCampOpen(true);
+            setIsUpdate(isUpdate);
         } else {
             setProfileIncomplete(true);
         }
@@ -156,7 +159,7 @@ export function CampTable({ profile }: CampTableProps) {
 
                     {/* Action Button */}
                     <Button
-                        onClick={handleCreateCampClick}
+                        onClick={() => handleCreateCampClick(false)}
                         className="bg-blue-600 hover:bg-blue-500 text-white rounded-xl h-[42px] px-6 font-semibold text-sm transition-all shadow-lg shadow-blue-900/20"
                     >
                         Create Camp
@@ -195,7 +198,7 @@ export function CampTable({ profile }: CampTableProps) {
                                         <TableRow
                                             key={camp.id}
                                             className="group border-b border-zinc-900 hover:bg-zinc-800/40 hover:cursor-pointer transition-all duration-200"
-                                            onClick={handleCreateCampClick}
+                                            onClick={() => handleCreateCampClick(true)}
                                         >
                                             {/* Camp Name */}
                                             <TableCell className="py-5 pl-8 text-sm font-medium text-zinc-300 group-hover:text-white transition-colors">
@@ -269,7 +272,7 @@ export function CampTable({ profile }: CampTableProps) {
                 {/* </CardContent> */}
             </div>
 
-            <CreateCampDialog isOpen={isCreateCampOpen} onClose={() => { setCreateCampOpen(false); fetchCamps(); }} initialData={selectedCamp} />
+            <CreateCampDialog isOpen={isCreateCampOpen} onClose={() => { setCreateCampOpen(false); fetchCamps(); }} initialData={isUpdate ? selectedCamp : undefined} />
             <IncompleteProfileDialog isOpen={isProfileIncomplete} onClose={() => setProfileIncomplete(false)} />
         </div>
     );
