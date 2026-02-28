@@ -169,7 +169,7 @@ function ScreenContent({
         muted
         loop
         playsInline
-        src="/pre-reg-hero.mp4"
+        src="/pre-reg-video.mp4"
       />
 
       <div className="absolute inset-0 bg-gradient-to-b from-black/25 via-transparent to-black/90" />
@@ -250,7 +250,7 @@ export default function PreRegistrationPage() {
           muted
           loop
           playsInline
-          src="/pre-reg-hero.mp4"
+          src="/pre-reg-video.mp4"
         />
         <div className="absolute inset-0 backdrop-blur-3xl bg-black/65" />
         <div className="absolute inset-0 bg-[radial-gradient(ellipse_70%_80%_at_50%_50%,transparent_30%,rgba(0,0,0,0.75)_100%)]" />
