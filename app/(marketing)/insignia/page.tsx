@@ -3,6 +3,7 @@
 import React from "react";
 import { Shield, MapPin, Calendar, Star, Compass } from "lucide-react";
 import InsigniaSpotlight from "@/components/hq/dashboards/InsigniaSpotlight";
+import InsigniaDashboard from "@/components/hq/dashboards/InsigniaDashboard";
 
 // --- Data Configuration ---
 
@@ -96,6 +97,9 @@ export const BadgeProgressBox = ({ label, count, total, nextLevel, requirement }
 // --- Main Page ---
 
 export default function InsigniaPage() {
+  return (
+    <InsigniaDashboard />
+  )
   return (
     <div className="min-h-screen bg-black text-zinc-300 flex flex-col font-sans overflow-y-auto">
 
