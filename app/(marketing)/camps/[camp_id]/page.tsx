@@ -314,15 +314,15 @@ Oh.. please do not ask how to join the Army..`,
                         <YouTubePlayer
                             videoId={selectedCamp.video_id}
                             className="absolute inset-0 w-full h-full"
-                            isPlaying={true}
+                            isPlaying={false}
                             opts={{
                                 playerVars: {
-                                    autoplay: 1,
+                                    autoplay: 0,
                                     controls: 1,
                                     modestbranding: 1,
                                     rel: 0,
                                     start: 109,
-                                    mute: 1, 
+                                    mute: 0, 
                                     playsinline: 1,
                                 },
                             }}
