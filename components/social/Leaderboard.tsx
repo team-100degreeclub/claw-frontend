@@ -18,10 +18,10 @@ export default function Leaderboard() {
       {/* 1. Sticky Header Container */}
       <div className="sticky top-0 z-50 bg-zinc-950/80">
         <div className="flex flex-row justify-around">
-          <div className="flex bg-zinc-100 p-1 dark:bg-zinc-900 rounded-full border border-transparent dark:border-zinc-800 flex-row w-fit">
-            <ToggleButton active={selectedTab === "stories"} onClick={() => setSelectedTab("stories")} label="Stories" clas/>
-            <ToggleButton active={selectedTab === "insignia"} onClick={() => setSelectedTab("insignia")} label="Op. Blue Freedom" />
-            <ToggleButton active={selectedTab === "past_camps"} onClick={() => setSelectedTab("past_camps")} label="Past Camps" />
+          <div className="flex bg-zinc-100 p-1 dark:bg-zinc-900 rounded-full border border-transparent dark:border-zinc-800 flex-row w-full justify-between">
+            <ToggleButton active={selectedTab === "stories"} onClick={() => setSelectedTab("stories")} label="Stories" className="text-left" />
+            <ToggleButton active={selectedTab === "insignia"} onClick={() => setSelectedTab("insignia")} label="Op. Blue Freedom" className="text-left" />
+            <ToggleButton active={selectedTab === "past_camps"} onClick={() => setSelectedTab("past_camps")} label="Past Camps" className="text-left" />
           </div>
         </div>
       </div>

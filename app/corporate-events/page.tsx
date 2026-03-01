@@ -112,6 +112,17 @@ export default function CorporateEvents() {
                   />
                 </div>
               </div>
+              <div className="space-y-2">
+                <label className="text-sm text-zinc-400 ml-1">Organization Location</label>
+                <div className="relative">
+                  <MapPin className="absolute left-3 top-3 h-5 w-5 text-zinc-600" />
+                  <input
+                    type="text"
+                    placeholder="e.g. Mumbai, MH, India"
+                    className="w-full bg-zinc-950 border border-zinc-800 rounded-lg py-2.5 pl-10 pr-4 focus:outline-none focus:border-zinc-600 transition-colors"
+                  />
+                </div>
+              </div>
 
               <div className="space-y-2">
                 <label className="text-sm text-zinc-400 ml-1">What's the purpose?</label>
@@ -123,14 +134,14 @@ export default function CorporateEvents() {
 
               <div className="grid grid-cols-1 md:grid-cols-1 gap-4">
                 <div className="space-y-2">
-                  <label className="text-sm text-zinc-400 ml-1">Location</label>
+                  <label className="text-sm text-zinc-400 ml-1">Event Location</label>
                   <div className="relative">
                     <MapPin className="absolute left-3 top-3 h-5 w-5 text-zinc-600" />
                     <input type="text" placeholder="Preferred region" className="w-full bg-zinc-950 border border-zinc-800 rounded-lg py-2.5 pl-10 pr-4 focus:outline-none focus:border-zinc-600" />
                   </div>
                 </div>
                 <div className="space-y-2">
-                  <label className="text-sm text-zinc-400 ml-1">Event Duration (Date & Time)</label>
+                  <label className="text-sm text-zinc-400 ml-1">Schedule</label>
                   <Popover>
                     <PopoverTrigger asChild>
                       <Button

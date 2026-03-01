@@ -38,10 +38,10 @@ export default function Navbar() {
         <div className="flex items-center gap-4">
           <Button
             variant="ghost"
-            onClick={() => router.push("/login")}
+            onClick={() => router.push("/insignia")}
             className="flex items-center border-0 bg-none hover:bg-zinc-600/40 hover:cursor-pointer gap-2 text-sm font-bold text-zinc-300 transition-colors hover:text-white px-4"
           >
-            Login
+            Insignia
           </Button>
           <Button
             variant="ghost"

@@ -318,18 +318,18 @@ Oh.. please do not ask how to join the Army..`,
                             opts={{
                                 playerVars: {
                                     autoplay: 1,
-                                    controls: 0,
+                                    controls: 1,
                                     modestbranding: 1,
                                     rel: 0,
                                     start: 109,
-                                    mute: 0, // REQUIRED for autoplay to work
+                                    mute: 1, 
                                     playsinline: 1,
                                 },
                             }}
                         />
                     </div>
                 </div>
-                <div className="absolute inset-0 bg-gradient-to-t from-black via-transparent to-transparent" />
+                {/* <div className="absolute inset-0 bg-gradient-to-t from-black via-transparent to-transparent" /> */}
 
                 {/* Camp Identity Overlay */}
                 <div className="absolute bottom-24 left-10 md:left-5">
