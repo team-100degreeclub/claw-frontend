@@ -309,8 +309,8 @@ Oh.. please do not ask how to join the Army..`,
         <div className="min-h-screen bg-black text-white">
             {/* 1. Full Viewport Video Hero */}
             <section className="relative w-full overflow-hidden pb-[56.25%]">
-                <div className="absolute inset-0 h-full w-full pointer-events-none">
-                    <div className="absolute inset-0 h-full w-full pointer-events-none">
+                <div className="absolute inset-0 h-full w-full">
+                    <div className="absolute inset-0 h-full w-full">
                         <YouTubePlayer
                             videoId={selectedCamp.video_id}
                             className="absolute inset-0 w-full h-full"

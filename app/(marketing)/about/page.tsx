@@ -37,7 +37,7 @@ const DATA = {
   },
   "Special Forces": [
     { id: "SF-01", name: "Major Vivek Jacob", role: "Founder, CLAW", sub1: "Indian Para Special Forces 9", img: "/vivek_jacob.jpg" },
-    { id: "SF-02", name: "Lt Col Gaurav Bali", role: "Lt. Infantry, Indian Army", img: "/gaurav_bali.jpg" }
+    { id: "SF-02", name: "Lt Col Gaurav Bali", role: "Lt. Infantry,", sub1: "Indian Army", img: "/gaurav_bali.jpg" }
   ],
   "Core Team": [
     { id: "CT-01", name: "Anjali Sharma", role: "Operations Director", img: "https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?q=80&w=1288&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D" },
@@ -136,7 +136,7 @@ export default function OperationBlueFreedomPage() {
                   <CardContent className="p-6">
                     <h3 className="text-white text-base font-bold">{member.name}</h3>
                     <p className="text-zinc-500 text-sm font-medium mt-1">{member.role}</p>
-                    {member.sub1 ?? <p className="text-zinc-500 text-sm font-medium mt-1">{member.role}</p>}
+                    {member.sub1 && <p className="text-zinc-500 text-sm font-medium mt-1">{member.sub1}</p>}
                   </CardContent>
                 </Card>
               ))}
