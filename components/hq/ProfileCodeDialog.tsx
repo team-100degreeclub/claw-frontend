@@ -31,7 +31,7 @@ export default function ProfileCodeDialog() {
             <form onSubmit={handleVerifyCode} className="py-12 flex flex-col items-center gap-6">
                 <div className="text-center space-y-2">
                     {/* <h2 className="text-xl font-bold  ">Access Restricted</h2> */}
-                    <p className="text-zinc-400 text-base">Please enter your unique profile code to proceed.</p>
+                    {/* <p className="text-zinc-400 text-base">Please enter your unique profile code to proceed.</p> */}
                 </div>
                 <div className="w-full max-w-xs space-y-4">
                     <div className="space-y-1.5">
