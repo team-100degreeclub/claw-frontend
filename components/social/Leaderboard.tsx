@@ -13,7 +13,7 @@ import PastCamps from "../camps/PastCamps";
 export default function Leaderboard() {
   const [selectedTab, setSelectedTab] = React.useState("stories");
   return (
-    <div className="relative overflow-hidden w-full max-w-md bg-zinc-950/50 backdrop-blur-xl rounded-3xl border border-white/5 shadow-2xl h-[100%] flex flex-col">
+    <div className="relative overflow-hidden w-full bg-zinc-950/50 backdrop-blur-xl rounded-3xl border border-white/5 shadow-2xl h-[100%] flex flex-col">
       
       {/* 1. Sticky Header Container */}
       <div className="sticky top-0 z-50 bg-zinc-950/80">
