@@ -5,6 +5,8 @@ import { Badge } from "@/components/ui/badge";
 import { Calendar, IndianRupee, MapPin, CheckCircle2, Ticket, Clock, FileWarning, CheckCircle, Grid } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { Camp } from "@/types/camp";
+import { useMemo } from "react";
+import YouTubePlayer from "../ui/youtube-player";
 
 type DocumentStatus = 'Pending' | 'Uploaded' | 'Verified' | 'Rejected';
 
@@ -52,6 +54,19 @@ export function CampCard({ camp, documentStatus, onCardClick }: { camp: Camp; do
 
   const documentStatusContent = documentStatus ? getDocumentStatusContent(documentStatus) : null;
 
+  const opts = useMemo(() => ({
+		height: "100%",
+		width: "100%",
+		playerVars: {
+			mute: 1,
+			loop: 1,
+			playlist: camp.youtube_video_id,
+			controls: 0,
+			showinfo: 0,
+			modestbranding: 1,
+		},
+	}), [camp.youtube_video_id]);
+
   return (
     <div
       className="group flex flex-col min-w-[300px] bg-white dark:bg-zinc-950 rounded-xl overflow-hidden shadow-sm border border-zinc-100 dark:border-zinc-900 transition-all hover:shadow-xl hover:-translate-y-1 cursor-pointer"
@@ -59,11 +74,14 @@ export function CampCard({ camp, documentStatus, onCardClick }: { camp: Camp; do
     >
       {/* 1. Tactical Visual Section */}
       <div className="relative aspect-[16/10] overflow-hidden">
-        <img 
+        {/* <img 
           src={camp.image} 
           alt={camp.title}
           className="h-full w-full object-cover transition-transform duration-700 group-hover:scale-105"
-        />
+        /> */}
+        {/* {videoId && ( */}
+					<YouTubePlayer videoId={camp.youtube_video_id} opts={opts} isPlaying={true} className="w-full h-full absolute inset-0 object-cover" />
+				{/* )} */}
         {/* Environment/Focus Badge - Overlaid like Red Bull partner logos */}
         {/* <div className="absolute bottom-3 left-3">
           <Badge className="bg-white/90 dark:bg-black/80 text-black dark:text-white border-none font-black text-[9px] tracking-widest px-2 py-1 backdrop-blur-sm">

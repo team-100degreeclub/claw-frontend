@@ -13,6 +13,7 @@ export const MOCK_CAMPS: Camp[] = [
       price: "23,999",
       seatsLeft: "10",
       totalSeats: "20",
+      youtube_video_id: "H9-OOl_9r6I",
     },
     {
       id: "2",
@@ -26,6 +27,7 @@ export const MOCK_CAMPS: Camp[] = [
       price: "19,999",
       seatsLeft: "5",
       totalSeats: "10",
+      youtube_video_id: "H9-OOl_9r6I",
     },
     {
       id: "3",
@@ -39,6 +41,7 @@ export const MOCK_CAMPS: Camp[] = [
       price: "31,999",
       seatsLeft: "5",
       totalSeats: "10",
+      youtube_video_id: "H9-OOl_9r6I",
     },
     {
       id: "4",
@@ -52,6 +55,7 @@ export const MOCK_CAMPS: Camp[] = [
       price: "12,999",
       seatsLeft: "5",
       totalSeats: "10",
+      youtube_video_id: "H9-OOl_9r6I",
     },
     {
       id: "7",
@@ -62,9 +66,10 @@ export const MOCK_CAMPS: Camp[] = [
       date: "15th June",
       status: "Open",
       image: "https://images.unsplash.com/photo-1515187029135-18ee286d815b?auto=format&fit=crop&q=80&w=800",
-      price: "18,500", // Fixed price
+      price: "18,500",
       seatsLeft: "12",
       totalSeats: "18",
+      youtube_video_id: "H9-OOl_9r6I",
     },
     {
       id: "8",
@@ -75,9 +80,10 @@ export const MOCK_CAMPS: Camp[] = [
       date: "20th July",
       status: "Open",
       image: "https://images.unsplash.com/photo-1569435998017-abb5d562dedf?auto=format&fit=crop&q=80&w=800",
-      price: "35,000", // Fixed price
+      price: "35,000",
       seatsLeft: "7",
       totalSeats: "12",
+      youtube_video_id: "H9-OOl_9r6I",
     },
     {
       id: "9",
@@ -88,9 +94,10 @@ export const MOCK_CAMPS: Camp[] = [
       date: "25th August",
       status: "Open",
       image: "https://images.unsplash.com/photo-1610070835951-156b6921281d?auto=format&fit=crop&q=80&w=800",
-      price: "20,000", // Fixed price
+      price: "20,000",
       seatsLeft: "9",
       totalSeats: "15",
+      youtube_video_id: "H9-OOl_9r6I",
     },
     {
       id: "10",
@@ -101,9 +108,10 @@ export const MOCK_CAMPS: Camp[] = [
       date: "30th September",
       status: "Open",
       image: "https://images.unsplash.com/photo-1551847609-5aaf21a58ebc?auto=format&fit=crop&q=80&w=800",
-      price: "28,000", // Fixed price
+      price: "28,000",
       seatsLeft: "6",
       totalSeats: "10",
+      youtube_video_id: "H9-OOl_9r6I",
     }
   ];
 

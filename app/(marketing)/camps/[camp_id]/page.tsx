@@ -18,6 +18,7 @@ import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { cn } from "@/lib/utils";
 import { ChevronUp, ChevronDown } from "lucide-react";
 import { Card } from "@/components/ui/card";
+import YouTubePlayer from "@/components/ui/youtube-player";
 
 interface RazorpayOptions {
     key: string;
@@ -55,7 +56,7 @@ declare global {
 }
 
 interface Host {
-   collaboration_id: string;
+    collaboration_id: string;
     first_name?: string;
     last_name?: string;
     bio?: string;
@@ -309,12 +310,24 @@ Oh.. please do not ask how to join the Army..`,
             {/* 1. Full Viewport Video Hero */}
             <section className="relative w-full overflow-hidden pb-[56.25%]">
                 <div className="absolute inset-0 h-full w-full pointer-events-none">
-                    <iframe
-                        src={`https://www.youtube.com/embed/${selectedCamp.video_id}?autoplay=1&mute=1&loop=1&controls=0&modestbranding=0&rel=0&start=109&showinfo=0&playlist=${selectedCamp.video_id}&enablejsapi=1`}
-                        allow="autoplay; encrypted-media"
-                        className="absolute top-0 left-0 w-full h-full border-none"
-                        title="Camp Hero Video"
-                    />
+                    <div className="absolute inset-0 h-full w-full pointer-events-none">
+                        <YouTubePlayer
+                            videoId={selectedCamp.video_id}
+                            className="absolute inset-0 w-full h-full"
+                            isPlaying={true}
+                            opts={{
+                                playerVars: {
+                                    autoplay: 1,
+                                    controls: 0,
+                                    modestbranding: 1,
+                                    rel: 0,
+                                    start: 109,
+                                    mute: 0, // REQUIRED for autoplay to work
+                                    playsinline: 1,
+                                },
+                            }}
+                        />
+                    </div>
                 </div>
                 <div className="absolute inset-0 bg-gradient-to-t from-black via-transparent to-transparent" />
 
@@ -401,11 +414,11 @@ Oh.. please do not ask how to join the Army..`,
 
                     <TabsContent value="hosts" className="">
                         <div className="flex flex-col gap-4 animate-in fade-in slide-in-from-bottom-2">
-                        {selectedCamp.hosts.map((host, index) => (
-                            <HostCard
-                                host={host}
-                            />
-                        ))}
+                            {selectedCamp.hosts.map((host, index) => (
+                                <HostCard
+                                    host={host}
+                                />
+                            ))}
                         </div>
                     </TabsContent>
 

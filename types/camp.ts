@@ -14,4 +14,5 @@ export interface Camp {
   price: string;
   seatsLeft: string;
   totalSeats: string;
+  youtube_video_id: string;
 }
