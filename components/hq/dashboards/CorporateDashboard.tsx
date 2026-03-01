@@ -85,7 +85,7 @@ const DUMMY_LEADS: Record<string, LeadData[]> = {
   Deal: [
     {
       id: "d4", column: "Deal", inquiryDate: "2026-01-10", company: "Creative Minds Agency", location: "Remote",
-      startDate: "2026-02-25", startTime: "11:00", endDate: "2026-02-30", endTime: "12:30", phone: "555-7788", email: "hello@creativeminds.com",
+      startDate: "2026-02-25", startTime: "11:00", endDate: "2026-02-28", endTime: "12:30", phone: "555-7788", email: "hello@creativeminds.com",
       message: "Monthly inspiration webinar.", requestSpeaker: "Emily Rivera",
       teamAvailable: "Web-Team", gross: 500000, fee: 750.00, taxes: 400, net: 3850.00,
       assignSpeaker: ["emily-rivera", "jordan-lee"], docsLink: "https://zoom.us/webinar/123", status: "Completed", speakerAllocations: [{ speakerId: "emily-rivera", amount: 500 }, { speakerId: "jordan-lee", amount: 250 }]

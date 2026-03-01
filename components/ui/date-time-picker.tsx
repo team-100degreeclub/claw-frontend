@@ -23,15 +23,17 @@ interface DateTimePickerProps {
 }
 
 export function DateTimePicker({ value, onChange, disabled, className }: DateTimePickerProps) {
-    const [date, setDate] = React.useState<Date | undefined>(value);
-    const [hours, setHours] = React.useState(value ? value.getHours() : 0);
-    const [minutes, setMinutes] = React.useState(value ? value.getMinutes() : 0);
+    const isValidDate = (d?: Date) => d instanceof Date && !isNaN(d.getTime());
+
+    const [date, setDate] = React.useState<Date | undefined>(isValidDate(value) ? value : undefined);
+    const [hours, setHours] = React.useState(isValidDate(value) ? value!.getHours() : 0);
+    const [minutes, setMinutes] = React.useState(isValidDate(value) ? value!.getMinutes() : 0);
 
     React.useEffect(() => {
-        if (value) {
+        if (isValidDate(value)) {
             setDate(value);
-            setHours(value.getHours());
-            setMinutes(value.getMinutes());
+            setHours(value!.getHours());
+            setMinutes(value!.getMinutes());
         }
     }, [value]);
 
@@ -72,7 +74,7 @@ export function DateTimePicker({ value, onChange, disabled, className }: DateTim
             <PopoverTrigger asChild>
                 <Button variant="outline" className={cn("w-full justify-start text-left font-normal", !value && "text-muted-foreground", className)}>
                     <CalendarIcon className="mr-2 h-4 w-4" />
-                    {value ? format(value, "PPP HH:mm") : <span>Pick a date and time</span>}
+                    {isValidDate(value) ? format(value!, "PPP HH:mm") : <span>Pick a date and time</span>}
                 </Button>
             </PopoverTrigger>
             <PopoverContent className="w-auto p-0 flex flex-col gap-2">
