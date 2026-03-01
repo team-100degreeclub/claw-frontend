@@ -171,7 +171,19 @@ export default function DashboardLayout({ children }: { children: React.ReactNod
               { label: "Library", icon: Library },
               // { label: "Support", icon: LifeBuoy },
               { label: "Profile", icon: UserCircle },
-            ].map((item) => (
+            ].map((item) => item.label === "Library" ? (
+              <div key={item.label} className="relative">
+                <span className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 h-[70%] w-[70%] rounded-sm ring-1 ring-white-500/60 animate-ping" />
+                <Button
+                  variant={activePrimaryLabel === item.label ? "secondary" : "ghost"}
+                  className={cn("relative w-full justify-start gap-4", primaryCollapsed && "justify-center px-0")}
+                  onClick={() => handlePrimaryClick(item.label)}
+                >
+                  <item.icon className="h-5 w-5" />
+                  {!primaryCollapsed && <span>{item.label}</span>}
+                </Button>
+              </div>
+            ) : (
               <Button
                 key={item.label}
                 variant={activePrimaryLabel === item.label ? "secondary" : "ghost"}

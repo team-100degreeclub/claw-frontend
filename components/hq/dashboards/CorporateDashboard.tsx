@@ -134,13 +134,13 @@ export default function CorporateDashboard() {
         <Table className="w-full">
           <TableHeader className="bg-zinc-900/50">
             <TableRow className="border-zinc-800 hover:bg-transparent">
-              <TableHead className="py-5 px-6 text-base font-semibold text-white">Company </TableHead>
-              <TableHead className="py-5 text-base font-semibold text-white">Event Date & Time</TableHead>
-              <TableHead className="py-5 text-base font-semibold text-white">Event Location</TableHead>
-              <TableHead className="py-5 text-base font-semibold text-white">Collaboration</TableHead>
-              <TableHead className="py-5 text-base font-semibold text-white">Net Pay</TableHead>
-              <TableHead className="py-5 text-base font-semibold text-white w-[180px]">Action</TableHead>
-              <TableHead className="py-5 text-base font-semibold text-white text-center">More Info</TableHead>
+              <TableHead className="py-5 px-6 w-2/11 text-base font-semibold text-white">Company </TableHead>
+              <TableHead className="py-5 w-2/11 text-base font-semibold text-white">Event Date & Time</TableHead>
+              <TableHead className="py-5 w-2/11 text-base font-semibold text-white">Event Location</TableHead>
+              <TableHead className="py-5 w-2/11 text-base font-semibold text-white">Collaboration</TableHead>
+              <TableHead className="py-5 w-1/7 text-base font-semibold text-white">Net Pay</TableHead>
+              <TableHead className="py-5 w-1/7 text-base font-semibold text-white">Action</TableHead>
+              <TableHead className="py-5 pr-6 w-1/7 text-base font-semibold text-white text-left">More Info</TableHead>
             </TableRow>
           </TableHeader>
           <TableBody>

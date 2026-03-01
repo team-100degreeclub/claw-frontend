@@ -28,6 +28,13 @@ import {
   SheetContent,
   SheetTrigger,
 } from "@/components/ui/sheet";
+import {
+  Dialog,
+  DialogContent,
+  DialogHeader,
+  DialogTitle,
+  DialogTrigger,
+} from "@/components/ui/dialog";
 import InsigniaDetails from "./InsigniaDetails";
 
 // --- Types ---
@@ -133,77 +140,82 @@ export default function InsigniaDashboard() {
     <div className="min-h-screen bg-black text-zinc-300 flex flex-col font-sans overflow-y-auto">
 
       {/* TOP SECTION (Former Aside) */}
-      <header className="w-full border-b border-zinc-900 bg-zinc-950/30 p-8 md:p-12">
+      <header className="w-full border-b border-zinc-900 bg-zinc-950/30 p-8 md:px-12 md:pb-12">
         <div className="max-w-[1400px] mx-auto">
           {/* <div className="flex items-center gap-3 mb-10">
             <h1 className="text-2xl font-bold text-white tracking-tighter leading-none">Insignia</h1>
           </div> */}
 
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-start ">
-            {/* Left Column: Video */}
-            <div className="space-y-6">
-              <div className="aspect-video bg-zinc-900 border border-zinc-800 overflow-hidden relative rounded-xl shadow-2xl">
-                <iframe
-                  src="https://www.youtube.com/embed/yN3g8CdRgss"
-                  className="w-full h-full opacity-80"
-                  title="CLAW Badge System"
-                  allowFullScreen
-                />
-              </div>
-              {/* <p className="text-sm font-semibold text-amber-500 tracking-tight">Official CLAW Insignia Guide</p> */}
-            </div>
-
-            {/* Right Column: Scrollable Text */}
-            <div className="space-y-6">
+          <div className="space-y-4">
+            {/* Title + Read More Button */}
+            <div className="flex items-center justify-between">
               <h2 className="text-xl font-bold text-white border-l-4 border-amber-600 pl-4">
                 Understanding The CLAW Insignia
               </h2>
-              {/* Added 'always-show-scrollbar' class */}
-              <div className="h-[280px] overflow-y-scroll pr-4 space-y-6 scrollbar-thin">
-                {/* {BADGE_DESCRIPTIONS.map((desc, i) => (
-                  <p key={i} className="text-base leading-relaxed text-zinc-400 font-medium">
-                    {desc}
-                  </p>
-                ))} */}
-                <p className="text-base leading-relaxed text-zinc-400 font-medium">
-                  Traveller,
-                </p>
-                <p className="text-base leading-relaxed text-zinc-400 font-medium">
-                  At CLAW, every camp you complete earns you an insignia. These insignias represent your courage, learning, and the journey you take through Land, Air, Water, and Spirit Road.
-                </p>
-                <p className="text-base leading-relaxed text-zinc-400 font-medium">
-                  Here’s what each badge represents:
-                </p>
-                <ul className="list-disc list-inside text-base leading-relaxed text-zinc-400 font-medium space-y-2">
-                  <li>
-                    Explorer: Complete your first camp to earn your Explorer insignia.
-                  </li>
-                  <li>
-                    Master: Complete 5 camps in a single tier, for example Land, to earn the title of Master.
-                  </li>
-                  <li>
-                    Legend: Earn 5 Master badges to become a Legend of that tier.
-                  </li>
-                  <li>
-                    Marshal: Complete all 4 tiers i.e Land, Air, Water, and Spirit Road to earn your Marshal insignia.
-                  </li>
-                  <li>
-                    Guardian: Travellers who earn 5 Marshal badges become Guardians.
-                  </li>
-                  <li>
-                    Soul of Steel: The highest honor, personally awarded by Major Vivek Jacob, Para SF 9, Indian Special Forces and Founder of CLAW. This is given only to travellers who have made a real positive impact in the world. Even if it’s a small impact, as long as it makes the world a better place, we will invite you personally to the Den.
-                  </li>
-                </ul>
-                <p className="text-base leading-relaxed text-zinc-400 font-medium">
-                  Every insignia you earn is added to your Insignia Board, recorded on your profile, and couriered to you so you can wear them with pride. Each insignia tells the story of your journey, showing what you have achieved and how you have grown.
-                </p>
-                <p className="text-base leading-relaxed text-zinc-400 font-medium">
-                  We are proud to be on this journey with you.
-                </p>
-                <p className="text-base leading-relaxed text-zinc-400 font-medium">
-                  Team CLAW
-                </p>
-              </div>
+              <Dialog>
+                <DialogTrigger asChild>
+                  <Button variant="link" className="text-amber-500 font-bold hover:text-amber-400 p-0 flex items-center gap-1 group">
+                    Read more <ChevronRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
+                  </Button>
+                </DialogTrigger>
+                <DialogContent className="bg-zinc-950 border border-zinc-800 text-zinc-300 min-w-4xl">
+                  <DialogHeader>
+                    <DialogTitle className="text-xl font-bold text-white">
+                      Understanding The CLAW Insignia
+                    </DialogTitle>
+                  </DialogHeader>
+                  <div className="space-y-6 overflow-y-auto max-h-[60vh] pr-2 scrollbar-thin">
+                    <p className="text-base leading-relaxed text-zinc-400 font-medium">
+                      Traveller,
+                    </p>
+                    <p className="text-base leading-relaxed text-zinc-400 font-medium">
+                      At CLAW, every camp you complete earns you an insignia. These insignias represent your courage, learning, and the journey you take through Land, Air, Water, and Spirit Road.
+                    </p>
+                    <p className="text-base leading-relaxed text-zinc-400 font-medium">
+                      Here’s what each badge represents:
+                    </p>
+                    <ul className="list-inside text-base leading-relaxed text-zinc-400 font-medium space-y-2">
+                      <li>
+                        Explorer: Complete your first camp to earn your Explorer insignia.
+                      </li>
+                      <li>
+                        Master: Complete 5 camps in a single tier, for example Land, to earn the title of Master.
+                      </li>
+                      <li>
+                        Legend: Earn 5 Master badges to become a Legend of that tier.
+                      </li>
+                      <li>
+                        Marshal: Complete all 4 tiers i.e Land, Air, Water, and Spirit Road to earn your Marshal insignia.
+                      </li>
+                      <li>
+                        Guardian: Travellers who earn 5 Marshal badges become Guardians.
+                      </li>
+                      <li>
+                        Soul of Steel: The highest honor, personally awarded by Major Vivek Jacob, Para SF 9, Indian Special Forces and Founder of CLAW. This is given only to travellers who have made a real positive impact in the world. Even if it’s a small impact, as long as it makes the world a better place, we will invite you personally to the Den.
+                      </li>
+                    </ul>
+                    <p className="text-base leading-relaxed text-zinc-400 font-medium">
+                      Every insignia you earn is added to your Insignia Board, recorded on your profile, and couriered to you so you can wear them with pride. Each insignia tells the story of your journey, showing what you have achieved and how you have grown.
+                    </p>
+                    <p className="text-base leading-relaxed text-zinc-400 font-medium">
+                      We are proud to be on this journey with you.
+                    </p>
+                    <p className="text-base leading-relaxed text-zinc-400 font-medium">
+                      Team CLAW
+                    </p>
+                  </div>
+                </DialogContent>
+              </Dialog>
+            </div>
+
+            {/* Full-width Video */}
+            <div className="aspect-video bg-zinc-900 border border-zinc-800 overflow-hidden relative rounded-xl shadow-2xl">
+              <iframe
+                src="https://www.youtube.com/embed/yN3g8CdRgss"
+                className="w-full h-full opacity-80"
+                title="CLAW Badge System"
+                allowFullScreen
+              />
             </div>
           </div>
         </div>
